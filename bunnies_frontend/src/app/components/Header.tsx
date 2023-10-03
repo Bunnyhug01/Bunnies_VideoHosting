@@ -1,19 +1,27 @@
 import Image from "next/image";
 import { DarkMode, LightMode, Notifications, Search, Settings } from "@mui/icons-material";
-import { IconButton } from "@mui/material";
+import { IconButton, useTheme } from "@mui/material";
 import SearchBox from "./SearchBox";
 import { useState } from "react";
 import UserIcon from "./UserIcon";
+import SwipeableTemporaryDrawer from "./SwipeableTemporaryDrawer";
+import React from "react";
 
 
 interface Props {
     inputHandler? : React.ChangeEventHandler<HTMLInputElement>
+    ColorModeContext: React.Context<{
+        toggleColorMode: () => void;
+    }>
 }
 
 
-export default function Header({inputHandler = undefined} : Props) {
+export default function Header({inputHandler = undefined, ColorModeContext} : Props) {
 
     const [lightThemeIcon, setlightThemeIcon] = useState<boolean>(true);
+
+    const theme = useTheme();
+    const colorMode = React.useContext(ColorModeContext);
     
     function clickedThemeMode() {
         let elementMain: HTMLElement | null = document.getElementById('main');
@@ -27,6 +35,8 @@ export default function Header({inputHandler = undefined} : Props) {
     return (
         <div className="flex items-center w-full h-[80px] py-4 px-8 sm:px-4">
 
+            <SwipeableTemporaryDrawer />
+
             {/* <Image
                 src=""
                 alt=""
@@ -37,18 +47,18 @@ export default function Header({inputHandler = undefined} : Props) {
             <SearchBox boxId="searchBox" inputId="searchInput" onChange={inputHandler} />
 
             <div className="flex items-center justify-evenly h-[40px] lg:w-[25%] ml-auto" id="profileContainer">
-                <IconButton className="lg:mx-4">
+                <IconButton>
                     <Settings className="text-gray-400 hover:text-textColor"/>
                 </IconButton>
 
-                <IconButton className="lg:mx-4">
+                <IconButton>
                     <Notifications className="text-gray-400 hover:text-textColor"/>
                 </IconButton>
 
-                <IconButton onClick={clickedThemeMode} className="lg:mx-4">
-                    {lightThemeIcon
-                     ? <LightMode className="text-gray-400 hover:text-yellow-400"/>
-                     : <DarkMode className="text-gray-400 hover:text-darkThemeIconColor"/>
+                <IconButton sx={{ ml: 1 }} onClick={colorMode.toggleColorMode} color="inherit">
+                    {theme.palette.mode === 'dark'
+                        ? <LightMode className="text-gray-400 hover:text-yellow-400"/>
+                        : <DarkMode className="text-gray-400 hover:text-darkThemeIconColor"/>
                     }
                 </IconButton>
                 
