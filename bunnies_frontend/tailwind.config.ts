@@ -22,6 +22,7 @@ const config: Config = {
       },
       screens: {
         'sm': '320px',
+        'sm2': '540px',
         'md': '768px',
         'lg': '1024px',
         'xl': '1280px',

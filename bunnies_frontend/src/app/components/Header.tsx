@@ -156,6 +156,18 @@ export default function Header({inputHandler = undefined, ColorModeContext} : Pr
                 </IconButton>
                 <p>Notifications</p>
             </MenuItem>
+            <MenuItem onClick={colorMode.toggleColorMode}>
+                <IconButton
+                    color="inherit"
+                    size="large"
+                >
+                    {theme.palette.mode === 'dark'
+                        ? <LightMode className="text-yellow-400"/>
+                        : <DarkMode className="text-darkThemeIconColor"/>
+                    }
+                </IconButton>
+                <p>Theme</p>
+            </MenuItem>
             <MenuItem onClick={handleProfileMenuOpen}>
                 <IconButton
                     size="large"
@@ -172,8 +184,8 @@ export default function Header({inputHandler = undefined, ColorModeContext} : Pr
     );
 
     return (
-        <Box sx={{ flexGrow: 1 }}>
-            <AppBar elevation={0} position="sticky">
+        <Box sx={{ flexGrow: 1, height: 50 }}>
+            <AppBar elevation={0} style={{position: 'fixed'}}>
                 <Toolbar sx={{ bgcolor: 'background.default' }}>
                     <SwipeableTemporaryDrawer />
                     <Logo />
