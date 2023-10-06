@@ -20,7 +20,7 @@ export default function RecommendedList({imgSrc, videoName} : Props) {
         </div>
 
         <div className='ml-2 flex-1'>
-            <h3 className='text-textColor lg:text-[16px] sm:text-[12px]'>
+            <h3 className='lg:text-[16px] sm:text-[12px]'>
                 {videoName} 
                 <span className='block text-[12px] text-gray-400'>Ninja</span>
             </h3>

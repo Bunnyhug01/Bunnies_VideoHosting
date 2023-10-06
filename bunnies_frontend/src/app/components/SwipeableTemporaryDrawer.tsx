@@ -1,12 +1,14 @@
 import React from "react";
 
-import { Box, Divider, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SwipeableDrawer } from "@mui/material";
+import { Box, Divider, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SwipeableDrawer, Toolbar, useTheme } from "@mui/material";
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
+import Logo from "./Logo";
 
 
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
+
 
 export default function SwipeableTemporaryDrawer() {
   const [state, setState] = React.useState({
@@ -38,11 +40,16 @@ export default function SwipeableTemporaryDrawer() {
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
+      <Toolbar>
+        <Logo drawer={true} />
+      </Toolbar>
+
+      <Divider />
       <List>
         {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
           <ListItem key={text} disablePadding>
-            <ListItemButton className="text-textColor">
-              <ListItemIcon className="text-textColor">
+            <ListItemButton>
+              <ListItemIcon>
                 {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
               </ListItemIcon>
               <ListItemText primary={text} />
@@ -54,8 +61,8 @@ export default function SwipeableTemporaryDrawer() {
       <List>
         {['All mail', 'Trash', 'Spam'].map((text, index) => (
           <ListItem key={text} disablePadding>
-            <ListItemButton className="text-textColor">
-              <ListItemIcon className="text-textColor">
+            <ListItemButton>
+              <ListItemIcon>
                 {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
               </ListItemIcon>
               <ListItemText primary={text} />
@@ -80,6 +87,11 @@ export default function SwipeableTemporaryDrawer() {
             <MenuIcon />
           </IconButton>
           <SwipeableDrawer
+            PaperProps={{
+              sx: {
+                backgroundColor: "background.default",
+              }
+            }}
             anchor={anchor}
             open={state[anchor]}
             onClose={toggleDrawer(anchor, false)}

@@ -24,17 +24,17 @@ export default function VideoContainer(  { data } : Props  ) {
   }, [isPlaying, data])
 
   return (
-    <div className="relative w-full h-auto">
+    <div className="relative w-full h-full">
         <video 
             src={data.videoSrc}
             controls
             poster={data.imgSrc}
-            className="min-w-full min-h-full w-auto h-auto bg-cover"
+            className="min-w-full min-h-full w-full h-full object-cover"
             onPlay={() => setPlaying(true)}
             onPause={() => setPlaying(false)}
         ></video>
 
-        <div className="absolute top-0 left-0 z-10 w-full h-[60px] py-4 px-3 bg-gradient-to-b from-black to-transparent">
+        <div className="absolute text-sm top-0 left-0 z-10 w-full h-[60px] py-4 px-3 bg-gradient-to-b from-black to-transparent">
             <h2 className="text-textColor" id='mainVideoName'>
               {data.name}
             </h2>

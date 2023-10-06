@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Avatar from '@mui/material/Avatar';
 import { deepPurple } from '@mui/material/colors';
 
@@ -16,7 +15,7 @@ export default function UserIcon() {
                 B
             </Avatar>
 
-            <p className="text-textColor text-[16px] font-bold ml-2">
+            <p className="text-[16px] font-bold ml-2">
                 Bunnyhug <span className="block text-[12px] text-gray-500">User</span>
             </p>
         </div>
