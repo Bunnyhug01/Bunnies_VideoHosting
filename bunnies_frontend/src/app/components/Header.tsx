@@ -1,16 +1,16 @@
 import * as React from 'react';
 
+import Link from 'next/link';
+
 import { styled, alpha, useTheme } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
@@ -19,6 +19,7 @@ import MoreIcon from '@mui/icons-material/MoreVert';
 import SwipeableTemporaryDrawer from './SwipeableTemporaryDrawer';
 import { LightMode, DarkMode } from '@mui/icons-material';
 import Logo from './Logo';
+
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -114,8 +115,12 @@ export default function Header({inputHandler = undefined, ColorModeContext} : Pr
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-            <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+            <Link href='/sign-in'>
+                <MenuItem onClick={handleMenuClose}>Sign in</MenuItem>
+            </Link>
+            <Link href='/sign-up'>
+                <MenuItem onClick={handleMenuClose}>Sign up</MenuItem>
+            </Link>
         </Menu>
     );
 
@@ -185,7 +190,7 @@ export default function Header({inputHandler = undefined, ColorModeContext} : Pr
 
     return (
         <Box sx={{ flexGrow: 1, height: 50 }}>
-            <AppBar elevation={0} style={{position: 'fixed'}}>
+            <AppBar sx={{ bgcolor: 'background.default' }} elevation={0} style={{position: 'fixed'}}>
                 <Toolbar sx={{ bgcolor: 'background.default' }}>
                     <SwipeableTemporaryDrawer />
                     <Logo />

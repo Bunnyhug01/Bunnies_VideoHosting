@@ -31,7 +31,7 @@ export default function VideoInfo() {
 
       </Box>
       <Box className='md:w-[65%] sm:w-[100%]'>
-        <Accordion>
+        <Accordion sx={{bgcolor: 'background.additional'}} elevation={0}>
           <AccordionSummary
             sx={{pointerEvents: ""}}
             expandIcon={
