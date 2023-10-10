@@ -260,29 +260,3 @@ export default function Header({inputHandler = undefined, ColorModeContext} : Pr
         </Box>
     );
 }
-
-// // VIDEO UPLOAD
-// // -------------------
-// const [videoUpload, setVideoUpload] = useState<FileList|null>(null);
-// const uploadVideo = () => {
-//     if (videoUpload == null) return;
-//     const videoRef = ref(storage, `videos/${videoUpload[0].name}`);
-//     console.log(videoUpload[0].name);
-//     uploadBytes(videoRef, videoUpload[0]).then(() => {
-//         alert('Vide uploaded');
-//     });
-// };
-// // -------------------
-
-//             {/* VIDEO UPLOAD
-//             ----------------------------- */}
-//             {/* <div>
-//                 <input type="file"
-//                     onChange={(event) => {
-//                         console.log(event?.target?.files);
-//                         setVideoUpload(event?.target?.files)
-//                     }}
-//                 />
-//                 <button onClick={uploadVideo}>Upload</button>
-//             </div> */}
-//             {/* -------------------------------- */}

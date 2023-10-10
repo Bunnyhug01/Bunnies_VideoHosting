@@ -6,6 +6,8 @@ import { useEffect, useState } from "react";
 import Header from "../components/Header";
 import BottomNav from "../components/BottomNav";
 import { amber, grey } from "@mui/material/colors";
+import { ref, uploadBytes } from "firebase/storage";
+import { storage } from "../firebase/firebase";
 
 
 const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
@@ -50,11 +52,24 @@ const getDesignTokens = (mode: PaletteMode) => ({
   
 
 export function Upload() {
-    const [windowSize, setWindowSize] = useState<number[]>([]);
+  const [windowSize, setWindowSize] = useState<number[]>([]);
 
-    const [activeStep, setActiveStep] = React.useState(0);
-    const [skipped, setSkipped] = React.useState(new Set<number>());
+  const [activeStep, setActiveStep] = React.useState(0);
+  const [skipped, setSkipped] = React.useState(new Set<number>());
 
+
+  // // VIDEO UPLOAD
+  // -------------------
+  const [videoUpload, setVideoUpload] = useState<FileList|null>(null);
+  const uploadVideo = () => {
+    if (videoUpload == null) return;
+    const videoRef = ref(storage, `videos/${videoUpload[0].name}`);
+    console.log(videoUpload[0].name);
+    uploadBytes(videoRef, videoUpload[0]).then(() => {
+      alert('Vide uploaded');
+    });
+  };
+  // -------------------
 
     useEffect(() => {
         setWindowSize([window.innerWidth, window.innerHeight]);
@@ -171,6 +186,15 @@ export function Upload() {
                     </Box>
                 </React.Fragment>
                 )}
+                <div>
+                  <input type="file"
+                    onChange={(event) => {
+                      console.log(event?.target?.files);
+                      setVideoUpload(event?.target?.files)
+                    }}
+                 />
+                 <button onClick={uploadVideo}>Upload</button>
+                </div>
             </Box>
             {windowSize[0] <= 640
                 ? <BottomNav />
