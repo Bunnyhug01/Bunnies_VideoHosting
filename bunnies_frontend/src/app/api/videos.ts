@@ -1,7 +1,5 @@
-import Video from "../video/page"
 
-const API_URL = "http://localhost:3030"
-// const API_URL = "http://192.168.43.231:3030"
+import { API_URL } from "./main"
 
 export interface VideoBody {
     imgSrc: string,
