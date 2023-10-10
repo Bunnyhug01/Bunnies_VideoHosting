@@ -99,14 +99,7 @@ function Home() {
     }
   })
   
-  async function aaa() {
-    console.log(await getAll());  
-  }
   
-  useEffect(() => {
-    aaa();
-  }, [])
-
   return (
     <Box
       sx={{

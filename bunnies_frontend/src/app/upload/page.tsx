@@ -1,11 +1,16 @@
 'use client'
 
-import { Box, Button, PaletteMode, Step, StepLabel, Stepper, ThemeProvider, Typography, createTheme } from "@mui/material";
 import React from "react";
 import { useEffect, useState } from "react";
+
+import { Box, Button, PaletteMode, Step, StepLabel, Stepper, ThemeProvider, Typography, createTheme } from "@mui/material";
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import { styled } from '@mui/material/styles';
+import { amber, grey } from "@mui/material/colors";
+
 import Header from "../components/Header";
 import BottomNav from "../components/BottomNav";
-import { amber, grey } from "@mui/material/colors";
+
 import { ref, uploadBytes } from "firebase/storage";
 import { storage } from "../firebase/firebase";
 
@@ -49,8 +54,19 @@ const getDesignTokens = (mode: PaletteMode) => ({
       },
     },
   });
-  
 
+  const VisuallyHiddenInput = styled('input')({
+    clip: 'rect(0 0 0 0)',
+    clipPath: 'inset(50%)',
+    height: 1,
+    overflow: 'hidden',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    whiteSpace: 'nowrap',
+    width: 1,
+  });
+  
 export function Upload() {
   const [windowSize, setWindowSize] = useState<number[]>([]);
 
@@ -187,13 +203,21 @@ export function Upload() {
                 </React.Fragment>
                 )}
                 <div>
-                  <input type="file"
-                    onChange={(event) => {
-                      console.log(event?.target?.files);
-                      setVideoUpload(event?.target?.files)
-                    }}
-                 />
-                 <button onClick={uploadVideo}>Upload</button>
+                  <Button
+                    component="label"
+                    variant="contained"
+                    startIcon={<CloudUploadIcon />}
+                    onClick={uploadVideo}
+                  >
+                    Upload file
+                    <VisuallyHiddenInput
+                      type="file"
+                      onChange={(event) => {
+                        console.log(event?.target?.files);
+                        setVideoUpload(event?.target?.files)
+                      }}
+                    />
+                  </Button>
                 </div>
             </Box>
             {windowSize[0] <= 640
