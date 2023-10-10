@@ -1,7 +1,9 @@
 package com.example.video.entity;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import lombok.Data;
 
 @Data
@@ -23,9 +25,5 @@ public class Video implements BaseEntity {
 
     @Column(nullable = false)
     private String videoUrl;
-
-    @JsonSerialize(using = EntityAsIdOnlySerializer.class)
-    @ManyToOne(optional = false)
-    private User owner;
 
 }
