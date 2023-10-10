@@ -32,7 +32,7 @@ function toApiVideoBody(v: VideoBody): ApiVideo {
 }
 
 export async function getAll(): Promise<Video[]>  {
-    return fetch(`${API_URL}/videos`).then(resp => resp.json()).then(json => json.map(toVideo))
+    return fetch(`${API_URL}/videos`).then(resp => resp.json()).then(json => json["_embedded"]["videoList"].map(toVideo))
 }
 
 export async function getOne(id: number): Promise<Video> {
