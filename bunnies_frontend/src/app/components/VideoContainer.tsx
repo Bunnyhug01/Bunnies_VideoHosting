@@ -1,5 +1,6 @@
 import { TimelineLite } from 'gsap';
 import { useState, useEffect, useRef } from 'react';
+import { VideoPlayer } from './VideoPlayer';
 
 
 interface Props {
@@ -33,6 +34,8 @@ export default function VideoContainer(  { data } : Props  ) {
             onPlay={() => setPlaying(true)}
             onPause={() => setPlaying(false)}
         ></video>
+
+        {/* <VideoPlayer /> */}
 
         <div className="absolute text-sm top-0 left-0 z-10 w-full h-[60px] py-4 px-3 bg-gradient-to-b from-black to-transparent">
             <h2 className="text-textColor" id='mainVideoName'>

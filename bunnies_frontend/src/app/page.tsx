@@ -15,6 +15,8 @@ import { useEffect, useState } from 'react';
 import { amber, grey } from '@mui/material/colors';
 import BottomNav from './components/BottomNav';
 
+import { getAll } from './api/videos';
+
 const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
 
 
@@ -97,6 +99,14 @@ function Home() {
     }
   })
   
+  async function aaa() {
+    console.log(await getAll());  
+  }
+  
+  useEffect(() => {
+    aaa();
+  }, [])
+
   return (
     <Box
       sx={{
