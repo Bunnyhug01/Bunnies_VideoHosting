@@ -1,10 +1,11 @@
+import { Box, Typography } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import { deepPurple } from '@mui/material/colors';
 
 
 export default function UserIcon() {
     return (
-        <div className="flex items-center">
+        <Box className="flex items-center">
 
             <Avatar
                 sx={{ bgcolor: deepPurple[500] }}
@@ -15,9 +16,12 @@ export default function UserIcon() {
                 B
             </Avatar>
 
-            <p className="text-[16px] font-bold ml-2">
-                Bunnyhug <span className="block text-[12px] text-gray-500">User</span>
-            </p>
-        </div>
+            <Box sx={{ flexDirection: 'column' }}>
+                <Typography sx={{color: 'text.primary', fontSize: 16}} className="font-bold ml-2">
+                    Bunnyhug
+                </Typography>
+                <Typography sx={{color: 'text.additional', fontSize: 12}} className="font-bold block ml-2">User</Typography>
+            </Box>
+        </Box>
     )
 }

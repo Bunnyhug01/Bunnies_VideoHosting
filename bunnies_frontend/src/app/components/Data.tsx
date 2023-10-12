@@ -1,25 +1,4 @@
-import { getDownloadURL, listAll, ref } from "firebase/storage";
-import { useEffect, useState } from "react";
-import { storage } from "../firebase/firebase";
-
-
-
-function getData() {
-    
-    const [videoList, setVideoList] = useState<any>([]);
-    const videoListRef = ref(storage, "videos/");
-    
-    useEffect(() => {
-        listAll(videoListRef).then((responce) => {
-            responce.items.forEach((item) => {
-                getDownloadURL(item).then((url) => {
-                    setVideoList((prev:any) => [...prev, url]);
-                });
-            });
-        });
-    }, []);
-}
-
+import { getVideos, getImages } from "../api/getData";
 
 
 const Data : { id: number; imgSrc: string; videoSrc: string; videoName: string; }[] = [
