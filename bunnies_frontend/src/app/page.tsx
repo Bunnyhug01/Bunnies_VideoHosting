@@ -15,7 +15,6 @@ import { useEffect, useState } from 'react';
 import { amber, grey } from '@mui/material/colors';
 import BottomNav from './components/BottomNav';
 
-import { getAll } from './api/videos';
 
 const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
 
@@ -34,12 +33,14 @@ const getDesignTokens = (mode: PaletteMode) => ({
         default: '#040506',
         additional: '#100f14',
         drawer: 'rgba(4, 5, 6, 1)',
+        hoverColor: 'rgba(17, 24, 39, 1)',
         paper: '#040506',
       },
     } : {
       background: {
         default: '#ffffff',
         additional: '#f6f6f6',
+        hoverColor: grey[300],
       },
     }),
     text: {
@@ -51,6 +52,7 @@ const getDesignTokens = (mode: PaletteMode) => ({
         : {
             primary: '#b1b1b1',
             secondary: grey[500],
+            additional: grey[600],
           }),
     },
   },
@@ -63,21 +65,6 @@ function Home() {
     name? : string,
     videoSrc?: string
   }
-
-  const [windowSize, setWindowSize] = useState<number[]>([]);
-
-  useEffect(() => {
-    setWindowSize([window.innerWidth, window.innerHeight]);
-    const handleWindowResize = () => {
-      setWindowSize([window.innerWidth, window.innerHeight]);
-    };
-
-    window.addEventListener('resize', handleWindowResize);
-
-    return () => {
-      window.removeEventListener('resize', handleWindowResize);
-    };
-  }, []);
 
   const [isVideo, setVideo] = useState<isVideoState>({
     name : Data[0].videoName,
@@ -98,7 +85,6 @@ function Home() {
       return el.videoName.toLowerCase().startsWith(inputText);
     }
   })
-  
   
   return (
     <Box
@@ -165,10 +151,7 @@ function Home() {
             
             <VideoInfo />
             
-            {windowSize[0] <= 640
-              ? <BottomNav />
-              : null
-            }
+            <BottomNav />
 
             {/* <div className='lg:mt-5'>
               <Comments />

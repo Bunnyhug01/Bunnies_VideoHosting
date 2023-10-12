@@ -17,14 +17,14 @@ export default function VideoInfo() {
           
           <Box className="inline-block">
             <IconButton className="lg:ml-2">
-                <ThumbUp className="text-gray-400 hover:text-textColor"/>
+                <ThumbUp sx={{color: 'text.primary'}} />
             </IconButton>
-            <p className='inline-block text-[14px] font-bold text-gray-500 ml-2'>10</p>
+            <Typography sx={{color: 'text.additional', fontSize: 14}} className='inline-block font-bold ml-2'>10</Typography>
 
             <IconButton className="ml-2">
-                <ThumbDown className="text-gray-400 hover:text-textColor"/>
+                <ThumbDown sx={{color: 'text.primary'}} />
             </IconButton>
-            <p className='inline-block text-[14px] font-bold text-gray-500 ml-2'>5</p>
+            <Typography sx={{color: 'text.additional', fontSize: 14}} className='inline-block font-bold ml-2'>5</Typography>
           </Box>
         </Box>
 

@@ -3,7 +3,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 
-import { Box, Button, PaletteMode, Step, StepLabel, Stepper, ThemeProvider, Typography, createTheme } from "@mui/material";
+import { Box, Button, PaletteMode, ThemeProvider, createTheme, Input, ButtonGroup, TextField, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { styled } from '@mui/material/styles';
 import { amber, grey } from "@mui/material/colors";
@@ -17,62 +17,47 @@ import { storage } from "../firebase/firebase";
 
 const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
 
-const steps = ['Select campaign settings', 'Create an ad group', 'Create an ad'];
-
 const getDesignTokens = (mode: PaletteMode) => ({
-    palette: {
-      mode,
-      primary: {
-        ...amber,
-        ...(mode === 'dark' && {
-          main: amber[300],
-        }),
-      },
-      ...(mode === 'dark' ? {
-        background: {
-          default: '#040506',
-          additional: '#100f14',
-          drawer: 'rgba(4, 5, 6, 1)',
-          paper: '#040506',
-        },
-      } : {
-        background: {
-          default: '#ffffff',
-          additional: '#f6f6f6',
-        },
+  palette: {
+    mode,
+    primary: {
+      ...amber,
+      ...(mode === 'dark' && {
+        main: amber[300],
       }),
-      text: {
-        ...(mode === 'light'
-          ? {
-              primary: grey[900],
-              secondary: grey[800],
-            }
-          : {
-              primary: '#b1b1b1',
-              secondary: grey[500],
-            }),
-      },
     },
-  });
+    ...(mode === 'dark' ? {
+      background: {
+        default: '#040506',
+        additional: '#100f14',
+        drawer: 'rgba(4, 5, 6, 1)',
+        hoverColor: 'rgba(17, 24, 39, 1)',
+        paper: '#040506',
+      },
+    } : {
+      background: {
+        default: '#ffffff',
+        additional: '#f6f6f6',
+        hoverColor: grey[300],
+      },
+    }),
+    text: {
+      ...(mode === 'light'
+        ? {
+            primary: grey[900],
+            secondary: grey[800],
+          }
+        : {
+            primary: '#b1b1b1',
+            secondary: grey[500],
+            additional: grey[600],
+          }),
+    },
+  },
+});
 
-  const VisuallyHiddenInput = styled('input')({
-    clip: 'rect(0 0 0 0)',
-    clipPath: 'inset(50%)',
-    height: 1,
-    overflow: 'hidden',
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    whiteSpace: 'nowrap',
-    width: 1,
-  });
-  
+
 export function Upload() {
-  const [windowSize, setWindowSize] = useState<number[]>([]);
-
-  const [activeStep, setActiveStep] = React.useState(0);
-  const [skipped, setSkipped] = React.useState(new Set<number>());
-
 
   // // VIDEO UPLOAD
   // -------------------
@@ -87,145 +72,88 @@ export function Upload() {
   };
   // -------------------
 
-    useEffect(() => {
-        setWindowSize([window.innerWidth, window.innerHeight]);
-        const handleWindowResize = () => {
-          setWindowSize([window.innerWidth, window.innerHeight]);
-        };
-    
-        window.addEventListener('resize', handleWindowResize);
-    
-        return () => {
-          window.removeEventListener('resize', handleWindowResize);
-        };
-      }, []);
-  
+  const [privacy, setPrivacy] = useState('');
 
-    const isStepOptional = (step: number) => {
-      return step === 1;
-    };
-  
-    const isStepSkipped = (step: number) => {
-      return skipped.has(step);
-    };
-  
-    const handleNext = () => {
-      let newSkipped = skipped;
-      if (isStepSkipped(activeStep)) {
-        newSkipped = new Set(newSkipped.values());
-        newSkipped.delete(activeStep);
-      }
-  
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
-      setSkipped(newSkipped);
-    };
-  
-    const handleBack = () => {
-      setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    };
-  
-    const handleSkip = () => {
-      if (!isStepOptional(activeStep)) {
-        // You probably want to guard against something like this,
-        // it should never occur unless someone's actively trying to break something.
-        throw new Error("You can't skip a step that isn't optional.");
-      }
-  
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
-      setSkipped((prevSkipped) => {
-        const newSkipped = new Set(prevSkipped.values());
-        newSkipped.add(activeStep);
-        return newSkipped;
-      });
-    };
-  
-    const handleReset = () => {
-      setActiveStep(0);
-    };
+  const handleChange = (event: SelectChangeEvent) => {
+    setPrivacy(event.target.value);
+  };
 
-    return (
-        <Box>
-            <Header ColorModeContext={ColorModeContext} />
-            <Box sx={{ width: '100%', marginTop: 5}}>
-                <Stepper activeStep={activeStep}>
-                    {steps.map((label, index) => {
-                        const stepProps: { completed?: boolean } = {};
-                        const labelProps: {
-                        optional?: React.ReactNode;
-                        } = {};
-                        if (isStepOptional(index)) {
-                        labelProps.optional = (
-                            <Typography variant="caption">Optional</Typography>
-                        );
-                        }
-                        if (isStepSkipped(index)) {
-                        stepProps.completed = false;
-                        }
-                        return (
-                        <Step key={label} {...stepProps}>
-                            <StepLabel {...labelProps}>{label}</StepLabel>
-                        </Step>
-                        );
-                    })}
-                </Stepper>
-                {activeStep === steps.length ? (
-                <React.Fragment>
-                    <Typography sx={{ mt: 2, mb: 1 }}>
-                    All steps completed - you&apos;re finished
-                    </Typography>
-                    <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                    <Box sx={{ flex: '1 1 auto' }} />
-                    <Button onClick={handleReset}>Reset</Button>
-                    </Box>
-                </React.Fragment>
-                ) : (
-                <React.Fragment>
-                    <Typography sx={{ mt: 2, mb: 1 }}>Step {activeStep + 1}</Typography>
-                    <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
-                    <Button
-                        color="inherit"
-                        disabled={activeStep === 0}
-                        onClick={handleBack}
-                        sx={{ mr: 1 }}
-                    >
-                        Back
-                    </Button>
-                    <Box sx={{ flex: '1 1 auto' }} />
-                    {isStepOptional(activeStep) && (
-                        <Button color="inherit" onClick={handleSkip} sx={{ mr: 1 }}>
-                        Skip
-                        </Button>
-                    )}
-                    <Button onClick={handleNext}>
-                        {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                    </Button>
-                    </Box>
-                </React.Fragment>
-                )}
-                <div>
-                  <Button
-                    component="label"
-                    variant="contained"
-                    startIcon={<CloudUploadIcon />}
-                    onClick={uploadVideo}
-                  >
-                    Upload file
-                    <VisuallyHiddenInput
-                      type="file"
-                      onChange={(event) => {
-                        console.log(event?.target?.files);
-                        setVideoUpload(event?.target?.files)
-                      }}
-                    />
-                  </Button>
-                </div>
+
+  return(
+    <Box       
+      sx={{
+        bgcolor: 'background.default',
+        color: 'text.primary',
+      }}
+    >
+      <Header ColorModeContext={ColorModeContext} />
+
+      <Box
+        component="main"
+        sx={{ 
+          bgcolor: 'background.default',
+          color: 'text.primary',
+          flexGrow: 1, p: 3,
+        }}
+      >
+        <Box className='md:w-full h-full'>
+          {/* <ButtonGroup>
+            <Input
+              type="file"
+              onChange={(event) => {
+                // setVideoUpload(event?.target?.files)
+              }}
+            />
+            <Button
+              component="label"
+              variant="contained"
+              startIcon={<CloudUploadIcon />}
+              onClick={uploadVideo}
+            >
+              Upload file
+            </Button>
+          </ButtonGroup> */}
+          <Box>
+            <Box>
+              <TextField
+                required
+                id="filled-required"
+                label="Title"
+                variant="filled"
+              />
+              <FormControl variant="filled" sx={{ m: 1, minWidth: 120 }}>
+                <InputLabel id="demo-simple-select-filled-label">Age</InputLabel>
+                <Select
+                  labelId="demo-simple-select-filled-label"
+                  id="demo-simple-select-filled"
+                  value={privacy}
+                  onChange={handleChange}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  <MenuItem value={10}>Private</MenuItem>
+                  <MenuItem value={20}>Public</MenuItem>
+                </Select>
+              </FormControl>
             </Box>
-            {windowSize[0] <= 640
-                ? <BottomNav />
-                : null
-            }
+            <Box sx={{display: 'block', p: 1, width: '50%'}}>
+              <TextField
+                sx={{width: '100%'}}
+                id="filled-textarea"
+                label="Description"
+                multiline
+                variant="filled"
+              />
+            </Box>
         </Box>
-    )
+        </Box>
+      </Box>
+
+      <BottomNav />
+  </Box>
+  );
+    
 }
 
 export default function ToggleColorMode() {
