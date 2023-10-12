@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import static org.springframework.hateoas.server.core.DummyInvocationUtils.methodOn;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
-@CrossOrigin("${web.app.url}")
+@CrossOrigin("${cross.origin.url}")
 @AllArgsConstructor
 @RestController
 public class VideoController {

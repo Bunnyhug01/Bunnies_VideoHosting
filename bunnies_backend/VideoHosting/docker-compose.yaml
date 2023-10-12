@@ -1,0 +1,26 @@
+version: "3.7"
+services:
+  api_service:
+    build: .
+    restart: always
+    ports:
+      - 3030:3030
+    networks:
+      - api-net
+    depends_on:
+      - sql_db
+    volumes:
+      - .m2:/root/.m2
+
+  sql_db:
+    image: "mysql:8.0"
+    restart: always
+    ports:
+      - 3306:3306
+    networks:
+      - api-net
+    environment:
+      MYSQL_DATABASE: video
+      MYSQL_ROOT_PASSWORD: Amila_Rpw
+networks:
+  api-net:
