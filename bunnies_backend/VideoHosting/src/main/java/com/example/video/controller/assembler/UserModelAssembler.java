@@ -1,9 +1,11 @@
-package com.example.video.controller;
+package com.example.video.controller.assembler;
 
+import com.example.video.controller.UserController;
 import com.example.video.entity.User;
 import com.example.video.entity.Video;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Component;
 
 import static org.springframework.hateoas.server.core.DummyInvocationUtils.methodOn;
@@ -15,7 +17,7 @@ public class UserModelAssembler implements RepresentationModelAssembler<User, En
     @Override
     public EntityModel<User> toModel(User user) {
         return EntityModel.of(user,
-                linkTo(methodOn(UserController.class).getOne(user.getId())).withSelfRel(),
+                WebMvcLinkBuilder.linkTo(methodOn(UserController.class).getOne(user.getId())).withSelfRel(),
                 linkTo(methodOn(UserController.class).getAll()).withRel("all"));
     }
 

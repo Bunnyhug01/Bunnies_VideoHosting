@@ -1,4 +1,4 @@
-package com.example.video.controller;
+package com.example.video.controller.advice;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

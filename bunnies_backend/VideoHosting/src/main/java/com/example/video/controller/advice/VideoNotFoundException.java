@@ -1,4 +1,4 @@
-package com.example.video.controller;
+package com.example.video.controller.advice;
 
 public class VideoNotFoundException extends RuntimeException {
 
