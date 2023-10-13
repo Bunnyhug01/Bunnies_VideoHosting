@@ -23,16 +23,16 @@ public class UserController {
 
     @GetMapping("/users")
     public CollectionModel<EntityModel<User>> getAll() {
-        var videos = repository.findAll().stream()
+        var users = repository.findAll().stream()
                 .map(assembler::toModel)
                 .toList();
-        return CollectionModel.of(videos, linkTo(methodOn(UserController.class).getAll()).withSelfRel());
+        return CollectionModel.of(users, linkTo(methodOn(UserController.class).getAll()).withSelfRel());
     }
 
     @GetMapping("/users/{id}")
     public EntityModel<User> getOne(@PathVariable Long id) {
-        var video = repository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
-        return assembler.toModel(video);
+        var user = repository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+        return assembler.toModel(user);
     }
 
 }

@@ -1,12 +1,17 @@
 package com.example.video.config;
 
+import com.example.video.entity.Role;
 import com.example.video.entity.User;
 import com.example.video.entity.Video;
+import com.example.video.repository.RoleRepository;
 import com.example.video.repository.UserRepository;
 import com.example.video.repository.VideoRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.HashSet;
 
 @AllArgsConstructor
 @Configuration
@@ -14,14 +19,36 @@ public class RepoConfiguration {
 
     private final VideoRepository videoRepository;
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
+    @Transactional
     @PostConstruct
     void init() {
+        if (roleRepository.findByAuthority("USER") == null) {
+            var r = new Role();
+            r.setAuthority("USER");
+            roleRepository.save(r);
+        }
+        if (roleRepository.findByAuthority("ADMIN") == null) {
+            var r = new Role();
+            r.setAuthority("ADMIN");
+            roleRepository.save(r);
+        }
+        if (roleRepository.findByAuthority("MODERATOR") == null) {
+            var r = new Role();
+            r.setAuthority("MODERATOR");
+            roleRepository.save(r);
+        }
         videoRepository.deleteAll();
         userRepository.deleteAll();
         var u1 = new User();
-        u1.setName("Maksim");
+        u1.setUsername("Maksim");
         u1.setPassword("1234");
+        var roles = new HashSet<Role>();
+        roles.add(roleRepository.findByAuthority("USER"));
+        roles.add(roleRepository.findByAuthority("ADMIN"));
+        roles.add(roleRepository.findByAuthority("MODERATOR"));
+        u1.setRoles(roles);
         userRepository.save(u1);
         var v = new Video();
         v.setTitle("ПИОНЕРЫ-ПОПАДАНЦЫ | Советский исекай в анимации");

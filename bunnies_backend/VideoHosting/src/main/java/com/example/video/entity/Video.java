@@ -34,7 +34,7 @@ public class Video implements BaseEntity {
     private int views;
 
     @JsonSerialize(using = EntityAsIdOnlySerializer.class)
-    @ManyToOne
+    @ManyToOne(optional = false)
     private User owner;
 
 }
