@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.security.Principal;
+
 import static org.springframework.hateoas.server.core.DummyInvocationUtils.methodOn;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
@@ -24,11 +26,12 @@ public class UserController {
     private final UserModelAssembler assembler;
 
     @GetMapping("/users")
-    public CollectionModel<EntityModel<User>> getAll() {
+    public CollectionModel<EntityModel<User>> getAll(Principal principal) {
+        System.out.println(principal);
         var users = repository.findAll().stream()
                 .map(assembler::toModel)
                 .toList();
-        return CollectionModel.of(users, linkTo(methodOn(UserController.class).getAll()).withSelfRel());
+        return CollectionModel.of(users, linkTo(methodOn(UserController.class).getAll(null)).withSelfRel());
     }
 
     @GetMapping("/users/{id}")

@@ -3,26 +3,26 @@ package com.example.video.controller.advice;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-public class BadCredentialsExceptionControllerAdvice {
+public class AllExceptionControllerAdvice {
 
     @ResponseBody
-    @ExceptionHandler(BadCredentialsException.class)
+    @ExceptionHandler({Throwable.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public BadCredentialsExceptionDTO employeeNotFoundHandler(BadCredentialsException ex) {
-        return new BadCredentialsExceptionDTO(ex.getMessage());
+    public ExceptionDTO employeeNotFoundHandler(RuntimeException ex) {
+        return new ExceptionDTO(ex.getClass().getName(), ex.getMessage());
     }
 
     @AllArgsConstructor
     @Data
-    private static class BadCredentialsExceptionDTO {
+    private static class ExceptionDTO {
 
+        String type;
         String info;
 
     }

@@ -2,7 +2,6 @@ package com.example.video.controller.assembler;
 
 import com.example.video.controller.UserController;
 import com.example.video.entity.User;
-import com.example.video.entity.Video;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
@@ -18,7 +17,7 @@ public class UserModelAssembler implements RepresentationModelAssembler<User, En
     public EntityModel<User> toModel(User user) {
         return EntityModel.of(user,
                 WebMvcLinkBuilder.linkTo(methodOn(UserController.class).getOne(user.getId())).withSelfRel(),
-                linkTo(methodOn(UserController.class).getAll()).withRel("all"));
+                linkTo(methodOn(UserController.class).getAll(null)).withRel("all"));
     }
 
 }
