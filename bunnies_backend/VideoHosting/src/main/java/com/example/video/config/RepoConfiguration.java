@@ -9,6 +9,7 @@ import com.example.video.repository.VideoRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashSet;
@@ -20,6 +21,7 @@ public class RepoConfiguration {
     private final VideoRepository videoRepository;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     @PostConstruct
@@ -43,7 +45,7 @@ public class RepoConfiguration {
         userRepository.deleteAll();
         var u1 = new User();
         u1.setUsername("Maksim");
-        u1.setPassword("1234");
+        u1.setPassword(passwordEncoder.encode("1234"));
         var roles = new HashSet<Role>();
         roles.add(roleRepository.findByAuthority("USER"));
         roles.add(roleRepository.findByAuthority("ADMIN"));
