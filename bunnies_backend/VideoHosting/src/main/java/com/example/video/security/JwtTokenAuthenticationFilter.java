@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,7 +36,7 @@ public class JwtTokenAuthenticationFilter extends GenericFilterBean {
 //        log.info("Extracting token from HttpServletRequest: {}", token);
         if (token != null && provider.validateToken(token)) {
             User user = userDetailsService.findById(provider.getId(token));
-            var auth = new UserAuthenticationToken(user);
+            var auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
             SecurityContext context = SecurityContextHolder.createEmptyContext();
             context.setAuthentication(auth);
             SecurityContextHolder.setContext(context);
@@ -46,7 +47,7 @@ public class JwtTokenAuthenticationFilter extends GenericFilterBean {
     private String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(HEADER_PREFIX)) {
-            return bearerToken.substring(7);
+            return bearerToken.substring(HEADER_PREFIX.length());
         }
         return null;
     }

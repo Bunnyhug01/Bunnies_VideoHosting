@@ -1,17 +1,15 @@
 package com.example.video.controller;
 
+import com.example.video.controller.advice.ForbiddenException;
 import com.example.video.controller.advice.VideoNotFoundException;
-import com.example.video.controller.assembler.VideoModelAssembler;
+import com.example.video.entity.User;
 import com.example.video.entity.Video;
 import com.example.video.repository.VideoRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.hateoas.CollectionModel;
-import org.springframework.hateoas.EntityModel;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import static org.springframework.hateoas.server.core.DummyInvocationUtils.methodOn;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import java.util.Collection;
 
 @CrossOrigin("${cross.origin.url}")
 @AllArgsConstructor
@@ -19,46 +17,31 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 public class VideoController {
 
     private final VideoRepository repository;
-    private final VideoModelAssembler assembler;
 
     @GetMapping("/videos")
-    public CollectionModel<EntityModel<Video>> getAll() {
-        var videos = repository.findAll().stream()
-                .map(assembler::toModel)
-                .toList();
-        return CollectionModel.of(videos, linkTo(methodOn(VideoController.class).getAll()).withSelfRel());
+    public Collection<Video> getAll() {
+        return repository.findAll();
     }
 
     @GetMapping("/videos/{id}")
-    public EntityModel<Video> getOne(@PathVariable Long id) {
-        var video = repository.findById(id).orElseThrow(() -> new VideoNotFoundException(id));
-        return assembler.toModel(video);
+    public Video getOne(@PathVariable Long id) {
+        return repository.findById(id).orElseThrow(() -> new VideoNotFoundException(id));
     }
 
     @DeleteMapping("/videos/{id}")
-    public ResponseEntity<?> deleteOne(@PathVariable Long id) {
+    public void deleteOne(@PathVariable Long id, Authentication authentication) {
+        var user = (User) authentication.getPrincipal();
         var video = repository.findById(id).orElseThrow(() -> new VideoNotFoundException(id));
+        if (!user.equals(video.getOwner()))
+            throw new ForbiddenException();
         repository.delete(video);
-        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/videos")
-    public Video create(@RequestBody Video video) {
+    public Video create(@RequestBody Video video, Authentication authentication) {
+        var user = (User) authentication.getPrincipal();
+        video.setOwner(user);
         return repository.save(video);
-    }
-
-    @PutMapping("/videos/{id}")
-    public Video replace(@RequestBody Video newVideo, @PathVariable Long id) {
-        return repository.findById(id)
-                .map(video -> {
-                    video.setVideoUrl(newVideo.getVideoUrl());
-                    video.setLogoUrl(newVideo.getLogoUrl());
-                    video.setDetail(newVideo.getDetail());
-                    video.setTitle(newVideo.getTitle());
-                    video.setDetail(newVideo.getDetail());
-                    return repository.save(video);
-                })
-                .orElseThrow(() -> new VideoNotFoundException(id));
     }
 
 }
