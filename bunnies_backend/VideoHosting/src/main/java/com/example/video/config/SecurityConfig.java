@@ -3,7 +3,7 @@ package com.example.video.config;
 import com.example.video.controller.advice.FilterChainExceptionHandler;
 import com.example.video.security.JwtTokenAuthenticationFilter;
 import com.example.video.security.JwtTokenProvider;
-import com.example.video.service.CustomUserDetailsService;
+import com.example.video.service.impl.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -47,8 +47,8 @@ public class SecurityConfig {
                 .exceptionHandling(c -> c.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .authorizeHttpRequests(authorize -> authorize
                                 .requestMatchers("/auth/**").permitAll()
-//                                .anyRequest().authenticated()
-                                .anyRequest().permitAll()
+                                .anyRequest().authenticated()
+//                                .anyRequest().permitAll()
                 )
                 .addFilterBefore(new FilterChainExceptionHandler(resolver), LogoutFilter.class)
                 .addFilterBefore(new JwtTokenAuthenticationFilter(tokenProvider, userDetailsService), UsernamePasswordAuthenticationFilter.class)

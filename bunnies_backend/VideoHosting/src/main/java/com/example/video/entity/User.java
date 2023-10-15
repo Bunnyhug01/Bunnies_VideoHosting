@@ -11,6 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -27,8 +28,8 @@ public class User implements BaseEntity, UserDetails {
     @Column(nullable = false, unique = true)
     private String username;
 
-    @JsonSerialize(using = EntityAsIdOnlySerializer.class)
-    @ManyToMany
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
     @JsonIgnore
@@ -44,6 +45,12 @@ public class User implements BaseEntity, UserDetails {
     @JsonSerialize(using = EntityAsIdOnlySerializer.class)
     @ManyToMany
     private Set<Video> dislikes;
+    @JsonSerialize(using = EntityAsIdOnlySerializer.class)
+    @ManyToMany
+    private Set<User> subscribers;
+    @JsonSerialize(using = EntityAsIdOnlySerializer.class)
+    @ManyToMany(mappedBy = "subscribers")
+    private Set<User> subscriptions;
 
     @JsonIgnore
     @Override
@@ -73,6 +80,19 @@ public class User implements BaseEntity, UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id);
     }
 
 }

@@ -1,9 +1,9 @@
 package com.example.video.controller;
 
-import com.example.video.controller.advice.UserNotFoundException;
 import com.example.video.entity.User;
-import com.example.video.repository.UserRepository;
+import com.example.video.service.UserService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,16 +16,21 @@ import java.util.Collection;
 @RestController
 public class UserController {
 
-    private final UserRepository repository;
+    private final UserService service;
 
     @GetMapping("/users")
     public Collection<User> getAll() {
-        return repository.findAll();
+        return service.findAll();
     }
 
     @GetMapping("/users/{id}")
     public User getOne(@PathVariable Long id) {
-        return repository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+        return service.findById(id);
+    }
+
+    @GetMapping("/users/me")
+    public User getMe(Authentication authentication) {
+        return service.findById(((User) authentication.getPrincipal()).getId());
     }
 
 }

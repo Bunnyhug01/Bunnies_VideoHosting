@@ -23,13 +23,20 @@ public class AllExceptionControllerAdvice {
     }
 
     private ExceptionDTO newException(RuntimeException e) {
-        return new ExceptionDTO(e.getClass().getName(), e.getMessage());
+        return new ExceptionDTO(e.getClass().getSimpleName(), e.getMessage());
     }
 
     @ResponseBody
     @ExceptionHandler({UserNotFoundException.class, VideoNotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ExceptionDTO notFoundException(RuntimeException e) {
+        return newException(e);
+    }
+
+    @ResponseBody
+    @ExceptionHandler({UserAlreadyExists.class, GradeAlreadyExists.class, GradeNotExists.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionDTO clientException(RuntimeException e) {
         return newException(e);
     }
 
