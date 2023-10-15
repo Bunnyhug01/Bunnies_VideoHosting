@@ -34,7 +34,7 @@ public class AllExceptionControllerAdvice {
     }
 
     @ResponseBody
-    @ExceptionHandler({UserAlreadyExists.class, GradeAlreadyExists.class, GradeNotExists.class})
+    @ExceptionHandler({UserAlreadyExists.class, GradeAlreadyExists.class, GradeNotExists.class, UserAlreadySubscribe.class, UserNotSubscribe.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ExceptionDTO clientException(RuntimeException e) {
         return newException(e);
