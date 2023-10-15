@@ -17,39 +17,57 @@ public class AllExceptionControllerAdvice {
 
     @ExceptionHandler(RuntimeException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ExceptionDTO processRuntimeException(RuntimeException e) {
+    public Object processRuntimeException(RuntimeException e) {
         log.error("Unsupported Exception:", e);
         return newException(e);
     }
 
-    private ExceptionDTO newException(RuntimeException e) {
-        return new ExceptionDTO(e.getClass().getSimpleName(), e.getMessage());
+    private Object newException(RuntimeException e) {
+        final var m = e.getMessage();
+        if (m == null)
+            return new ExceptionDTO(e.getClass().getSimpleName());
+        return new InfoExceptionDTO(e.getClass().getSimpleName(), m);
     }
 
     @ResponseBody
     @ExceptionHandler({UserNotFoundException.class, VideoNotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ExceptionDTO notFoundException(RuntimeException e) {
+    public Object notFoundException(RuntimeException e) {
         return newException(e);
     }
 
     @ResponseBody
     @ExceptionHandler({UserAlreadyExists.class, GradeAlreadyExists.class, GradeNotExists.class, UserAlreadySubscribe.class, UserNotSubscribe.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ExceptionDTO clientException(RuntimeException e) {
+    public Object clientException(RuntimeException e) {
         return newException(e);
     }
 
     @ResponseBody
     @ExceptionHandler({ForbiddenException.class})
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    public ExceptionDTO forbiddenException(ForbiddenException e) {
+    public Object forbiddenException(RuntimeException e) {
+        return newException(e);
+    }
+
+    @ResponseBody
+    @ExceptionHandler({NotValidJWT.class})
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public Object unauthorizedException(RuntimeException e) {
         return newException(e);
     }
 
     @AllArgsConstructor
     @Data
     private static class ExceptionDTO {
+
+        String type;
+
+    }
+
+    @AllArgsConstructor
+    @Data
+    private static class InfoExceptionDTO {
 
         String type;
         String info;

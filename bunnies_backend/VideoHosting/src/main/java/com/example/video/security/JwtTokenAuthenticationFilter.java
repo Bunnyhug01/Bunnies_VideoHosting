@@ -1,5 +1,6 @@
 package com.example.video.security;
 
+import com.example.video.controller.advice.NotValidJWT;
 import com.example.video.entity.User;
 import com.example.video.service.impl.CustomUserDetailsService;
 import jakarta.servlet.FilterChain;
@@ -32,7 +33,9 @@ public class JwtTokenAuthenticationFilter extends GenericFilterBean {
             throws IOException, ServletException {
         String token = resolveToken((HttpServletRequest) req);
 //        log.info("Extracting token from HttpServletRequest: {}", token);
-        if (token != null && provider.validateToken(token)) {
+        if (token != null) {
+            if (!provider.validateToken(token))
+                throw new NotValidJWT();
             var id = provider.getId(token);
             User user = userDetailsService.findById(id);
             var auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
