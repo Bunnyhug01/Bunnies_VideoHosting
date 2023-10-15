@@ -37,30 +37,25 @@ public class RepoConfiguration {
             r.setAuthority("ADMIN");
             roleRepository.save(r);
         }
-        if (roleRepository.findByAuthority("MODERATOR") == null) {
-            var r = new Role();
-            r.setAuthority("MODERATOR");
-            roleRepository.save(r);
-        }
         final var maksim = userRepository.findByUsername("Maksim").orElseGet(() -> {
             var m = new User();
             m.setUsername("Maksim");
+            m.setLogoUrl("https://lh3.googleusercontent.com/ogw/AKPQZvzOqoDpVzFgDdOWDskd8giBGX2hbQrp85akDisc=s32-c-mo");
             m.setPassword(passwordEncoder.encode("1234"));
             var roles = new HashSet<Role>();
             roles.add(roleRepository.findByAuthority("USER"));
             roles.add(roleRepository.findByAuthority("ADMIN"));
-            roles.add(roleRepository.findByAuthority("MODERATOR"));
             m.setRoles(roles);
             return userRepository.save(m);
         });
         final var arseny = userRepository.findByUsername("Arseny").orElseGet(() -> {
             var m = new User();
             m.setUsername("Arseny");
+            m.setLogoUrl("https://lh3.googleusercontent.com/ogw/AKPQZvzOqoDpVzFgDdOWDskd8giBGX2hbQrp85akDisc=s32-c-mo");
             m.setPassword(passwordEncoder.encode("1234"));
             var roles = new HashSet<Role>();
             roles.add(roleRepository.findByAuthority("USER"));
             roles.add(roleRepository.findByAuthority("ADMIN"));
-            roles.add(roleRepository.findByAuthority("MODERATOR"));
             m.setRoles(roles);
             return userRepository.save(m);
         });

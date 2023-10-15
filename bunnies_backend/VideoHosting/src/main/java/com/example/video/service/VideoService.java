@@ -14,4 +14,6 @@ public interface VideoService {
 
     void delete(Long userId, Long videoId);
 
+    void delete(Long videoId);
+
 }

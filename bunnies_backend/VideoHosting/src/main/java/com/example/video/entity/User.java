@@ -52,6 +52,9 @@ public class User implements BaseEntity, UserDetails {
     @ManyToMany(mappedBy = "subscribers")
     private Set<User> subscriptions;
 
+    @Column(nullable = false)
+    private String logoUrl;
+
     @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

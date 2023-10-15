@@ -40,9 +40,6 @@ public class Video implements BaseEntity {
 
     @Column(nullable = false)
     private int views;
-    @Column(nullable = false)
-    @Enumerated(EnumType.ORDINAL)
-    private VideoStatus status = VideoStatus.LOADED;
 
     @JsonSerialize(using = EntityAsIdOnlySerializer.class)
     @ManyToOne

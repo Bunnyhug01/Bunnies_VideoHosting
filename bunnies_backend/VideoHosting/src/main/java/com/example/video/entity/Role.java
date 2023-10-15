@@ -21,7 +21,11 @@ public class Role implements BaseEntity, GrantedAuthority {
     @GeneratedValue
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, updatable = false)
     private String authority;
+
+    public String getAuthority() {
+        return "ROLE_" + authority;
+    }
 
 }

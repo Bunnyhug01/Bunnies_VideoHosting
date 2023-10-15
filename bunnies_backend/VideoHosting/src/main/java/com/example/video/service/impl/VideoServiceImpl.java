@@ -7,6 +7,7 @@ import com.example.video.repository.VideoRepository;
 import com.example.video.service.VideoService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 
@@ -31,11 +32,18 @@ public class VideoServiceImpl implements VideoService {
         return videoRepository.findAll();
     }
 
+    @Transactional
     @Override
     public void delete(Long userId, Long videoId) {
         var video = findById(videoId);
         if (userId != video.getOwner().getId())
             throw new ForbiddenException();
+        videoRepository.delete(video);
+    }
+
+    @Override
+    public void delete(Long videoId) {
+        var video = findById(videoId);
         videoRepository.delete(video);
     }
 
