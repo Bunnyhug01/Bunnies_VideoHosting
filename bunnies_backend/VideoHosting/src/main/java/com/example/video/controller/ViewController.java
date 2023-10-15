@@ -2,7 +2,6 @@ package com.example.video.controller;
 
 import com.example.video.entity.User;
 import com.example.video.entity.Video;
-import com.example.video.service.UserService;
 import com.example.video.service.ViewService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -16,7 +15,6 @@ import java.util.Collection;
 public class ViewController {
 
     private ViewService service;
-    private UserService userService;
 
     @GetMapping("/line")
     public Collection<Video> getLine(Authentication authentication) {

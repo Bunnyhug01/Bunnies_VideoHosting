@@ -4,7 +4,6 @@ import com.example.video.entity.User;
 import com.example.video.entity.Video;
 import com.example.video.service.VideoService;
 import lombok.AllArgsConstructor;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +29,7 @@ public class VideoController {
     @DeleteMapping("/videos/{id}")
     public void deleteOne(@PathVariable Long id, Authentication authentication) {
         var user = (User) authentication.getPrincipal();
-        if(user.hasRole("ADMIN"))
+        if (user.hasRole("ADMIN"))
             service.delete(id);
         service.delete(user.getId(), id);
     }

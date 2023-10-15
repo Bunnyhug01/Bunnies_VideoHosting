@@ -2,7 +2,6 @@ package com.example.video.controller;
 
 import com.example.video.dto.StatusDTO;
 import com.example.video.entity.User;
-import com.example.video.service.LikeService;
 import com.example.video.service.SubscribeService;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -16,19 +15,19 @@ public class SubscribeController {
     private SubscribeService service;
 
     @PostMapping("/subscribes/{id}")
-    public void addLike(@PathVariable Long id, Authentication authentication) {
+    public void addSubscribe(@PathVariable Long id, Authentication authentication) {
         var user = (User) authentication.getPrincipal();
         service.addSubscribe(user.getId(), id);
     }
 
     @DeleteMapping("/subscribes/{id}")
-    public void removeLike(@PathVariable Long id, Authentication authentication) {
+    public void removeSubscribe(@PathVariable Long id, Authentication authentication) {
         var user = (User) authentication.getPrincipal();
         service.removeSubscribe(user.getId(), id);
     }
 
     @GetMapping("/subscribes/{id}")
-    public StatusDTO hasLike(@PathVariable Long id, Authentication authentication) {
+    public StatusDTO hasSubscribe(@PathVariable Long id, Authentication authentication) {
         var user = (User) authentication.getPrincipal();
         return new StatusDTO(service.hasSubscribe(user.getId(), id));
     }
