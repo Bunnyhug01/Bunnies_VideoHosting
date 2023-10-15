@@ -24,9 +24,16 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
+import java.util.Random;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    @Bean
+    Random globalRandom() {
+        return new Random();
+    }
 
     @Bean
     PasswordEncoder passwordEncoder() {
@@ -48,6 +55,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                                 .requestMatchers("/auth/**").permitAll()
                                 .requestMatchers("/admin/**").hasRole("ADMIN")
+                                .requestMatchers("/anonymous/**").permitAll()
                                 .anyRequest().authenticated()
 //                                .anyRequest().permitAll()
                 )

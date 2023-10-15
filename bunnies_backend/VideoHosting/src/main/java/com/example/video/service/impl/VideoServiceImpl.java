@@ -10,12 +10,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.Random;
 
 @Service
 @AllArgsConstructor
 public class VideoServiceImpl implements VideoService {
 
     private final VideoRepository videoRepository;
+
+    private final Random random;
 
     @Override
     public Video findById(Long id) {
@@ -45,6 +48,17 @@ public class VideoServiceImpl implements VideoService {
     public void delete(Long videoId) {
         var video = findById(videoId);
         videoRepository.delete(video);
+    }
+
+    @Override
+    public long count() {
+        return videoRepository.count();
+    }
+
+    @Override
+    public Video findRandom() {
+        var all = videoRepository.findAll();
+        return all.get(random.nextInt(all.size()));
     }
 
 }

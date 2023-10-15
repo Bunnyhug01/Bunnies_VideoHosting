@@ -30,12 +30,9 @@ public class VideoController {
     @DeleteMapping("/videos/{id}")
     public void deleteOne(@PathVariable Long id, Authentication authentication) {
         var user = (User) authentication.getPrincipal();
+        if(user.hasRole("ADMIN"))
+            service.delete(id);
         service.delete(user.getId(), id);
-    }
-
-    @DeleteMapping("admin/videos/{id}")
-    public void deleteOneAdmin(@PathVariable Long id) {
-        service.delete(id);
     }
 
     @PostMapping("/videos")

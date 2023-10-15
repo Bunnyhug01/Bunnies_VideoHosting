@@ -1,6 +1,7 @@
 package com.example.video.service;
 
 import com.example.video.entity.User;
+import com.example.video.entity.VideoHistory;
 
 import java.util.Collection;
 

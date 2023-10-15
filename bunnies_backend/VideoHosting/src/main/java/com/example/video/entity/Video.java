@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Data
@@ -56,6 +57,13 @@ public class Video implements BaseEntity {
         if (o == null || getClass() != o.getClass()) return false;
         Video video = (Video) o;
         return Objects.equals(id, video.id);
+    }
+
+    @Override
+    public String toString() {
+        String sb = "Video{" + "id=" + id +
+                '}';
+        return sb;
     }
 
 }

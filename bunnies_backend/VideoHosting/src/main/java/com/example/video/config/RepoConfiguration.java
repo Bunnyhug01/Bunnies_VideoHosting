@@ -59,15 +59,26 @@ public class RepoConfiguration {
             m.setRoles(roles);
             return userRepository.save(m);
         });
-        videoRepository.deleteAll();
-        var v1 = new Video();
-        v1.setTitle("ПИОНЕРЫ-ПОПАДАНЦЫ | Советский исекай в анимации");
-        v1.setDetail("Если вы хоть немного увлекаетесь японской анимацией, то наверняка слышали термин «исекай». Это один из самых популярных жанров аниме, если по-простому, — истории о попаданцах. Когда герои магических образом перемещаются в другие миры — обычно после того, как их сбивает грузовик. \n");
-        v1.setVideoUrl("https://youtu.be/kYFkWip40C8");
-        v1.setLogoUrl("https://i.ytimg.com/vi/kYFkWip40C8/hqdefault.jpg?sqp=-oaymwEcCPYBEIoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCmWEy9t6N_cAH3plY0kv-UGO7MJw");
-        v1.setOwner(maksim);
-        userRepository.save(maksim);
-        videoRepository.save(v1);
+        var v1 = videoRepository.findByTitle("ПИОНЕРЫ-ПОПАДАНЦЫ | Советский исекай в анимации 1").orElseGet(() -> {
+            var v = new Video();
+            v.setTitle("ПИОНЕРЫ-ПОПАДАНЦЫ | Советский исекай в анимации 1");
+            v.setDetail("Если вы хоть немного увлекаетесь японской анимацией, то наверняка слышали термин «исекай». Это один из самых популярных жанров аниме, если по-простому, — истории о попаданцах. Когда герои магических образом перемещаются в другие миры — обычно после того, как их сбивает грузовик. \n");
+            v.setVideoUrl("https://youtu.be/kYFkWip40C8");
+            v.setLogoUrl("https://i.ytimg.com/vi/kYFkWip40C8/hqdefault.jpg?sqp=-oaymwEcCPYBEIoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCmWEy9t6N_cAH3plY0kv-UGO7MJw");
+            v.setOwner(maksim);
+            userRepository.save(maksim);
+            return videoRepository.save(v);
+        });
+        var v2 = videoRepository.findByTitle("ПИОНЕРЫ-ПОПАДАНЦЫ | Советский исекай в анимации 2").orElseGet(() -> {
+            var v = new Video();
+            v.setTitle("ПИОНЕРЫ-ПОПАДАНЦЫ | Советский исекай в анимации 2");
+            v.setDetail("Если вы хоть немного увлекаетесь японской анимацией, то наверняка слышали термин «исекай». Это один из самых популярных жанров аниме, если по-простому, — истории о попаданцах. Когда герои магических образом перемещаются в другие миры — обычно после того, как их сбивает грузовик. \n");
+            v.setVideoUrl("https://youtu.be/kYFkWip40C8");
+            v.setLogoUrl("https://i.ytimg.com/vi/kYFkWip40C8/hqdefault.jpg?sqp=-oaymwEcCPYBEIoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCmWEy9t6N_cAH3plY0kv-UGO7MJw");
+            v.setOwner(maksim);
+            userRepository.save(maksim);
+            return videoRepository.save(v);
+        });
     }
 
 }
