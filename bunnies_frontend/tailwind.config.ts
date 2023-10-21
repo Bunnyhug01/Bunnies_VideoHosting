@@ -18,6 +18,7 @@ const config: Config = {
         mainBg: '#040506',
         searchBg: '#100f14',
         textColor: '#b1b1b1',
+        buttonSubmit: '#1565c0',
         collectionBg: 'rgba(0,0,0,0.6)',
         darkThemeIconColor: 'rgb(93,95,239)',
       },

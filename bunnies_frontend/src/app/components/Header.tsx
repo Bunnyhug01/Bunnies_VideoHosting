@@ -13,12 +13,12 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import SwipeableTemporaryDrawer from './SwipeableTemporaryDrawer';
 import { LightMode, DarkMode } from '@mui/icons-material';
 import Logo from './Logo';
+import Upload from './Upload';
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -142,12 +142,8 @@ export default function Header({inputHandler = undefined, ColorModeContext} : Pr
             onClose={handleMobileMenuClose}
         >
             <MenuItem>
-                <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-                    <Badge badgeContent={4} color="error">
-                        <MailIcon />
-                    </Badge>
-                </IconButton>
-                <p>Messages</p>
+                <Upload />
+                <p>Upload video</p>
             </MenuItem>
             <MenuItem>
                 <IconButton
@@ -205,11 +201,7 @@ export default function Header({inputHandler = undefined, ColorModeContext} : Pr
                     </Search>
                     <Box sx={{ flexGrow: 1 }} />
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-                        <Badge badgeContent={4} color="error">
-                            <MailIcon />
-                        </Badge>
-                        </IconButton>
+                        <Upload />
                         <IconButton
                             size="large"
                             aria-label="show 17 new notifications"

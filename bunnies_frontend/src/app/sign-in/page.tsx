@@ -85,6 +85,7 @@ export default function SignIn() {
               label="Remember me"
             />
             <Button
+              className='bg-buttonSubmit'
               type="submit"
               fullWidth
               variant="contained"
