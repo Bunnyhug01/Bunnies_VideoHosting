@@ -5,6 +5,7 @@ import { sfetch } from "./main"
 export interface VideoBody {
     logoUrl: string,
     title: string,
+    detail: string,
     videoUrl: string,
 }
 
@@ -12,7 +13,12 @@ export interface Video {
     id?: number,
     logoUrl: string,
     title: string,
+    detail: string,
     videoUrl: string,
+    likes: number,
+    dislikes: number,
+    views: number,
+    owner: number,
 }
 
 export async function getAll(): Promise<Video[]>  {
