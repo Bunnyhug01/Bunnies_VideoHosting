@@ -9,10 +9,14 @@
 name: Deploy docker image
 
 on:
-  # push:
-  #   branches: [ "*" ]
-  # pull_request:
-  #   branches: [ "*" ]
+  push:
+    branches: [ "*" ]
+    paths-ignore:
+      - 'bunnies_frontend/**'
+  pull_request:
+    branches: [ "*" ]
+    paths-ignore:
+      - 'bunnies_frontend/**'
   workflow_dispatch:
 
 env:
