@@ -59,22 +59,12 @@ public class RepoConfiguration {
             m.setRoles(roles);
             return userRepository.save(m);
         });
-        var v1 = videoRepository.findByTitle("ПИОНЕРЫ-ПОПАДАНЦЫ | Советский исекай в анимации 1").orElseGet(() -> {
+        var v2 = videoRepository.findByTitle("Название").orElseGet(() -> {
             var v = new Video();
-            v.setTitle("ПИОНЕРЫ-ПОПАДАНЦЫ | Советский исекай в анимации 1");
-            v.setDetail("Если вы хоть немного увлекаетесь японской анимацией, то наверняка слышали термин «исекай». Это один из самых популярных жанров аниме, если по-простому, — истории о попаданцах. Когда герои магических образом перемещаются в другие миры — обычно после того, как их сбивает грузовик. \n");
-            v.setVideoUrl("https://youtu.be/kYFkWip40C8");
-            v.setLogoUrl("https://i.ytimg.com/vi/kYFkWip40C8/hqdefault.jpg?sqp=-oaymwEcCPYBEIoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCmWEy9t6N_cAH3plY0kv-UGO7MJw");
-            v.setOwner(maksim);
-            userRepository.save(maksim);
-            return videoRepository.save(v);
-        });
-        var v2 = videoRepository.findByTitle("ПИОНЕРЫ-ПОПАДАНЦЫ | Советский исекай в анимации 2").orElseGet(() -> {
-            var v = new Video();
-            v.setTitle("ПИОНЕРЫ-ПОПАДАНЦЫ | Советский исекай в анимации 2");
-            v.setDetail("Если вы хоть немного увлекаетесь японской анимацией, то наверняка слышали термин «исекай». Это один из самых популярных жанров аниме, если по-простому, — истории о попаданцах. Когда герои магических образом перемещаются в другие миры — обычно после того, как их сбивает грузовик. \n");
-            v.setVideoUrl("https://youtu.be/kYFkWip40C8");
-            v.setLogoUrl("https://i.ytimg.com/vi/kYFkWip40C8/hqdefault.jpg?sqp=-oaymwEcCPYBEIoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLCmWEy9t6N_cAH3plY0kv-UGO7MJw");
+            v.setTitle("Название");
+            v.setDetail("Описание");
+            v.setVideoUrl("https://firebasestorage.googleapis.com/v0/b/bunnies-aad60.appspot.com/o/videos%2FTrevor_Something.mp4?alt=media&token=8af7ad29-4187-4601-ad8f-a65a35c18d20");
+            v.setLogoUrl("https://firebasestorage.googleapis.com/v0/b/bunnies-aad60.appspot.com/o/images%2FTrevor%20Something.png?alt=media&token=058454ef-f542-4293-bd4d-87263c25e17e");
             v.setOwner(maksim);
             userRepository.save(maksim);
             return videoRepository.save(v);
