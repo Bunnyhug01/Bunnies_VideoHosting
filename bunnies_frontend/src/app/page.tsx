@@ -107,7 +107,7 @@ function Home() {
         {/* Main Container */}
         <Box className='md:w-full h-full'>
           {/* Top Section */}
-          <Box className='relative w-full h-[70%] max-h-[480px] grid grid-cols-3 gap-2 p-2 sm:w-[107vw] sm:right-[10vw] lg:right-0 md:right-0 md:w-full sm2:w-full sm2:right-0'>
+          <Box className='relative w-full h-[70%] max-h-[480px] grid grid-cols-3 gap-2 p-2 sm:w-[107vw] sm:right-[10vw] sm3:w-[108vw] sm3:right-[9vw] lg:right-0 md:right-0 md:w-full sm2:w-full sm2:right-0'>
             
             {/* Video Container */}
             <Box className='sm:col-span-6 md:col-span-2 rounded-lg overflow-hidden flex items-center justify-center'>

@@ -33,7 +33,7 @@ export default function RecommendedList({imgSrc, videoName} : Props) {
                 </Typography>
                 <Typography sx={{color: 'text.primary', fontSize: 12}} className='block'>Ninja</Typography>
             </Box>
-            <Box sx={{color: 'text.additional', fontSize: 14}} className='flex items-center mt-2'>
+            <Box sx={{color: 'text.secondary', fontSize: 14}} className='flex items-center mt-2'>
                 <Typography variant='inherit' className='font-bold'>40:30</Typography>
                 <Typography variant='inherit' className='font-bold ml-6'>36,000</Typography>
             </Box>

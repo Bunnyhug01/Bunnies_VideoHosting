@@ -20,7 +20,7 @@ export default function UserIcon() {
                 <Typography sx={{color: 'text.primary', fontSize: 16}} className="font-bold ml-2">
                     Bunnyhug
                 </Typography>
-                <Typography sx={{color: 'text.additional', fontSize: 12}} className="font-bold block ml-2">User</Typography>
+                <Typography sx={{color: 'text.secondary', fontSize: 12}} className="font-bold block ml-2">User</Typography>
             </Box>
         </Box>
     )
