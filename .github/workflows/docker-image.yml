@@ -40,7 +40,7 @@ jobs:
           website: oracle.com
           release: 21
       - name: Maven Package
-        run: mvn -B clean package
+        run: mvn -B clean package -f ./bunnies_backend/VideoHosting
 
       # Install the cosign tool except on PR
       # https://github.com/sigstore/cosign-installer
