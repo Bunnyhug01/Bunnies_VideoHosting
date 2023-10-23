@@ -1,7 +1,7 @@
 
 import { sfetch } from "./main"
 
-interface User {
+export interface User {
     id: number,
     username: string,
     logoUrl: URL,
@@ -10,7 +10,7 @@ interface User {
     history: History[],
 }
 
-interface History {
+export interface History {
     videoId: number,
 }
 
