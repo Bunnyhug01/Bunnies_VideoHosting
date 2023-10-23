@@ -125,7 +125,7 @@
     </dependencies>
 
     <build>
-        <finalName>video_hosting_api</finalName>
+        <finalName>application</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
