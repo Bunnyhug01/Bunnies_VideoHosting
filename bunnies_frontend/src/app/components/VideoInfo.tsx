@@ -19,12 +19,12 @@ export default function VideoInfo() {
             <IconButton className="lg:ml-2">
                 <ThumbUp sx={{color: 'text.primary'}} />
             </IconButton>
-            <Typography sx={{color: 'text.additional', fontSize: 14}} className='inline-block font-bold ml-2'>10</Typography>
+            <Typography sx={{color: 'text.secondary', fontSize: 14}} className='inline-block font-bold ml-2'>10</Typography>
 
             <IconButton className="ml-2">
                 <ThumbDown sx={{color: 'text.primary'}} />
             </IconButton>
-            <Typography sx={{color: 'text.additional', fontSize: 14}} className='inline-block font-bold ml-2'>5</Typography>
+            <Typography sx={{color: 'text.secondary', fontSize: 14}} className='inline-block font-bold ml-2'>5</Typography>
           </Box>
         </Box>
 
