@@ -19,21 +19,21 @@ export async function getAll(): Promise<User[]>  {
 }
 
 export async function getOne(id: number): Promise<User> {
-    return fetch(`/users/${id}`).then(resp => resp.json())
+    return sfetch(`/users/${id}`).then(resp => resp.json())
 }
 
 export async function addSubscribe(id: number): Promise<User> {
-    return fetch(`/subscribes/${id}`, {
+    return sfetch(`/subscribes/${id}`, {
         method: "POST"
     }).then(resp => resp.json())
 }
 
 export async function removeSubscribe(id: number): Promise<User> {
-    return fetch(`/subscribes/${id}`, {
+    return sfetch(`/subscribes/${id}`, {
         method: "DELETE"
     }).then(resp => resp.json())
 }
 
 export async function hasSubscribe(id: number): Promise<User> {
-    return fetch(`/subscribes/${id}`).then(resp => resp.json()).then(resp => resp.json()).then(json => json["status"])
+    return sfetch(`/subscribes/${id}`).then(resp => resp.json()).then(resp => resp.json()).then(json => json["status"])
 }
