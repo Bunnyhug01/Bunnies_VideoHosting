@@ -1,9 +1,4 @@
-#
-# Build stage
-#
-FROM maven:3.8.3-openjdk-17
-COPY src /home/app/src
-COPY pom.xml /home/app
-RUN mvn -f /home/app/pom.xml clean package
-EXPOSE 8080
-ENTRYPOINT ["java","-jar","/home/app/target/video_hosting_api.jar"]
+FROM openjdk:20-jdk
+COPY target/*.jar /home/app/application.jar
+EXPOSE 3030
+ENTRYPOINT ["java","-jar","/home/app/application.jar"]
