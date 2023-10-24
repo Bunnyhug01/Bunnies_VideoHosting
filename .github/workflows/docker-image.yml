@@ -44,10 +44,10 @@ jobs:
       - uses: actions/checkout@v1
 
       - run: |
-        'echo "" >> ./bunnies_backend/VideoHosting/src/main/resources/application.properties'
-        'echo "$KEY" >> ./bunnies_backend/VideoHosting/src/main/resources/application.properties'
-        'cat ./bunnies_backend/VideoHosting/src/main/resources/application.properties'
-      env:
+          'echo "" >> ./bunnies_backend/VideoHosting/src/main/resources/application.properties'
+          'echo "$KEY" >> ./bunnies_backend/VideoHosting/src/main/resources/application.properties'
+          'cat ./bunnies_backend/VideoHosting/src/main/resources/application.properties'
+        env:
           KEY: ${{ secrets.SECRET_FILE }}
 
       # Install the cosign tool except on PR
