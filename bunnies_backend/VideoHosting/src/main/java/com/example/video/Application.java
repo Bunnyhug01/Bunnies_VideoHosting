@@ -11,6 +11,10 @@ import java.io.IOException;
 public class Application {
 
     public static void main(String[] args) throws IOException {
+        try (final var in = Application.class.getClassLoader().getResourceAsStream("application.properties")) {
+            var text = new String(in.readAllBytes());
+            System.out.println(text);
+        }
         SpringApplication.run(Application.class, args);
     }
 
