@@ -5,18 +5,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.annotation.PropertySource;
 
-import java.io.IOException;
-
 @PropertySource("classpath:application-secret.properties")
 @SpringBootApplication
 @ConfigurationPropertiesScan
 public class Application {
 
-    public static void main(String[] args) throws IOException {
-        try (final var in = Application.class.getClassLoader().getResourceAsStream("application-secret.properties")) {
-            var text = new String(in.readAllBytes());
-            System.out.println(text);
-        }
+    public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
 
