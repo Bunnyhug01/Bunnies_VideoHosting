@@ -88,7 +88,9 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           build-args: |
-            SECRET_FILE="${{ secrets.SECRET_FILE }}"
+            SECRET_FILE_1=${{ secrets.SECRET_FILE_1 }}
+            SECRET_FILE_2=${{ secrets.SECRET_FILE_2 }}
+            SECRET_FILE_3=${{ secrets.SECRET_FILE_3 }}
 
       # Sign the resulting Docker image digest except on PRs.
       # This will only write to the public Rekor transparency log when the Docker

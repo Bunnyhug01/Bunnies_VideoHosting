@@ -7,16 +7,14 @@ import org.springframework.context.annotation.PropertySource;
 
 import java.io.IOException;
 
-@PropertySource("classpath:application-secret.properties")
+@PropertySource("classpath:application-secret-1.properties")
+@PropertySource("classpath:application-secret-2.properties")
+@PropertySource("classpath:application-secret-3.properties")
 @SpringBootApplication
 @ConfigurationPropertiesScan
 public class Application {
 
     public static void main(String[] args) throws IOException {
-        try (final var in = Application.class.getClassLoader().getResourceAsStream("application-secret.properties")) {
-            var text = new String(in.readAllBytes());
-            System.out.println(text);
-        }
         SpringApplication.run(Application.class, args);
     }
 
