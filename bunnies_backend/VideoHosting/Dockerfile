@@ -6,9 +6,10 @@ COPY pom.xml /home/app
 ARG SECRET_FILE_1
 ARG SECRET_FILE_2
 ARG SECRET_FILE_3
-RUN echo "$SECRET_FILE_1" > /home/app/src/main/resources/application-secret-1.properties
-RUN echo "$SECRET_FILE_2" > /home/app/src/main/resources/application-secret-2.properties
-RUN echo "$SECRET_FILE_3" > /home/app/src/main/resources/application-secret-3.properties
+
+RUN echo "$SECRET_FILE_1" >> /home/app/src/main/resources/application.properties
+RUN echo "$SECRET_FILE_2" >> /home/app/src/main/resources/application.properties
+RUN echo "$SECRET_FILE_3" >> /home/app/src/main/resources/application.properties
 
 RUN mvn -B -f /home/app/pom.xml clean package
 

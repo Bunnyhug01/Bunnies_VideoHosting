@@ -59,9 +59,19 @@ public class RepoConfiguration {
             m.setRoles(roles);
             return userRepository.save(m);
         });
-        var v2 = videoRepository.findByTitle("Название").orElseGet(() -> {
+        var v1 = videoRepository.findByTitle("Название 1").orElseGet(() -> {
             var v = new Video();
-            v.setTitle("Название");
+            v.setTitle("Название 1");
+            v.setDetail("Описание");
+            v.setVideoUrl("https://firebasestorage.googleapis.com/v0/b/bunnies-aad60.appspot.com/o/videos%2FTrevor_Something.mp4?alt=media&token=8af7ad29-4187-4601-ad8f-a65a35c18d20");
+            v.setLogoUrl("https://firebasestorage.googleapis.com/v0/b/bunnies-aad60.appspot.com/o/images%2FTrevor%20Something.png?alt=media&token=058454ef-f542-4293-bd4d-87263c25e17e");
+            v.setOwner(maksim);
+            userRepository.save(maksim);
+            return videoRepository.save(v);
+        });
+        var v2 = videoRepository.findByTitle("Название 2").orElseGet(() -> {
+            var v = new Video();
+            v.setTitle("Название 2");
             v.setDetail("Описание");
             v.setVideoUrl("https://firebasestorage.googleapis.com/v0/b/bunnies-aad60.appspot.com/o/videos%2FTrevor_Something.mp4?alt=media&token=8af7ad29-4187-4601-ad8f-a65a35c18d20");
             v.setLogoUrl("https://firebasestorage.googleapis.com/v0/b/bunnies-aad60.appspot.com/o/images%2FTrevor%20Something.png?alt=media&token=058454ef-f542-4293-bd4d-87263c25e17e");
