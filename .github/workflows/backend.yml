@@ -32,6 +32,7 @@ concurrency:
 jobs:
   tests:
     runs-on: ubuntu-latest
+    if: ${{ always() }}
     steps:
       - uses: actions/checkout@v1
 
@@ -52,6 +53,7 @@ jobs:
 
   build_docker_image:
     runs-on: ubuntu-latest
+    if: ${{ always() }}
     permissions:
       contents: read
       packages: write
