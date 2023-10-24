@@ -44,10 +44,10 @@ jobs:
       - uses: actions/checkout@v1
 
       - run: ls
-      
-      - run: 'echo "" >> /bunnies_backend/VideoHosting/src/main/resources/application.properties'
 
-      - run: 'echo "$SECRET_FILE" >> /bunnies_backend/VideoHosting/src/main/resources/application.properties'
+      - run: 'echo "" >> ./bunnies_backend/VideoHosting/src/main/resources/application.properties'
+
+      - run: 'echo "$SECRET_FILE" >> ./bunnies_backend/VideoHosting/src/main/resources/application.properties'
         env:
           KEY: ${{ secrets.SECRET_FILE }}
 
