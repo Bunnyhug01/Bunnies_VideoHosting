@@ -75,6 +75,14 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
+      - run: 'echo "" > /bunnies_backend/VideoHosting/src/main/resources/application.properties'
+        shell: bash
+
+      - run: 'echo "$SECRET_FILE" > /bunnies_backend/VideoHosting/src/main/resources/application.properties'
+        shell: bash
+        env:
+          KEY: ${{ secrets.SECRET_FILE }}
+
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
       - name: Build and push Docker image
@@ -87,10 +95,6 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          build-args: |
-            SECRET_FILE_1=${{ secrets.SECRET_FILE_1 }}
-            SECRET_FILE_2=${{ secrets.SECRET_FILE_2 }}
-            SECRET_FILE_3=${{ secrets.SECRET_FILE_3 }}
 
       # Sign the resulting Docker image digest except on PRs.
       # This will only write to the public Rekor transparency log when the Docker

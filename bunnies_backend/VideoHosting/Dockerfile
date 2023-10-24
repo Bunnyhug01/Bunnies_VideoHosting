@@ -3,15 +3,6 @@ FROM maven:3.9.5-sapmachine-21 as builder
 COPY src /home/app/src
 COPY pom.xml /home/app
 
-ARG SECRET_FILE_1
-ARG SECRET_FILE_2
-ARG SECRET_FILE_3
-
-RUN echo "" >> /home/app/src/main/resources/application.properties
-RUN echo "$SECRET_FILE_1" >> /home/app/src/main/resources/application.properties
-RUN echo "$SECRET_FILE_2" >> /home/app/src/main/resources/application.properties
-RUN echo "$SECRET_FILE_3" >> /home/app/src/main/resources/application.properties
-
 RUN mvn -B -f /home/app/pom.xml clean package
 
 FROM amazoncorretto:21-alpine as corretto-jdk
