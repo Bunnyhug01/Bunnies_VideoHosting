@@ -1,11 +1,10 @@
 FROM maven:3.9.5-sapmachine-21 as builder
 
-ARG SECRET_FILE
-RUN mkdir -p /home/app/src/main/resources
-RUN echo "$SECRET_FILE" > /home/app/src/main/resources/application-secret.properties
-
 COPY src /home/app/src
 COPY pom.xml /home/app
+
+ARG SECRET_FILE
+RUN echo "$SECRET_FILE" > /home/app/src/main/resources/application-secret.properties
 
 RUN mvn -B -f /home/app/pom.xml clean package
 
