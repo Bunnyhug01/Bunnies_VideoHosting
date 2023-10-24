@@ -1,0 +1,45 @@
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Tests
+
+on:
+  push:
+    branches: [ "*" ]
+    paths-ignore:
+      - 'bunnies_frontend/**'
+  pull_request:
+    branches: [ "*" ]
+    paths-ignore:
+      - 'bunnies_frontend/**'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ startsWith(github.ref, 'refs/pull/') }}
+
+jobs:
+  build_docker_image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+
+      - run: 'echo "" >> ./bunnies_backend/VideoHosting/src/main/resources/application.properties'
+      
+      - run: 'echo "$KEY" >> ./bunnies_backend/VideoHosting/src/main/resources/application.properties'
+        env:
+          KEY: ${{ secrets.SECRET_FILE }}
+
+      - name: 'Set up latest Oracle JDK 21'
+        uses: oracle-actions/setup-java@v1
+        with:
+          website: oracle.com
+          release: 21
+
+      - name: Maven verify
+        run: mvn -B clean verify -f ./bunnies_backend/VideoHosting
