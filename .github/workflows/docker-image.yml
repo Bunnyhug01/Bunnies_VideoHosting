@@ -48,8 +48,6 @@ jobs:
       - run: 'echo "$KEY" >> ./bunnies_backend/VideoHosting/src/main/resources/application.properties'
         env:
           KEY: ${{ secrets.SECRET_FILE }}
-      
-      - run: 'cat ./bunnies_backend/VideoHosting/src/main/resources/application.properties'
 
       # Install the cosign tool except on PR
       # https://github.com/sigstore/cosign-installer
