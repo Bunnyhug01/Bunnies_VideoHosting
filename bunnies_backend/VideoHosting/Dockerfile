@@ -7,6 +7,7 @@ ARG SECRET_FILE_1
 ARG SECRET_FILE_2
 ARG SECRET_FILE_3
 
+RUN echo "" >> /home/app/src/main/resources/application.properties
 RUN echo "$SECRET_FILE_1" >> /home/app/src/main/resources/application.properties
 RUN echo "$SECRET_FILE_2" >> /home/app/src/main/resources/application.properties
 RUN echo "$SECRET_FILE_3" >> /home/app/src/main/resources/application.properties
