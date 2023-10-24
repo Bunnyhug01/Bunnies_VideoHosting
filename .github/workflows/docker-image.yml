@@ -42,7 +42,15 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
+
+      - run: ls
       
+      - run: 'echo "" >> /bunnies_backend/VideoHosting/src/main/resources/application.properties'
+
+      - run: 'echo "$SECRET_FILE" >> /bunnies_backend/VideoHosting/src/main/resources/application.properties'
+        env:
+          KEY: ${{ secrets.SECRET_FILE }}
+
       # Install the cosign tool except on PR
       # https://github.com/sigstore/cosign-installer
       - name: Install cosign
@@ -74,14 +82,6 @@ jobs:
         uses: docker/metadata-action@96383f45573cb7f253c731d3b3ab81c87ef81934 # v5.0.0
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-
-      - run: 'echo "" > /bunnies_backend/VideoHosting/src/main/resources/application.properties'
-        shell: bash
-
-      - run: 'echo "$SECRET_FILE" > /bunnies_backend/VideoHosting/src/main/resources/application.properties'
-        shell: bash
-        env:
-          KEY: ${{ secrets.SECRET_FILE }}
 
       # Build and push Docker image with Buildx (don't push on PR)
       # https://github.com/docker/build-push-action
