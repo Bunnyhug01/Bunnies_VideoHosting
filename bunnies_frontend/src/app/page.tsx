@@ -7,13 +7,15 @@ import Typography from '@mui/material/Typography';
 import Header from './components/Header';
 import { PaletteMode } from '@mui/material';
 import Comments from './components/Comments';
-import Data from './components/Data';
 import RecommendedList from './components/RecommendedList';
 import VideoContainer from './components/VideoContainer';
 import VideoInfo from './components/VideoInfo';
 import { useEffect, useState } from 'react';
 import { amber, grey } from '@mui/material/colors';
 import BottomNav from './components/BottomNav';
+import { getAll } from './api/users';
+import { getLine } from './api/views';
+import { Video } from './api/videos';
 
 
 const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
@@ -61,30 +63,29 @@ const getDesignTokens = (mode: PaletteMode) => ({
 
 function Home() {
 
-  interface isVideoState  {
-    name? : string,
-    videoSrc?: string
-  }
+  const [data, setData] = useState<Video[]>([])
 
-  const [isVideo, setVideo] = useState<isVideoState>({
-    name : Data[0].videoName,
-    videoSrc : Data[0].videoSrc
-  });
+  getLine().then((videoArray) => {
+    setData(videoArray)
+  })
 
+  const [video, setVideo] = useState<Video>(data[0])
+  
   const [inputText, setInputText] = useState<string>("");
   const inputHandler = (e: React.FormEvent<HTMLInputElement>) => {
       const lowerCase = e.currentTarget.value.toLowerCase();
       setInputText(lowerCase);
   }
 
-  const filteredData = Data.filter((el) => {
-    if (inputText === '') {
-      return el;
-    }
-    else {
-      return el.videoName.toLowerCase().startsWith(inputText);
-    }
-  })
+  // const filteredData = Data.filter((el) => {
+  //   if (inputText === '') {
+  //     return el;
+  //   }
+  //   else {
+  //     return el.videoName.toLowerCase().startsWith(inputText);
+  //   }
+  // })
+
   
   return (
     <Box
@@ -111,7 +112,7 @@ function Home() {
             
             {/* Video Container */}
             <Box className='sm:col-span-6 md:col-span-2 rounded-lg overflow-hidden flex items-center justify-center'>
-              <VideoContainer data={isVideo} />
+              <VideoContainer video={video} />
             </Box>
 
             {/* Recommended list */} 
@@ -129,16 +130,12 @@ function Home() {
                 Recommended
               </p>
 
-              {Data && filteredData.map((data) => (
-                <Box key={data.id} onClick={() => setVideo({
-                    name : data.videoName,
-                    videoSrc : data.videoSrc
-                  })
-                }>
-                  <RecommendedList
-                    imgSrc={data.imgSrc}
-                    videoName={data.videoName}
-                  />
+              {data.map((video) => (
+                <Box 
+                  key={video.id}
+                  onClick={() => setVideo(video)}
+                >
+                  <RecommendedList video={video} />
                 </Box>
               ))}
 
@@ -200,4 +197,3 @@ export default function ToggleColorMode() {
   </ColorModeContext.Provider>
   );
 }
-

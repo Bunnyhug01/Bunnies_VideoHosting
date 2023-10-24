@@ -1,18 +1,15 @@
 import { TimelineLite } from 'gsap';
 import { useState, useEffect, useRef } from 'react';
 import { VideoPlayer } from './VideoPlayer';
+import { Video } from '../api/videos';
 
 
 interface Props {
-  data : {
-    name? : string,
-    imgSrc? : string,
-    videoSrc? : string
-  }
+  video : Video
 }
 
 
-export default function VideoContainer(  { data } : Props  ) {
+export default function VideoContainer(  { video } : Props  ) {
   const [isPlaying, setPlaying] = useState<boolean>(false);
   const tl: TimelineLite = new TimelineLite({ delay: 0.3 });
   
@@ -22,14 +19,14 @@ export default function VideoContainer(  { data } : Props  ) {
     } else {
       tl.fromTo('#mainVideoName', { y : -20, opacity : 0 }, { y : 0, opacity : 1 });
     }
-  }, [isPlaying, data])
+  }, [isPlaying, video])
 
   return (
     <div className="relative w-full h-full">
         <video 
-            src={data.videoSrc}
+            src={video!?.videoUrl}
             controls
-            poster={data.imgSrc}
+            poster={video ? video?.logoUrl : "https://firebasestorage.googleapis.com/v0/b/bunnies-aad60.appspot.com/o/gifs%2Fpls-stand-by.gif?alt=media&token=5acd497a-8ad8-462c-a208-21958dc6edca&_gl=1*12bnvus*_ga*NDQwMTkyNzg1LjE2OTgxNjA5ODA.*_ga_CW55HF8NVT*MTY5ODE2MDk4MC4xLjEuMTY5ODE2MTU4OS4xMS4wLjA."}
             className="min-w-full min-h-full w-full h-full object-cover"
             onPlay={() => setPlaying(true)}
             onPause={() => setPlaying(false)}
@@ -39,7 +36,7 @@ export default function VideoContainer(  { data } : Props  ) {
 
         <div className="absolute text-sm top-0 left-0 z-10 w-full h-[60px] py-4 px-3 bg-gradient-to-b from-black to-transparent">
             <h2 className="text-textColor" id='mainVideoName'>
-              {data.name}
+              {video?.title}
             </h2>
         </div>
       

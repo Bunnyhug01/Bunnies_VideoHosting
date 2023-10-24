@@ -21,7 +21,7 @@ export async function sfetch(url: string, init?: RequestInit): Promise<Response>
     init.headers["Authorization"] = `Bearer ${localStorage.getItem("jwt")}`
     return fetch(`${API_URL}${url}`, init)
         .then(async resp => {
-            console.log(resp)
+
             if(resp.status != 401)
                 return resp
             await updateJWT()
@@ -41,7 +41,7 @@ async function updateJWT() {
             "Content-Type": "application/json"
         }
     }).then(resp => resp.json()).then(json => json["access_token"])
-    console.log("new jwt")
+
     localStorage.setItem("jwt", token)
 }
 

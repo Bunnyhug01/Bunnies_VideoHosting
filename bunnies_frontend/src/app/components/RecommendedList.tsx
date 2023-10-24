@@ -1,15 +1,24 @@
 import Image from 'next/image';
 
 import { Box, Typography } from '@mui/material';
-
+import { Video } from '../api/videos';
+import { useState } from 'react';
+import { User, getOne } from '../api/users';
 
 interface Props {
-    imgSrc: string,
-    videoName: string
+    video:Video
 }
 
 
-export default function RecommendedList({imgSrc, videoName} : Props) {
+export default function RecommendedList({ video } : Props) {
+
+    const [user, setUser] = useState<string>("")
+
+    getOne(video.owner).then((user) => {
+        setUser(user.username)
+    })
+    
+
   return (
     <Box 
         className="flex items-center mb-2 cursor-pointer px-3 py-2 duration-200 ease-in-out overflow-hidden"
@@ -19,7 +28,7 @@ export default function RecommendedList({imgSrc, videoName} : Props) {
     >
         <Box className='sm:w-[60px] sm:h-[60px] lg:w-[140px] lg:h-[80px] relative'>
             <Image
-                src={imgSrc}
+                src={video.logoUrl}
                 fill
                 alt=""
                 className='rounded-lg object-cover'
@@ -29,13 +38,13 @@ export default function RecommendedList({imgSrc, videoName} : Props) {
         <Box className='ml-2 flex-1'>
             <Box>
                 <Typography sx={{color: 'text.primary'}} variant='inherit' className='lg:text-[16px] sm:text-[12px]'>
-                    {videoName} 
+                    {video.title} 
                 </Typography>
-                <Typography sx={{color: 'text.primary', fontSize: 12}} className='block'>Ninja</Typography>
+                <Typography sx={{color: 'text.primary', fontSize: 12}} className='block'>{user}</Typography>
             </Box>
             <Box sx={{color: 'text.secondary', fontSize: 14}} className='flex items-center mt-2'>
                 <Typography variant='inherit' className='font-bold'>40:30</Typography>
-                <Typography variant='inherit' className='font-bold ml-6'>36,000</Typography>
+                <Typography variant='inherit' className='font-bold ml-6'>{video.views}</Typography>
             </Box>
         </Box>
     </Box>

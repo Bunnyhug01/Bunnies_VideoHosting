@@ -22,11 +22,11 @@ export default function Upload() {
   };
   // -------------------
 
-  const [privacy, setPrivacy] = useState('');
+//   const [privacy, setPrivacy] = useState('');
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setPrivacy(event.target.value);
-  };
+//   const handleChange = (event: SelectChangeEvent) => {
+//     setPrivacy(event.target.value);
+//   };
 
 
   const [open, setOpen] = useState(false);
@@ -51,12 +51,12 @@ export default function Upload() {
   return (
     <Box>
  
-        <IconButton size="large" color="inherit" onClick={handleClickUploadOpen}>
+        <IconButton size="large" color="inherit" onClick={handleClickOpen}>
             <VideoCallIcon />
         </IconButton>
 
         <Box>
-            <Box>
+            {/* <Box>
                 <Dialog
                     onClose={handleUploadClose}
                     aria-labelledby="customized-dialog-title"
@@ -93,7 +93,7 @@ export default function Upload() {
                     </Button>
                     </DialogActions>
                 </Dialog>
-            </Box>
+            </Box> */}
 
             <Box>
                 <Dialog
@@ -149,7 +149,7 @@ export default function Upload() {
                         rows={4}
                         />
 
-                        <FormControl
+                        {/* <FormControl
                         sx={{
                             marginTop: 4,
                         }}
@@ -164,9 +164,28 @@ export default function Upload() {
                             <MenuItem value={'private'}>Private</MenuItem>
                             <MenuItem value={'public'}>Public</MenuItem>
                         </Select>
-                        </FormControl>
+                        </FormControl> */}
 
 
+                    </Box>
+
+                    <Box 
+                        sx ={{
+                        marginTop: 2,
+                        }}
+                    >
+                        <Typography variant="h5">Video</Typography>
+                        <Typography>Select a video for uploading</Typography>
+
+                        <Box
+                        sx={{
+                            marginTop: 2,
+                        }}
+                        className="sm:w-full w-[40%]"
+                        >
+                            <UploadZone />
+                        </Box>
+                        
                     </Box>
 
                     <Box 
@@ -183,7 +202,7 @@ export default function Upload() {
                         }}
                         className="sm:w-full w-[40%]"
                         >
-                        <UploadZone />
+                            <UploadZone />
                         </Box>
                         
                     </Box>
