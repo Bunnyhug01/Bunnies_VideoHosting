@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
 
-@CrossOrigin("${cross.origin.url}")
+@CrossOrigin(value = "${cross.origin.url}", allowCredentials = "true")
 @RestController
 @RequiredArgsConstructor
 public class AuthenticationController {
