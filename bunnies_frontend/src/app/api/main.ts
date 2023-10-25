@@ -7,6 +7,7 @@ export interface UsernamePasswordDTO {
     username: string,
     password: string
 }
+
 export type JWTUpdateCallBack = () => Promise<UsernamePasswordDTO>
 
 let jwtUpdateCallBack: JWTUpdateCallBack
@@ -34,17 +35,25 @@ export function setJWTUpdateCallBack(func: JWTUpdateCallBack) {
 }
 
 async function updateJWT() {
+    try {
+        const token = await fetch(`${API_URL}/auth/refreshtoken`, {
+            method: "POST"
+        }).then(resp => resp.json()).then(json => json["access"])
+    }catch(e) {
+    }
+
     const token = await fetch(`${API_URL}/auth/base/login`, {
         method: "POST",
         body: JSON.stringify(await jwtUpdateCallBack()),
         headers: {
             "Content-Type": "application/json"
         }
-    }).then(resp => resp.json()).then(json => json["access_token"])
+    }).then(resp => resp.json()).then(json => json["access"])
 
     localStorage.setItem("jwt", token)
 }
 
 setJWTUpdateCallBack(async () => {
+    console.log("authentication")
     return { username: "Arseny", password: "1234" }
 })

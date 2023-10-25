@@ -1,86 +1,72 @@
 package com.example.video.controller;
 
-import com.example.video.controller.advice.UserAlreadyExists;
+import com.example.video.controller.advice.NotHaveRefreshTokenException;
+import com.example.video.controller.request.JwtRequest;
+import com.example.video.controller.response.JwtResponse;
 import com.example.video.dto.TokensDTO;
-import com.example.video.entity.Role;
-import com.example.video.entity.User;
-import com.example.video.repository.RoleRepository;
-import com.example.video.repository.UserRepository;
-import com.example.video.security.JwtTokenProvider;
+import com.example.video.service.AuthService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.Serializable;
-import java.util.HashSet;
+import java.util.Arrays;
 
 @CrossOrigin("${cross.origin.url}")
 @RestController
 @AllArgsConstructor
 public class AuthenticationController {
 
-    private final AuthenticationManager authenticationManager;
+    private static final String REFRESH_TOKEN = "refresh_token";
 
-    private final JwtTokenProvider jwtTokenProvider;
+    private final AuthService service;
 
-    private final RoleRepository roles;
-    private final UserRepository users;
-    private final PasswordEncoder passwordEncoder;
-
-    @PostMapping("/auth/base/login")
-    public TokensDTO login(@RequestBody AuthenticationRequest data) {
-        try {
-            var username = data.getUsername();
-            var password = data.getPassword();
-            var authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-            var user = (User) authentication.getPrincipal();
-            var token = jwtTokenProvider.createToken(user.getId());
-            return new TokensDTO(token);
-        } catch (AuthenticationException e) {
-            throw new BadCredentialsException("Invalid username/password supplied", e);
-        }
+    @PostMapping("/auth/refreshtoken")
+    public JwtResponse refreshToken(HttpServletRequest request) {
+        var cookies = request.getCookies();
+        if (cookies == null)
+            throw new NotHaveRefreshTokenException();
+        var refresh_token = Arrays.stream(cookies).filter(x -> x.getName().equals(REFRESH_TOKEN)).findAny()
+                .orElseThrow(NotHaveRefreshTokenException::new).getValue();
+        var access_token = service.refreshToken(refresh_token);
+        return new JwtResponse(access_token);
     }
 
-    @PostMapping("/auth/base/logup")
-    public TokensDTO logup(@RequestBody AuthenticationRequest data) {
-        var username = data.getUsername();
-        var password = data.getPassword();
-        {
-            var user = users.findByUsername(username);
-            if (user.isPresent())
-                throw new UserAlreadyExists(user.get().getId(), username);
-        }
-        var user = new User();
-        user.setUsername(username);
-        user.setPassword(passwordEncoder.encode(password));
-        var rs = new HashSet<Role>();
-        rs.add(roles.findByAuthority("USER"));
-        user.setRoles(rs);
-        user = users.save(user);
-        var token = jwtTokenProvider.createToken(user.getId());
-        return new TokensDTO(token);
+    @PostMapping("/auth/base/signin")
+    public JwtResponse signin(@RequestBody JwtRequest request, HttpServletResponse response) {
+        var tokens = service.signin(request);
+        return getJwtResponse(response, tokens);
     }
 
-    @Data
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class AuthenticationRequest implements Serializable {
+    private JwtResponse getJwtResponse(HttpServletResponse response, TokensDTO tokens) {
+        var access_token = tokens.getAccessToken();
+        var refresh_token = tokens.getRefreshToken();
+        var cookie = new Cookie(REFRESH_TOKEN, refresh_token);
+        cookie.setSecure(true);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/auth");
+        response.addCookie(cookie);
+        return new JwtResponse(access_token);
+    }
 
-        private static final long serialVersionUID = -6986746375915710855L;
-        private String username;
-        private String password;
+    @PostMapping("/auth/logout")
+    public void logout(HttpServletResponse response) {
+        var cookie = new Cookie(REFRESH_TOKEN, "");
+        cookie.setMaxAge(0);
+        cookie.setSecure(true);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/auth");
+        response.addCookie(cookie);
+    }
 
+    @PostMapping("/auth/base/signup")
+    public JwtResponse signup(@RequestBody JwtRequest request, HttpServletResponse response) {
+        var tokens = service.signup(request);
+        return getJwtResponse(response, tokens);
     }
 
 }

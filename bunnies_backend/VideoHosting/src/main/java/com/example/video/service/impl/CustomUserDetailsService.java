@@ -13,7 +13,7 @@ import java.util.Collection;
 
 @AllArgsConstructor
 @Component
-public class CustomUserDetailsService implements UserDetailsService, UserService {
+public class CustomUserDetailsService implements UserService {
 
     private UserRepository userRepository;
 
