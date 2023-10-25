@@ -6,6 +6,7 @@ import com.example.video.entity.Video;
 import com.example.video.repository.VideoRepository;
 import com.example.video.service.VideoService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,8 +57,19 @@ public class VideoServiceImpl implements VideoService {
     }
 
     @Override
+    public long countCanSee(Long userId) {
+        return videoRepository.findAll().stream().filter(x -> !x.isPrivate() || x.getOwner().getId() == userId).count();
+    }
+
+    @Override
     public Video findRandom() {
         var all = videoRepository.findAll();
+        return all.get(random.nextInt(all.size()));
+    }
+
+    @Override
+    public Video findRandomCanSee(Long userId) {
+        var all = videoRepository.findAll().stream().filter(x -> !x.isPrivate() || x.getOwner().getId() == userId).toList();
         return all.get(random.nextInt(all.size()));
     }
 
