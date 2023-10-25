@@ -1,4 +1,6 @@
-package com.example.video.controller.advice;
+package com.example.video.controller.advice.exception;
+
+import com.example.video.entity.Grade;
 
 public class GradeAlreadyExists extends RuntimeException {
 

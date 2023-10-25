@@ -10,11 +10,11 @@ name: Deploy docker image
 
 on:
   push:
-    branches: [ "*" ]
+    branches: [ "main" ]
     paths-ignore:
       - 'bunnies_frontend/**'
   pull_request:
-    branches: [ "*" ]
+    branches: [ "main" ]
     paths-ignore:
       - 'bunnies_frontend/**'
   workflow_dispatch:
@@ -30,30 +30,9 @@ concurrency:
   cancel-in-progress: ${{ startsWith(github.ref, 'refs/pull/') }}
 
 jobs:
-  tests:
-    runs-on: ubuntu-latest
-    if: ${{ always() }}
-    steps:
-      - uses: actions/checkout@v1
-
-      - run: 'echo "" >> ./bunnies_backend/VideoHosting/src/main/resources/application.properties'
-      
-      - run: 'echo "$KEY" >> ./bunnies_backend/VideoHosting/src/main/resources/application.properties'
-        env:
-          KEY: ${{ secrets.SECRET_FILE }}
-
-      - name: 'Set up latest Oracle JDK 21'
-        uses: oracle-actions/setup-java@v1
-        with:
-          website: oracle.com
-          release: 21
-
-      - name: Maven verify
-        run: mvn -B clean verify -f ./bunnies_backend/VideoHosting
 
   build_docker_image:
     runs-on: ubuntu-latest
-    if: ${{ always() }}
     permissions:
       contents: read
       packages: write
@@ -64,9 +43,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
-      - run: 'echo "" >> ./bunnies_backend/VideoHosting/src/main/resources/application.properties'
-      
-      - run: 'echo "$KEY" >> ./bunnies_backend/VideoHosting/src/main/resources/application.properties'
+      - run: 'echo "$KEY" >> ./bunnies_backend/VideoHosting/src/main/resources/application-secret.properties'
         env:
           KEY: ${{ secrets.SECRET_FILE }}
 

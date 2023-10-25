@@ -1,12 +1,13 @@
 package com.example.video.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 
-@AllArgsConstructor
-@NoArgsConstructor
+@Builder
+@Data
 public class TokensDTO {
 
-    public String access_token;
+    private String accessToken;
+    private String refreshToken;
 
 }
