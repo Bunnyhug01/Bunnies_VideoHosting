@@ -4,5 +4,5 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 
 @AutoConfigureMockMvc(addFilters = false)
 public class AuthServiceTest {
-    
+
 }
