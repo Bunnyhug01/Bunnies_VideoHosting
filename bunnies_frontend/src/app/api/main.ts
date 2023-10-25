@@ -37,7 +37,7 @@ async function updateJWT() {
     try {
         const token = await fetch(`${API_URL}/auth/refreshtoken`, {
             method: "POST",
-            credentials: 'same-origin'
+            credentials: 'include'
         }).then(resp => resp.json()).then(json => json["access"])
         localStorage.setItem("jwt", token)
         return
