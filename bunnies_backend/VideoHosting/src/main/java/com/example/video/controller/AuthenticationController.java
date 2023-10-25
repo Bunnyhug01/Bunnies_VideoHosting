@@ -50,8 +50,8 @@ public class AuthenticationController {
         var access_token = tokens.getAccessToken();
         var refresh_token = tokens.getRefreshToken();
         var cookie = new Cookie(REFRESH_TOKEN, refresh_token);
-//        cookie.setSecure(true);
-//        cookie.setHttpOnly(true);
+        cookie.setSecure(true);
+        cookie.setHttpOnly(true);
         cookie.setPath("/auth");
         response.addCookie(cookie);
         return new JwtResponse(access_token);
@@ -62,8 +62,8 @@ public class AuthenticationController {
         LOG.debug("logout");
         var cookie = new Cookie(REFRESH_TOKEN, "");
         cookie.setMaxAge(0);
-//        cookie.setSecure(true);
-//        cookie.setHttpOnly(true);
+        cookie.setSecure(true);
+        cookie.setHttpOnly(true);
         cookie.setPath("/auth");
         response.addCookie(cookie);
     }
