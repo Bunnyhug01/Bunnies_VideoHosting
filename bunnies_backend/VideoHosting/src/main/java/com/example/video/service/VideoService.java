@@ -20,4 +20,8 @@ public interface VideoService {
 
     Video findRandom();
 
+    long countCanSee(Long userId);
+
+    Video findRandomCanSee(Long userId);
+
 }

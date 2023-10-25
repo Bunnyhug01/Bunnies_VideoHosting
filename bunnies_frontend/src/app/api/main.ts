@@ -42,7 +42,7 @@ async function updateJWT() {
     }catch(e) {
     }
 
-    const token = await fetch(`${API_URL}/auth/base/login`, {
+    const token = await fetch(`${API_URL}/auth/base/signin`, {
         method: "POST",
         body: JSON.stringify(await jwtUpdateCallBack()),
         headers: {
