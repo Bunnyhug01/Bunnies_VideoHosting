@@ -29,22 +29,11 @@ public class SignUpController {
 
     private final SignUpAuthService signUpAuthService;
 
-    private JwtResponse getJwtResponse(HttpServletResponse response, TokensDTO tokens) {
-        var access_token = tokens.getAccessToken();
-        var refresh_token = tokens.getRefreshToken();
-        var cookie = new Cookie(REFRESH_TOKEN, refresh_token);
-        cookie.setSecure(true);
-        cookie.setHttpOnly(true);
-        cookie.setPath("/auth");
-        response.addCookie(cookie);
-        return new JwtResponse(access_token);
-    }
-
     @PostMapping("/auth/base/signup")
     public JwtResponse signup(@RequestBody JwtRequest request, HttpServletResponse response) {
         LOG.debug("signup");
         var tokens = signUpAuthService.signup(request);
-        return getJwtResponse(response, tokens);
+        return AuthenticationController.getJwtResponse(response, tokens);
     }
 
 }
