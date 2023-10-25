@@ -30,7 +30,7 @@ public class VideoController {
         var user = (User) authentication.getPrincipal();
         var video = service.findById(id);
         if (!user.hasRole("ADMIN") && video.isPrivate() && !video.getOwner().equals(user))
-            throw new ForbiddenException();
+            throw new ForbiddenException("video is private");
         return video;
     }
 

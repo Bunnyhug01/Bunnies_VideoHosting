@@ -1,6 +1,7 @@
 package com.example.video.controller.advice;
 
 import com.example.video.controller.advice.exception.*;
+import io.jsonwebtoken.JwtException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -41,7 +42,7 @@ public class AllExceptionControllerAdvice {
         return newException(e, request);
     }
 
-    @ExceptionHandler({NotHaveRefreshTokenException.class, BadCredentialsException.class})
+    @ExceptionHandler({NotHaveRefreshTokenException.class, BadCredentialsException.class, JwtException.class})
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public Object processNotHaveRefreshToken(RuntimeException e, WebRequest request) {
         return newException(e, request);
