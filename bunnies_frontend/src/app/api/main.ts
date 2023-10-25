@@ -13,20 +13,20 @@ export type JWTUpdateCallBack = () => Promise<UsernamePasswordDTO>
 let jwtUpdateCallBack: JWTUpdateCallBack
 
 export async function sfetch(url: string, init?: RequestInit): Promise<Response> {
-    // if(localStorage.getItem("jwt") === null || localStorage.getItem("jwt") === undefined)
+    if(localStorage.getItem("jwt") === null || localStorage.getItem("jwt") === undefined)
         await updateJWT()
     if(init === undefined)
         init = {}
-    init.credentials = "include"
     if(init.headers === undefined)
         init.headers = {}
+    init.credentials = "include"
     init.headers["Authorization"] = `Bearer ${localStorage.getItem("jwt")}`
     return fetch(`${API_URL}${url}`, init)
         .then(async resp => {
             if(resp.status != 401)
                 return resp
             await updateJWT()
-            return await fetch(`${API_URL}${url}`, init)
+            return fetch(`${API_URL}${url}`, init)
         })
 }
 
@@ -35,26 +35,22 @@ export function setJWTUpdateCallBack(func: JWTUpdateCallBack) {
 }
 
 async function updateJWT() {
-    try {
-        const token = await fetch(`${API_URL}/auth/refreshtoken`, {
-            method: "POST",
-            credentials: 'include'
-        }).then(resp => resp.json()).then(json => json["access"])
-        localStorage.setItem("jwt", token)
-        return
-    }catch(e) {
-    }
-
-    const token = await fetch(`${API_URL}/auth/base/signin`, {
+    return fetch(`${API_URL}/auth/refreshtoken`, {
         method: "POST",
-        body: JSON.stringify(await jwtUpdateCallBack()),
-        headers: {
-            "Content-Type": "application/json"
-        },
         credentials: 'include'
-    }).then(resp => resp.json()).then(json => json["access"])
-
-    localStorage.setItem("jwt", token)
+    }).then(async resp => {
+        if(resp.status == 401) {
+            return fetch(`${API_URL}/auth/base/signin`, {
+                method: "POST",
+                body: JSON.stringify(await jwtUpdateCallBack()),
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                credentials: 'include'
+            }).then(resp => resp.json())   
+        }
+        return resp.json()
+    }).then(json => json["access"])     .then(token => localStorage.setItem("jwt", token))
 }
 
 setJWTUpdateCallBack(async () => {
