@@ -1,7 +1,8 @@
 package com.example.video.security;
 
 import com.example.video.entity.User;
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
@@ -59,33 +60,19 @@ public class JwtProvider {
                 .compact();
     }
 
-    public boolean validateAccessToken(String accessToken) {
-        return validateToken(accessToken, jwtAccessSecret);
+    public void validateAccessToken(String accessToken) {
+        validateToken(accessToken, jwtAccessSecret);
     }
 
-    private boolean validateToken(String token, Key secret) {
-        try {
-            Jwts.parser()
-                    .setSigningKey(secret)
-                    .build()
-                    .parseClaimsJws(token);
-            return true;
-        } catch (ExpiredJwtException expEx) {
-            log.error("Token expired", expEx);
-        } catch (UnsupportedJwtException unsEx) {
-            log.error("Unsupported jwt", unsEx);
-        } catch (MalformedJwtException mjEx) {
-            log.error("Malformed jwt", mjEx);
-        } catch (SignatureException sEx) {
-            log.error("Invalid signature", sEx);
-        } catch (Exception e) {
-            log.error("invalid token", e);
-        }
-        return false;
+    private void validateToken(String token, Key secret) {
+        Jwts.parser()
+                .setSigningKey(secret)
+                .build()
+                .parseClaimsJws(token);
     }
 
-    public boolean validateRefreshToken(String refreshToken) {
-        return validateToken(refreshToken, jwtRefreshSecret);
+    public void validateRefreshToken(String refreshToken) {
+        validateToken(refreshToken, jwtRefreshSecret);
     }
 
     public Long getAccessId(String token) {

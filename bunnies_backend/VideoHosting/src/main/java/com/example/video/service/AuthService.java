@@ -76,6 +76,7 @@ public class AuthService {
     }
 
     public String refreshToken(String refreshToken) {
+        provider.validateRefreshToken(refreshToken);
         var id = provider.getRefreshId(refreshToken);
         var user = users.findById(id);
         var access_token = provider.generateAccessToken(user);
