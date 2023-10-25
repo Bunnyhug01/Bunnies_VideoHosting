@@ -13,7 +13,7 @@ export type JWTUpdateCallBack = () => Promise<UsernamePasswordDTO>
 let jwtUpdateCallBack: JWTUpdateCallBack
 
 export async function sfetch(url: string, init?: RequestInit): Promise<Response> {
-    //if(localStorage.getItem("jwt") === null || localStorage.getItem("jwt") === undefined)
+    if(localStorage.getItem("jwt") === null || localStorage.getItem("jwt") === undefined)
         await updateJWT()
     if(init === undefined)
         init = {}
@@ -22,7 +22,6 @@ export async function sfetch(url: string, init?: RequestInit): Promise<Response>
     init.headers["Authorization"] = `Bearer ${localStorage.getItem("jwt")}`
     return fetch(`${API_URL}${url}`, init)
         .then(async resp => {
-
             if(resp.status != 401)
                 return resp
             await updateJWT()
@@ -37,7 +36,8 @@ export function setJWTUpdateCallBack(func: JWTUpdateCallBack) {
 async function updateJWT() {
     try {
         const token = await fetch(`${API_URL}/auth/refreshtoken`, {
-            method: "POST"
+            method: "POST",
+            credentials: 'same-origin'
         }).then(resp => resp.json()).then(json => json["access"])
         localStorage.setItem("jwt", token)
         return
