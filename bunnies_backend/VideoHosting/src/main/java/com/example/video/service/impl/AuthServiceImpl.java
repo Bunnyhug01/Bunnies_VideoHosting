@@ -33,10 +33,6 @@ public class AuthServiceImpl implements AuthService {
 
     private final UserService users;
 
-    private final RoleRepository roleRepository;
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-
     @Override
     public TokensDTO signin(JwtRequest request) {
         try {
@@ -53,29 +49,6 @@ public class AuthServiceImpl implements AuthService {
         } catch (AuthenticationException e) {
             throw new BadCredentialsException("Invalid username/password supplied", e);
         }
-    }
-
-    public TokensDTO signup(JwtRequest data) {
-        var username = data.getUsername();
-        var password = data.getPassword();
-        {
-            var user = userRepository.findByUsername(username);
-            if (user.isPresent())
-                throw new UserAlreadyExists(user.get().getId(), username);
-        }
-        var user = new User();
-        user.setUsername(username);
-        user.setPassword(passwordEncoder.encode(password));
-        var rs = new HashSet<Role>();
-        rs.add(roleRepository.findByAuthority("USER"));
-        user.setRoles(rs);
-        user = userRepository.save(user);
-        var access_token = provider.generateAccessToken(user);
-        var refresh_token = provider.generateRefreshToken(user);
-        return TokensDTO.builder()
-                .accessToken(access_token)
-                .refreshToken(refresh_token)
-                .build();
     }
 
     public String refreshToken(String refreshToken) {

@@ -45,7 +45,7 @@ public class User implements BaseEntity, UserDetails {
     @JsonSerialize(using = EntityAsIdOnlySerializer.class)
     @ManyToMany
     private Set<Video> dislikes;
-    
+
     @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
     private Set<VideoHistory> history;
     @JsonSerialize(using = EntityAsIdOnlySerializer.class)
@@ -103,13 +103,11 @@ public class User implements BaseEntity, UserDetails {
 
     @Override
     public String toString() {
-        String sb = "User{" + "id=" + id +
-                '}';
-        return sb;
+        return "User(" + id + ")";
     }
 
     public boolean hasRole(String role) {
-        return roles.stream().anyMatch(x -> x.getAuthority().equals("ROLE_" + x));
+        return roles.stream().anyMatch(x -> role.equals(x.getName()));
     }
 
 }

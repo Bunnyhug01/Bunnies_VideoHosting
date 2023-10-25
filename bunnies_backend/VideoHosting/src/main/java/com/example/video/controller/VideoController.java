@@ -1,5 +1,6 @@
 package com.example.video.controller;
 
+import com.example.video.controller.advice.exception.ForbiddenException;
 import com.example.video.entity.User;
 import com.example.video.entity.Video;
 import com.example.video.service.VideoService;
@@ -17,13 +18,20 @@ public class VideoController {
     private final VideoService service;
 
     @GetMapping("/videos")
-    public Collection<Video> getAll() {
-        return service.findAll();
+    public Collection<Video> getAll(Authentication authentication) {
+        var user = (User) authentication.getPrincipal();
+        if (user.hasRole("ADMIN"))
+            return service.findAll();
+        return service.findAll().stream().filter(x -> !x.isPrivate() || x.getOwner().equals(user)).toList();
     }
 
     @GetMapping("/videos/{id}")
-    public Video getOne(@PathVariable Long id) {
-        return service.findById(id);
+    public Video getOne(@PathVariable Long id, Authentication authentication) {
+        var user = (User) authentication.getPrincipal();
+        var video = service.findById(id);
+        if (!user.hasRole("ADMIN") && video.isPrivate() && !video.getOwner().equals(user))
+            throw new ForbiddenException();
+        return video;
     }
 
     @DeleteMapping("/videos/{id}")

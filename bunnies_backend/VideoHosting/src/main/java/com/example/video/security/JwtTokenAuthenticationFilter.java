@@ -20,7 +20,8 @@ import java.io.IOException;
 @Slf4j
 public class JwtTokenAuthenticationFilter extends GenericFilterBean {
 
-    public static final String HEADER_PREFIX = "Bearer ";
+    public static final String BEARER = "Bearer";
+    public static final String HEADER_PREFIX = BEARER + " ";
 
     private final JwtProvider provider;
     private final UserService users;

@@ -3,7 +3,7 @@ package com.example.video.config;
 import com.example.video.controller.advice.FilterChainExceptionHandler;
 import com.example.video.security.JwtProvider;
 import com.example.video.security.JwtTokenAuthenticationFilter;
-import com.example.video.service.impl.UserServiceImpl;
+import com.example.video.service.UserService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -44,7 +44,8 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain springWebFilterChain(
             HttpSecurity http,
-            UserServiceImpl userDetailsService, JwtProvider provider,
+            UserService userService,
+            JwtProvider provider,
             @Qualifier("handlerExceptionResolver")
             HandlerExceptionResolver resolver
     ) throws Exception {
@@ -63,16 +64,16 @@ public class SecurityConfig {
 //                                .anyRequest().permitAll()
                 )
                 .addFilterBefore(new FilterChainExceptionHandler(resolver), LogoutFilter.class)
-                .addFilterBefore(new JwtTokenAuthenticationFilter(provider, userDetailsService), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtTokenAuthenticationFilter(provider, userService), UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
     @Bean
-    AuthenticationManager customAuthenticationManager(UserServiceImpl userDetailsService, PasswordEncoder encoder) {
+    AuthenticationManager customAuthenticationManager(UserService service, PasswordEncoder encoder) {
         return authentication -> {
             var username = authentication.getPrincipal().toString();
             var password = authentication.getCredentials().toString();
-            var user = userDetailsService.loadUserByUsername(username);
+            var user = service.loadUserByUsername(username);
             if (!encoder.matches(password, user.getPassword())) {
                 throw new BadCredentialsException("Bad credentials");
             }

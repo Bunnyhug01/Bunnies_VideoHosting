@@ -27,14 +27,14 @@ public class RepoConfiguration {
     @Transactional
     @EventListener(ApplicationReadyEvent.class)
     void init() {
-        if (roleRepository.findByAuthority("USER") == null) {
+        if (roleRepository.findByName("USER") == null) {
             var r = new Role();
-            r.setAuthority("USER");
+            r.setName("USER");
             roleRepository.save(r);
         }
-        if (roleRepository.findByAuthority("ADMIN") == null) {
+        if (roleRepository.findByName("ADMIN") == null) {
             var r = new Role();
-            r.setAuthority("ADMIN");
+            r.setName("ADMIN");
             roleRepository.save(r);
         }
         final var maksim = userRepository.findByUsername("Maksim").orElseGet(() -> {
@@ -43,8 +43,8 @@ public class RepoConfiguration {
             m.setLogoUrl("https://lh3.googleusercontent.com/ogw/AKPQZvzOqoDpVzFgDdOWDskd8giBGX2hbQrp85akDisc=s32-c-mo");
             m.setPassword(passwordEncoder.encode("1234"));
             var roles = new HashSet<Role>();
-            roles.add(roleRepository.findByAuthority("USER"));
-            roles.add(roleRepository.findByAuthority("ADMIN"));
+            roles.add(roleRepository.findByName("USER"));
+            roles.add(roleRepository.findByName("ADMIN"));
             m.setRoles(roles);
             return userRepository.save(m);
         });
@@ -54,8 +54,8 @@ public class RepoConfiguration {
             m.setLogoUrl("https://lh3.googleusercontent.com/ogw/AKPQZvzOqoDpVzFgDdOWDskd8giBGX2hbQrp85akDisc=s32-c-mo");
             m.setPassword(passwordEncoder.encode("1234"));
             var roles = new HashSet<Role>();
-            roles.add(roleRepository.findByAuthority("USER"));
-            roles.add(roleRepository.findByAuthority("ADMIN"));
+            roles.add(roleRepository.findByName("USER"));
+            roles.add(roleRepository.findByName("ADMIN"));
             m.setRoles(roles);
             return userRepository.save(m);
         });

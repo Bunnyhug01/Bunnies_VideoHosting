@@ -13,8 +13,8 @@ import org.springframework.security.core.GrantedAuthority;
 @Entity
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Role implements BaseEntity, GrantedAuthority {
 
     @Id
@@ -22,10 +22,15 @@ public class Role implements BaseEntity, GrantedAuthority {
     private Long id;
 
     @Column(nullable = false, updatable = false)
-    private String authority;
+    private String name;
 
+    public Role(String name) {
+        this.name = name;
+    }
+
+    @Override
     public String getAuthority() {
-        return "ROLE_" + authority;
+        return "ROLE_" + name;
     }
 
 }

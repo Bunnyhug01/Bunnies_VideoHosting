@@ -5,6 +5,7 @@ import com.example.video.controller.request.JwtRequest;
 import com.example.video.controller.response.JwtResponse;
 import com.example.video.dto.TokensDTO;
 import com.example.video.service.AuthService;
+import com.example.video.service.SignUpAuthService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -21,30 +22,12 @@ import java.util.Arrays;
 @CrossOrigin("${cross.origin.url}")
 @RestController
 @RequiredArgsConstructor
-public class AuthenticationController {
+public class SignUpController {
 
     private static final String REFRESH_TOKEN = "refresh_token";
-    private final Logger LOG = LoggerFactory.getLogger(AuthenticationController.class);
-    private final AuthService service;
+    private final Logger LOG = LoggerFactory.getLogger(SignUpController.class);
 
-    @PostMapping("/auth/refreshtoken")
-    public JwtResponse refreshToken(HttpServletRequest request) {
-        LOG.debug("refreshToken");
-        var cookies = request.getCookies();
-        if (cookies == null)
-            throw new NotHaveRefreshTokenException();
-        var refresh_token = Arrays.stream(cookies).filter(x -> x.getName().equals(REFRESH_TOKEN)).findAny()
-                .orElseThrow(NotHaveRefreshTokenException::new).getValue();
-        var access_token = service.refreshToken(refresh_token);
-        return new JwtResponse(access_token);
-    }
-
-    @PostMapping("/auth/base/signin")
-    public JwtResponse signin(@RequestBody JwtRequest request, HttpServletResponse response) {
-        LOG.debug("signin");
-        var tokens = service.signin(request);
-        return getJwtResponse(response, tokens);
-    }
+    private final SignUpAuthService signUpAuthService;
 
     private JwtResponse getJwtResponse(HttpServletResponse response, TokensDTO tokens) {
         var access_token = tokens.getAccessToken();
@@ -57,15 +40,11 @@ public class AuthenticationController {
         return new JwtResponse(access_token);
     }
 
-    @PostMapping("/auth/logout")
-    public void logout(HttpServletResponse response) {
-        LOG.debug("logout");
-        var cookie = new Cookie(REFRESH_TOKEN, "");
-        cookie.setMaxAge(0);
-        cookie.setSecure(true);
-        cookie.setHttpOnly(true);
-        cookie.setPath("/auth");
-        response.addCookie(cookie);
+    @PostMapping("/auth/base/signup")
+    public JwtResponse signup(@RequestBody JwtRequest request, HttpServletResponse response) {
+        LOG.debug("signup");
+        var tokens = signUpAuthService.signup(request);
+        return getJwtResponse(response, tokens);
     }
 
 }
