@@ -8,7 +8,9 @@ import com.example.video.service.AuthService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,15 +20,16 @@ import java.util.Arrays;
 
 @CrossOrigin("${cross.origin.url}")
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AuthenticationController {
 
     private static final String REFRESH_TOKEN = "refresh_token";
-
+    private final Logger LOG = LoggerFactory.getLogger(AuthenticationController.class);
     private final AuthService service;
 
     @PostMapping("/auth/refreshtoken")
     public JwtResponse refreshToken(HttpServletRequest request) {
+        LOG.debug("refreshToken");
         var cookies = request.getCookies();
         if (cookies == null)
             throw new NotHaveRefreshTokenException();
@@ -38,6 +41,7 @@ public class AuthenticationController {
 
     @PostMapping("/auth/base/signin")
     public JwtResponse signin(@RequestBody JwtRequest request, HttpServletResponse response) {
+        LOG.debug("signin");
         var tokens = service.signin(request);
         return getJwtResponse(response, tokens);
     }
@@ -55,6 +59,7 @@ public class AuthenticationController {
 
     @PostMapping("/auth/logout")
     public void logout(HttpServletResponse response) {
+        LOG.debug("logout");
         var cookie = new Cookie(REFRESH_TOKEN, "");
         cookie.setMaxAge(0);
         cookie.setSecure(true);
@@ -65,6 +70,7 @@ public class AuthenticationController {
 
     @PostMapping("/auth/base/signup")
     public JwtResponse signup(@RequestBody JwtRequest request, HttpServletResponse response) {
+        LOG.debug("signup");
         var tokens = service.signup(request);
         return getJwtResponse(response, tokens);
     }
