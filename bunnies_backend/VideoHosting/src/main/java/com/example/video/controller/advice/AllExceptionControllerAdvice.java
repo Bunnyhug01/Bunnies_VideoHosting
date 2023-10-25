@@ -7,6 +7,7 @@ import lombok.Data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -20,9 +21,9 @@ public class AllExceptionControllerAdvice {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
-    @ExceptionHandler(value = TokenRefreshException.class)
+    @ExceptionHandler(TokenRefreshException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    public Object handleTokenRefreshException(TokenRefreshException ex, WebRequest request) {
+    public Object handleTokenRefreshException(RuntimeException ex, WebRequest request) {
         return newException(ex, request);
     }
 
@@ -40,9 +41,9 @@ public class AllExceptionControllerAdvice {
         return newException(e, request);
     }
 
-    @ExceptionHandler(NotHaveRefreshTokenException.class)
+    @ExceptionHandler({NotHaveRefreshTokenException.class, BadCredentialsException.class})
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public Object processRuntimeException(NotHaveRefreshTokenException e, WebRequest request) {
+    public Object processNotHaveRefreshToken(RuntimeException e, WebRequest request) {
         return newException(e, request);
     }
 
