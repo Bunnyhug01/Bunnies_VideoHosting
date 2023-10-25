@@ -40,6 +40,9 @@ public class Video implements BaseEntity {
     private int dislikes;
 
     @Column(nullable = false)
+    private boolean isPrivate;
+
+    @Column(nullable = false)
     private int views;
 
     @JsonSerialize(using = EntityAsIdOnlySerializer.class)

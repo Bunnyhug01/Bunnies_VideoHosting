@@ -12,14 +12,14 @@ import java.util.Collection;
 
 @AllArgsConstructor
 @Component
-public class CustomUserDetailsService implements UserService {
+public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
 
     @Override
     public User loadUserByUsername(String username) throws UsernameNotFoundException {
         return this.userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Username: " + username + " not found"));
+                .orElseThrow(() -> new UserNotFoundException(username));
     }
 
     public User findById(Long id) {
@@ -28,8 +28,8 @@ public class CustomUserDetailsService implements UserService {
     }
 
     @Override
-    public void save(User user) {
-        userRepository.save(user);
+    public User save(User user) {
+        return userRepository.save(user);
     }
 
     @Override

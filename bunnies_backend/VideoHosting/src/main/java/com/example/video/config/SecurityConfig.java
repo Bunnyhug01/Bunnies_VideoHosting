@@ -3,7 +3,7 @@ package com.example.video.config;
 import com.example.video.controller.advice.FilterChainExceptionHandler;
 import com.example.video.security.JwtProvider;
 import com.example.video.security.JwtTokenAuthenticationFilter;
-import com.example.video.service.impl.CustomUserDetailsService;
+import com.example.video.service.impl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -44,7 +44,7 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain springWebFilterChain(
             HttpSecurity http,
-            CustomUserDetailsService userDetailsService, JwtProvider provider,
+            UserServiceImpl userDetailsService, JwtProvider provider,
             @Qualifier("handlerExceptionResolver")
             HandlerExceptionResolver resolver
     ) throws Exception {
@@ -68,7 +68,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    AuthenticationManager customAuthenticationManager(CustomUserDetailsService userDetailsService, PasswordEncoder encoder) {
+    AuthenticationManager customAuthenticationManager(UserServiceImpl userDetailsService, PasswordEncoder encoder) {
         return authentication -> {
             var username = authentication.getPrincipal().toString();
             var password = authentication.getCredentials().toString();

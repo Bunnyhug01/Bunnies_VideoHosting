@@ -30,8 +30,8 @@ public class ViewServiceImpl implements ViewService {
     @Override
     public Collection<Video> getLine(Long userId) {
         var result = new HashSet<Video>();
-        while (result.size() < Math.min(10, videoService.count())) {
-            result.add(videoService.findRandom());
+        while (result.size() < Math.min(10, videoService.countCanSee(userId))) {
+            result.add(videoService.findRandomCanSee(userId));
         }
         return result;
     }
