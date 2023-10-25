@@ -1,32 +1,44 @@
 import { Box, Button, Dialog, DialogTitle, IconButton, DialogContent, DialogActions, Typography, TextField, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from "@mui/material"
 import CloseIcon from '@mui/icons-material/Close';
 import VideoCallIcon from '@mui/icons-material/VideoCall';
-import UploadZone from "./UploadZone"
+import { DropzoneArea } from 'material-ui-dropzone'
 
 import { ref, uploadBytes } from "firebase/storage";
 
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { storage } from "../firebase/firebase";
+import UploadZone from "./UploadZone";
 
 export default function Upload() {
-  // // VIDEO UPLOAD
-  // -------------------
-  const [videoUpload, setVideoUpload] = useState<FileList|null>(null);
+  
+  // Video upload
+  const [videoUpload, setVideoUpload] = useState<File|null>(null);
   const uploadVideo = () => {
+    console.log(videoUpload)
     if (videoUpload == null) return;
-    const videoRef = ref(storage, `videos/${videoUpload[0].name}`);
-    console.log(videoUpload[0].name);
-    uploadBytes(videoRef, videoUpload[0]).then(() => {
-      alert('Vide uploaded');
+    const videoRef = ref(storage, `videos/${videoUpload.name}`);
+
+    uploadBytes(videoRef, videoUpload).then(() => {
+      alert('Video uploaded');
     });
   };
-  // -------------------
 
-//   const [privacy, setPrivacy] = useState('');
+  // Image upload
+  const [imageUpload, setImageUpload] = useState<File|null>(null);
+  const uploadImage = () => {
+    if (imageUpload == null) return;
+    const imageRef = ref(storage, `images/${imageUpload.name}`);
 
-//   const handleChange = (event: SelectChangeEvent) => {
-//     setPrivacy(event.target.value);
-//   };
+    uploadBytes(imageRef, imageUpload).then(() => {
+      alert('Image uploaded');
+    });
+  };
+
+  const [privacy, setPrivacy] = useState('');
+
+  const handleChange = (event: SelectChangeEvent) => {
+    setPrivacy(event.target.value);
+  };
 
 
   const [open, setOpen] = useState(false);
@@ -51,12 +63,12 @@ export default function Upload() {
   return (
     <Box>
  
-        <IconButton size="large" color="inherit" onClick={handleClickOpen}>
+        <IconButton size="large" color="inherit" onClick={handleClickUploadOpen}>
             <VideoCallIcon />
         </IconButton>
 
         <Box>
-            {/* <Box>
+            <Box>
                 <Dialog
                     onClose={handleUploadClose}
                     aria-labelledby="customized-dialog-title"
@@ -80,7 +92,7 @@ export default function Upload() {
                     </IconButton>
                     <DialogContent dividers>
                         <Box>
-                            <UploadZone />
+                            <UploadZone setFile={setVideoUpload} fileType={'video'}/>
                         </Box>
                     </DialogContent>
                     <DialogActions>
@@ -89,11 +101,11 @@ export default function Upload() {
                         handleClickOpen()
                         }}
                     >
-                        Save changes
+                        Next
                     </Button>
                     </DialogActions>
                 </Dialog>
-            </Box> */}
+            </Box>
 
             <Box>
                 <Dialog
@@ -149,7 +161,7 @@ export default function Upload() {
                         rows={4}
                         />
 
-                        {/* <FormControl
+                        <FormControl
                         sx={{
                             marginTop: 4,
                         }}
@@ -164,7 +176,7 @@ export default function Upload() {
                             <MenuItem value={'private'}>Private</MenuItem>
                             <MenuItem value={'public'}>Public</MenuItem>
                         </Select>
-                        </FormControl> */}
+                        </FormControl>
 
 
                     </Box>
@@ -174,26 +186,7 @@ export default function Upload() {
                         marginTop: 2,
                         }}
                     >
-                        <Typography variant="h5">Video</Typography>
-                        <Typography>Select a video for uploading</Typography>
-
-                        <Box
-                        sx={{
-                            marginTop: 2,
-                        }}
-                        className="sm:w-full w-[40%]"
-                        >
-                            <UploadZone />
-                        </Box>
-                        
-                    </Box>
-
-                    <Box 
-                        sx ={{
-                        marginTop: 2,
-                        }}
-                    >
-                        <Typography variant="h5">Thumbnails</Typography>
+                        <Typography variant="h5">Thumbnail</Typography>
                         <Typography>Select a thumbnail for your video</Typography>
 
                         <Box
@@ -202,14 +195,19 @@ export default function Upload() {
                         }}
                         className="sm:w-full w-[40%]"
                         >
-                            <UploadZone />
+                            <UploadZone setFile={setImageUpload} fileType="image"/>
                         </Box>
                         
                     </Box>
 
                     </DialogContent>
                     <DialogActions>
-                    <Button autoFocus onClick={handleClose}>
+                    <Button autoFocus onClick={() => {
+                        uploadVideo()
+                        uploadImage()
+                        handleClose()
+                        }}
+                    >
                         Save changes
                     </Button>
                     </DialogActions>

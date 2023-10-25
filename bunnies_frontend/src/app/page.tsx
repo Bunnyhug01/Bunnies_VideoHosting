@@ -27,7 +27,7 @@ const getDesignTokens = (mode: PaletteMode) => ({
     primary: {
       ...amber,
       ...(mode === 'dark' && {
-        main: amber[300],
+        main: '#b1b1b1',
       }),
     },
     ...(mode === 'dark' ? {
