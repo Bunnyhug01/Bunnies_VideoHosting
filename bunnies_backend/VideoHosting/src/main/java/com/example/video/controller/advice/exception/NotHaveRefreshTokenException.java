@@ -1,4 +1,4 @@
-package com.example.video.controller.advice;
+package com.example.video.controller.advice.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

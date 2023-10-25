@@ -1,4 +1,4 @@
-package com.example.video.controller.advice;
+package com.example.video.entity;
 
 public enum Grade {
     LIKE,

@@ -1,7 +1,7 @@
 package com.example.video.service.impl;
 
-import com.example.video.controller.advice.UserAlreadySubscribe;
-import com.example.video.controller.advice.UserNotSubscribe;
+import com.example.video.controller.advice.exception.UserAlreadySubscribe;
+import com.example.video.controller.advice.exception.UserNotSubscribe;
 import com.example.video.service.SubscribeService;
 import com.example.video.service.UserService;
 import lombok.AllArgsConstructor;

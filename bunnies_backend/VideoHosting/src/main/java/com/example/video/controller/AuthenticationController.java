@@ -1,6 +1,6 @@
 package com.example.video.controller;
 
-import com.example.video.controller.advice.NotHaveRefreshTokenException;
+import com.example.video.controller.advice.exception.NotHaveRefreshTokenException;
 import com.example.video.controller.request.JwtRequest;
 import com.example.video.controller.response.JwtResponse;
 import com.example.video.dto.TokensDTO;

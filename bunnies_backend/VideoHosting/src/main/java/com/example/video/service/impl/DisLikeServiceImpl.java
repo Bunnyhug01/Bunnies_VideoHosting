@@ -1,8 +1,8 @@
 package com.example.video.service.impl;
 
-import com.example.video.controller.advice.Grade;
-import com.example.video.controller.advice.GradeAlreadyExists;
-import com.example.video.controller.advice.GradeNotExists;
+import com.example.video.controller.advice.exception.GradeAlreadyExists;
+import com.example.video.controller.advice.exception.GradeNotExists;
+import com.example.video.entity.Grade;
 import com.example.video.service.DisLikeService;
 import com.example.video.service.UserService;
 import com.example.video.service.VideoService;

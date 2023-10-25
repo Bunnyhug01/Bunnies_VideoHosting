@@ -1,11 +1,10 @@
 package com.example.video.service.impl;
 
-import com.example.video.controller.advice.UserNotFoundException;
+import com.example.video.controller.advice.exception.UserNotFoundException;
 import com.example.video.entity.User;
 import com.example.video.repository.UserRepository;
 import com.example.video.service.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 

@@ -1,7 +1,7 @@
 package com.example.video.service.impl;
 
-import com.example.video.controller.advice.ForbiddenException;
-import com.example.video.controller.advice.VideoNotFoundException;
+import com.example.video.controller.advice.exception.ForbiddenException;
+import com.example.video.controller.advice.exception.VideoNotFoundException;
 import com.example.video.entity.Video;
 import com.example.video.repository.VideoRepository;
 import com.example.video.service.VideoService;
