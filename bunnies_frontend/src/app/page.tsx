@@ -31,24 +31,6 @@ function Home() {
 
   const [video, setVideo] = useState<Video>(data[0])
   
-  const [inputText, setInputText] = useState<string>("");
-  const inputHandler = (e: React.FormEvent<HTMLInputElement>) => {
-      const lowerCase = e.currentTarget.value.toLowerCase();
-      setInputText(lowerCase);
-  }
-
-  console.log(video)
-
-  // const filteredData = Data.filter((el) => {
-  //   if (inputText === '') {
-  //     return el;
-  //   }
-  //   else {
-  //     return el.videoName.toLowerCase().startsWith(inputText);
-  //   }
-  // })
-
-  
   return (
     <Box
       sx={{

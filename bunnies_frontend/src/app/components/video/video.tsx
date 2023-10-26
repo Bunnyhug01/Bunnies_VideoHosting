@@ -8,7 +8,15 @@ import React, { useContext, useEffect, useState } from "react";
 
 export const VideoContext = React.createContext<Video | undefined>(undefined)
 
-export function VideoInfo({ id, children }: { id: number, children: React.ReactNode }) {
+export function VideoInfo({ video, children }: { video: Video, children: React.ReactNode }) {
+    return (
+        <VideoContext.Provider value={video}>
+            {children}
+        </VideoContext.Provider>
+    )
+}
+
+export function VideoIdInfo({ id, children }: { id: number, children: React.ReactNode }) {
     const [video, setVideo] = useState<Video>()
 
     useEffect(() => {
@@ -20,10 +28,9 @@ export function VideoInfo({ id, children }: { id: number, children: React.ReactN
     return (
         <>
         { video !== null && video !== undefined ?
-            <VideoContext.Provider value={video}>
-                {children}
-            </VideoContext.Provider>
-            : null
+        <VideoInfo video={video}>
+            {children}
+        </VideoInfo> : null
         }
         </>
     )
@@ -47,6 +54,11 @@ export function VideoDisLikes({}) {
 export function VideoViews({}) {
     const video = useContext(VideoContext)!!
     return (<>{video.views}</>)
+}
+
+export function VideoLength({}) {
+    const video = useContext(VideoContext)!!
+    return (<>40:30</>)
 }
 
 export function VideoUploadDate({}) {
