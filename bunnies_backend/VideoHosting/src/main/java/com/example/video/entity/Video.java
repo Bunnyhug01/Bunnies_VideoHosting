@@ -7,8 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Data
@@ -32,6 +32,9 @@ public class Video implements BaseEntity {
 
     @Column(nullable = false)
     private String videoUrl;
+
+    @Column(nullable = false)
+    private Date uploadDate;
 
     @Column(nullable = false)
     private int likes;

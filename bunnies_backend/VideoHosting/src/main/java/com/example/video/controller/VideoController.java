@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.Date;
 
 @CrossOrigin("${cross.origin.url}")
 @AllArgsConstructor
@@ -46,6 +47,7 @@ public class VideoController {
     public Video create(@RequestBody Video video, Authentication authentication) {
         var user = (User) authentication.getPrincipal();
         video.setOwner(user);
+        video.setUploadDate(new Date());
         return service.save(video);
     }
 
