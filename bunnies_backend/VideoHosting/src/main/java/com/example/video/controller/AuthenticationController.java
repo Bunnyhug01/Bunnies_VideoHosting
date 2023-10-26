@@ -53,7 +53,6 @@ public class AuthenticationController {
         cookie.setSecure(true);
         cookie.setHttpOnly(true);
         cookie.setPath("/auth");
-        cookie.setMaxAge(7200);
         response.addCookie(cookie);
         return new JwtResponse(access_token);
     }
