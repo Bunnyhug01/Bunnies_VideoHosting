@@ -78,8 +78,8 @@ public class RepoConfiguration {
             v.setVideoUrl("https://firebasestorage.googleapis.com/v0/b/bunnies-aad60.appspot.com/o/videos%2FTrevor_Something.mp4?alt=media&token=8af7ad29-4187-4601-ad8f-a65a35c18d20");
             v.setLogoUrl("https://firebasestorage.googleapis.com/v0/b/bunnies-aad60.appspot.com/o/images%2FTrevor%20Something.png?alt=media&token=058454ef-f542-4293-bd4d-87263c25e17e");
             v.setUploadDate(new Date());
-            v.setOwner(maksim);
-            userRepository.save(maksim);
+            v.setOwner(arseny);
+            userRepository.save(arseny);
             return videoRepository.save(v);
         });
     }
