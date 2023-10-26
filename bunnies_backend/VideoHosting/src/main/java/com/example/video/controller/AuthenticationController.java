@@ -1,9 +1,9 @@
 package com.example.video.controller;
 
 import com.example.video.controller.advice.exception.NotHaveRefreshTokenException;
-import com.example.video.controller.request.JwtRequest;
-import com.example.video.controller.response.JwtResponse;
 import com.example.video.dto.TokensDTO;
+import com.example.video.dto.request.JwtRequest;
+import com.example.video.dto.response.JwtResponse;
 import com.example.video.service.AuthService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;

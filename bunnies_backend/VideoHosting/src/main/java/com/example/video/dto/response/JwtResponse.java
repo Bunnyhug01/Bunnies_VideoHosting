@@ -1,4 +1,4 @@
-package com.example.video.controller.response;
+package com.example.video.dto.response;
 
 import com.example.video.security.JwtTokenAuthenticationFilter;
 import lombok.AllArgsConstructor;

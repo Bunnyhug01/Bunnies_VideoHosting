@@ -1,13 +1,8 @@
 package com.example.video.controller;
 
-import com.example.video.controller.advice.exception.NotHaveRefreshTokenException;
-import com.example.video.controller.request.JwtRequest;
-import com.example.video.controller.response.JwtResponse;
-import com.example.video.dto.TokensDTO;
-import com.example.video.service.AuthService;
+import com.example.video.dto.request.JwtRequest;
+import com.example.video.dto.response.JwtResponse;
 import com.example.video.service.SignUpAuthService;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -16,8 +11,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Arrays;
 
 @CrossOrigin("${cross.origin.url}")
 @RestController

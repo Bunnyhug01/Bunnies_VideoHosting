@@ -1,8 +1,8 @@
 package com.example.video.service.impl;
 
 import com.example.video.controller.advice.exception.UserAlreadyExists;
-import com.example.video.controller.request.JwtRequest;
 import com.example.video.dto.TokensDTO;
+import com.example.video.dto.request.JwtRequest;
 import com.example.video.entity.Role;
 import com.example.video.entity.User;
 import com.example.video.repository.RoleRepository;

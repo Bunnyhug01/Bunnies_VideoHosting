@@ -1,9 +1,9 @@
 package com.example.video.controller;
 
 import com.example.video.controller.advice.exception.UserNotFoundException;
-import com.example.video.controller.request.JwtRequest;
-import com.example.video.controller.response.JwtResponse;
 import com.example.video.dto.TokensDTO;
+import com.example.video.dto.request.JwtRequest;
+import com.example.video.dto.response.JwtResponse;
 import com.example.video.service.AuthService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
