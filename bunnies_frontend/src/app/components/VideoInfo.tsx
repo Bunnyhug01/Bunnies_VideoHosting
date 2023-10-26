@@ -18,7 +18,7 @@ export default function VideoInfo({ video } : Props) {
 
         <Box>
           <Box className="inline-block">
-            <UserIcon video={video} />
+            <UserIcon userId={video.owner} />
           </Box>
           
           <Box className="inline-block">

@@ -15,6 +15,7 @@ export interface Video {
     title: string,
     detail: string,
     videoUrl: string,
+    uploadDate: Date,
     likes: number,
     dislikes: number,
     views: number,
