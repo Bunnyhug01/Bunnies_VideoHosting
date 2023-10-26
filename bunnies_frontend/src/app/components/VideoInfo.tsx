@@ -3,28 +3,34 @@ import { Accordion, AccordionDetails, AccordionSummary, Box, IconButton, Typogra
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import UserIcon from "./UserIcon";
+import { Video } from "../api/videos";
 
 
-export default function VideoInfo() {
+interface Props {
+  video : Video
+}
+
+
+export default function VideoInfo({ video } : Props) {
   return (
     <Box>
       <Box className="flex items-center md:w-[65%] sm:w-[100%] h-[80px] py-4 px-8 sm:px-4">
 
         <Box>
           <Box className="inline-block">
-            <UserIcon />
+            <UserIcon video={video} />
           </Box>
           
           <Box className="inline-block">
             <IconButton className="lg:ml-2">
                 <ThumbUp sx={{color: 'text.primary'}} />
             </IconButton>
-            <Typography sx={{color: 'text.secondary', fontSize: 14}} className='inline-block font-bold ml-2'>10</Typography>
+            <Typography sx={{color: 'text.secondary', fontSize: 14}} className='inline-block font-bold ml-2'>{video?.likes}</Typography>
 
             <IconButton className="ml-2">
                 <ThumbDown sx={{color: 'text.primary'}} />
             </IconButton>
-            <Typography sx={{color: 'text.secondary', fontSize: 14}} className='inline-block font-bold ml-2'>5</Typography>
+            <Typography sx={{color: 'text.secondary', fontSize: 14}} className='inline-block font-bold ml-2'>{video?.dislikes}</Typography>
           </Box>
         </Box>
 
@@ -43,7 +49,7 @@ export default function VideoInfo() {
             id="panel2a-header"
           >
             <Box className="mx-4">
-              <p className="text-[14px] font-bold">100,000 Views</p>
+              <p className="text-[14px] font-bold">{video?.views} Views</p>
             </Box>
 
             <Box className="mx-4">
@@ -52,8 +58,7 @@ export default function VideoInfo() {
           </AccordionSummary>
           <AccordionDetails>
             <Typography>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-              malesuada lacus ex, sit amet blandit leo lobortis eget.
+              {video.detail}
             </Typography>
           </AccordionDetails>
         </Accordion>

@@ -37,6 +37,8 @@ function Home() {
       setInputText(lowerCase);
   }
 
+  console.log(video)
+
   // const filteredData = Data.filter((el) => {
   //   if (inputText === '') {
   //     return el;
@@ -105,7 +107,11 @@ function Home() {
 
           {/* Bottom Section */}
           <Box className='w-full h-[30%]'>
-            <VideoInfo />
+            {video !== undefined && video !== null
+              ? <VideoInfo video={video} />
+              : null
+            }
+
             <BottomNav />
           </Box>
         </Box>
