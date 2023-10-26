@@ -5,7 +5,7 @@ import { DropzoneArea } from 'material-ui-dropzone'
 
 import { ref, uploadBytes } from "firebase/storage";
 
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { storage } from "../firebase/firebase";
 import UploadZone from "./UploadZone";
 
@@ -59,6 +59,17 @@ export default function Upload() {
     setOpenUpload(false);
   };
 
+  const [isThumbnailUpload, setIsThumbnailUpload] = useState<boolean>(false)
+
+  useEffect(() => {
+    setIsThumbnailUpload(!isThumbnailUpload)
+  }, [imageUpload])
+
+  const [isVideoUpload, setIsVideoUpload] = useState<boolean>(false)
+
+  useEffect(() => {
+    setIsVideoUpload(!isVideoUpload)
+  }, [videoUpload])
 
   return (
     <Box>
@@ -102,18 +113,18 @@ export default function Upload() {
                         </Box>
                     </DialogContent>
                     <DialogActions>
-                    { videoUpload !== null 
-                        ?
-                        <Button autoFocus onClick={() => {
+   
+                        <Button
+                            disabled={isVideoUpload} 
+                            autoFocus 
+                            onClick={() => {
                                 handleUploadClose()
                                 handleClickOpen()
                             }}
                         >
                             Next
                         </Button>
-                        :
-                        null
-                    }
+    
                     </DialogActions>
                 </Dialog>
             </Box>
@@ -148,90 +159,94 @@ export default function Upload() {
                     >
                     <CloseIcon />
                     </IconButton>
-                    <DialogContent dividers>
-
-                    <Typography variant="h5">Details</Typography>
-
-                    <Box
-                        sx={{
-                        marginTop: 2,
-                        }}
-                        className="w-full"
-                    >
-                        <TextField
-                        required
-                        id="title"
-                        name="title"
-                        label="Title"
-                        fullWidth
-                        autoComplete="off"
-                        variant="outlined" 
-                        />
-
-                        <TextField
-                        sx={{
-                            marginTop: 4,
-                        }}
-                        placeholder="Tell viewers about your video"
-                        id="description"
-                        label="Description"
-                        multiline
-                        fullWidth
-                        rows={4}
-                        />
-
-                        <FormControl
-                        sx={{
-                            marginTop: 4,
-                        }}
-                        fullWidth            
-                        >
-                        <InputLabel>Privacy</InputLabel>
-                        <Select
-                            value={privacy}
-                            label="Privacy"
-                            onChange={handleChange}
-                        >
-                            <MenuItem value={'private'}>Private</MenuItem>
-                            <MenuItem value={'public'}>Public</MenuItem>
-                        </Select>
-                        </FormControl>
-
-
-                    </Box>
-
-                    <Box 
-                        sx ={{
-                        marginTop: 2,
+                    <form
+                        method="post" 
+                        onSubmit={() => {
+                            uploadVideo()
+                            uploadImage()
+                            handleClose()
+                            setVideoUpload(null)
+                            setImageUpload(null)
                         }}
                     >
-                        <Typography variant="h5">Thumbnail</Typography>
-                        <Typography>Select a thumbnail for your video</Typography>
+                        <DialogContent dividers>
 
+                        <Typography variant="h5">Details</Typography>
                         <Box
-                        sx={{
+                            sx={{
                             marginTop: 2,
-                        }}
-                        className="sm:w-full w-[40%]"
+                            }}
+                            className="w-full"
                         >
-                            <UploadZone setFile={setImageUpload} fileType="image"/>
-                        </Box>
-                        
-                    </Box>
+                            <TextField
+                                required
+                                id="title"
+                                name="title"
+                                label="Title"
+                                fullWidth
+                                autoComplete="off"
+                                variant="outlined" 
+                            />
 
-                    </DialogContent>
-                    <DialogActions>
-                    <Button autoFocus onClick={() => {
-                        uploadVideo()
-                        uploadImage()
-                        handleClose()
-                        setVideoUpload(null)
-                        setImageUpload(null)
-                        }}
-                    >
-                        Save changes
-                    </Button>
-                    </DialogActions>
+                            <TextField
+                                sx={{
+                                    marginTop: 4,
+                                }}
+                                placeholder="Tell viewers about your video"
+                                id="description"
+                                label="Description"
+                                multiline
+                                fullWidth
+                                rows={4}
+                            />
+
+                            <FormControl
+                                sx={{
+                                    marginTop: 4,
+                                }}
+                                fullWidth
+                                required          
+                            >
+                                <InputLabel>Privacy</InputLabel>
+                                <Select
+                                    value={privacy}
+                                    label="Privacy"
+                                    onChange={handleChange}
+                                >
+                                    <MenuItem value={'private'}>Private</MenuItem>
+                                    <MenuItem value={'public'}>Public</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Box>
+
+                        <Box 
+                            sx ={{
+                            marginTop: 2,
+                            }}
+                        >
+                            <Typography variant="h5">Thumbnail</Typography>
+                            <Typography>Select a thumbnail for your video</Typography>
+
+                            <Box
+                                sx={{
+                                    marginTop: 2,
+                                }}
+                                className="sm:w-full w-[40%]"
+                            >
+     
+                                <UploadZone setFile={setImageUpload} fileType="image"/>
+                            </Box>
+                            
+                        </Box>
+
+                        </DialogContent>
+                        <DialogActions>
+                            <Button type="submit" disabled={isThumbnailUpload} autoFocus>
+                                Save changes
+                            </Button>
+                        </DialogActions>
+                    </form>
+                    
                 </Dialog>
             </Box>
 

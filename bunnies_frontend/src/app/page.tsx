@@ -23,9 +23,11 @@ function Home() {
 
   const [data, setData] = useState<Video[]>([])
 
-  getLine().then((videoArray) => {
-    setData(videoArray)
-  })
+  useEffect(() => {
+    getLine().then((videoArray) => {
+      setData(videoArray)
+    })
+  }, [])
 
   const [video, setVideo] = useState<Video>(data[0])
   
