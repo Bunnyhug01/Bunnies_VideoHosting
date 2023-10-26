@@ -13,6 +13,8 @@ export type JWTUpdateCallBack = () => Promise<UsernamePasswordDTO>
 let jwtUpdateCallBack: JWTUpdateCallBack
 
 export async function sfetch(url: string, init?: RequestInit): Promise<Response> {
+    if(localStorage.getItem("jwt") === null || localStorage.getItem("jwt") === undefined)
+        await updateJWT()
     if(init === undefined)
         init = {}
     if(init.headers === undefined)
@@ -22,7 +24,6 @@ export async function sfetch(url: string, init?: RequestInit): Promise<Response>
     try {
         return await fetch(`${API_URL}${url}`, init)
     }catch(e) {
-        console.log(e)
     }
     await updateJWT()
     return fetch(`${API_URL}${url}`, init)
