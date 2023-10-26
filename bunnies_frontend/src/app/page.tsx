@@ -11,54 +11,12 @@ import RecommendedList from './components/RecommendedList';
 import VideoContainer from './components/VideoContainer';
 import VideoInfo from './components/VideoInfo';
 import { useEffect, useState } from 'react';
-import { amber, grey } from '@mui/material/colors';
+import { amber, grey, pink } from '@mui/material/colors';
 import BottomNav from './components/BottomNav';
 import { getAll } from './api/users';
 import { getLine } from './api/views';
 import { Video } from './api/videos';
-
-
-const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
-
-
-const getDesignTokens = (mode: PaletteMode) => ({
-  palette: {
-    mode,
-    primary: {
-      ...amber,
-      ...(mode === 'dark' && {
-        main: '#b1b1b1',
-      }),
-    },
-    ...(mode === 'dark' ? {
-      background: {
-        default: '#040506',
-        additional: '#100f14',
-        drawer: 'rgba(4, 5, 6, 1)',
-        hoverColor: 'rgba(17, 24, 39, 1)',
-        paper: '#040506',
-      },
-    } : {
-      background: {
-        default: '#ffffff',
-        additional: '#f6f6f6',
-        hoverColor: grey[300],
-      },
-    }),
-    text: {
-      ...(mode === 'light'
-        ? {
-            primary: grey[900],
-            secondary: grey[800],
-          }
-        : {
-            primary: '#b1b1b1',
-            secondary: grey[500],
-            additional: grey[600],
-          }),
-    },
-  },
-});
+import { ColorModeContext, getDesignTokens } from './styles/designTokens';
 
 
 function Home() {
@@ -145,25 +103,8 @@ function Home() {
 
           {/* Bottom Section */}
           <Box className='w-full h-[30%]'>
-            
             <VideoInfo />
-            
             <BottomNav />
-
-            {/* <div className='lg:mt-5'>
-              <Comments />
-            </div> */}
-
-            {/* <div 
-              className='flex overflow-x-scroll items-center scrollbar-none py-2'
-              id='scrollContainer'
-            >
-              {
-                Data && Data.map((data) => (
-                  <Collection key={data.id} imgSrc={data.imgSrc} />
-                ))
-              }
-            </div> */}
           </Box>
         </Box>
       </Box>
