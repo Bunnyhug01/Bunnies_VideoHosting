@@ -6,7 +6,14 @@ import React, { useContext, useEffect, useState } from "react";
 
 export const UserContext = React.createContext<User | undefined>(undefined)
 
-export function UserInfo({ id, children }: { id: number, children: React.ReactNode }) {
+export function UserInfo({ user, children }: { user: User, children: React.ReactNode }) {
+    return (
+        <UserContext.Provider value={user}>
+            {children}
+        </UserContext.Provider>
+    )
+}
+export function UserIdInfo({ id, children }: { id: number, children: React.ReactNode }) {
     const [user, setUser] = useState<User>()
 
     useEffect(() => {
@@ -17,10 +24,11 @@ export function UserInfo({ id, children }: { id: number, children: React.ReactNo
 
     return (
         <>
-        { user !== null && user !== undefined ?
-            <UserContext.Provider value={user}>
+        {
+            user !== null && user !== undefined ?
+            <UserInfo user={user}>
                 {children}
-            </UserContext.Provider>
+            </UserInfo>
             : null
         }
         </>
