@@ -4,7 +4,7 @@ import { Box, Typography } from '@mui/material';
 import { Video } from '../api/videos';
 import { useState } from 'react';
 import { User, getOne } from '../api/users';
-import { UserInfo, UserName } from './user/user';
+import { UserIdInfo, UserInfo, UserName } from './user/user';
 import { VideoInfo, VideoLength, VideoLogo, VideoTitle, VideoViews } from './video/video';
 
 interface Props {
@@ -30,11 +30,11 @@ export default function RecommendedList({ video } : Props) {
                     <Typography sx={{color: 'text.primary'}} variant='inherit' className='lg:text-[16px] sm:text-[12px]'>
                         <VideoTitle/> 
                     </Typography>
-                    <UserInfo id={video.owner}>
+                    <UserIdInfo id={video.owner}>
                         <Typography sx={{color: 'text.primary', fontSize: 12}} className='block'>
                             <UserName/>
                         </Typography>
-                    </UserInfo>
+                    </UserIdInfo>
                 </Box>
                 <Box sx={{color: 'text.secondary', fontSize: 14}} className='flex items-center mt-2'>
                     <Typography variant='inherit' className='font-bold'><VideoLength/></Typography>

@@ -4,7 +4,7 @@ import { deepPurple } from '@mui/material/colors';
 import { Video } from '../api/videos';
 import { getOne } from '../api/users';
 import { useState, useEffect } from 'react';
-import { UserInfo, UserLogo, UserName } from './user/user';
+import { UserIdInfo, UserInfo, UserLogo, UserName } from './user/user';
 
 
 interface Props {
@@ -15,7 +15,7 @@ interface Props {
 export default function UserIcon({ userId } : Props) {
     return (
         <Box className="flex items-center">
-            <UserInfo id={userId}>
+            <UserIdInfo id={userId}>
                 <UserLogo/>
                 
                 <Box sx={{ flexDirection: 'column' }}>
@@ -24,7 +24,7 @@ export default function UserIcon({ userId } : Props) {
                     </Typography>
                     {/* <Typography sx={{color: 'text.secondary', fontSize: 12}} className="font-bold block ml-2">User</Typography> */}
                 </Box>
-            </UserInfo>
+            </UserIdInfo>
         </Box>
     )
 }

@@ -63,7 +63,15 @@ export function VideoLength({}) {
 
 export function VideoUploadDate({}) {
     const video = useContext(VideoContext)!!
-    return (<>{video.uploadDate}</>)
+    const start = new Date(video.uploadDate)
+    const end = new Date()
+    if(end.getFullYear() > start.getFullYear())
+        return (<>{end.getFullYear() - start.getFullYear()} years ago</>)
+    if(end.getDay() > start.getDay())
+        return (<>{end.getDay() - start.getDay()} days ago</>)
+    if(end.getHours() > start.getHours())
+        return (<>{end.getHours() - start.getHours()} hours ago</>)
+    return (<>{end.getMinutes() - start.getMinutes()} minutes ago</>)
 }
 
 export function VideoLogo({}) {
@@ -77,5 +85,4 @@ export function VideoLogo({}) {
         />
     )
 }
-
 

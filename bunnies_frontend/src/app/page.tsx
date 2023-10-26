@@ -9,7 +9,7 @@ import { PaletteMode } from '@mui/material';
 import Comments from './components/Comments';
 import RecommendedList from './components/RecommendedList';
 import VideoContainer from './components/VideoContainer';
-import VideoInfo from './components/VideoInfo';
+import VideoInformation from './components/VideoInfo';
 import { useEffect, useState } from 'react';
 import { amber, grey, pink } from '@mui/material/colors';
 import BottomNav from './components/BottomNav';
@@ -90,7 +90,7 @@ function Home() {
           {/* Bottom Section */}
           <Box className='w-full h-[30%]'>
             {video !== undefined && video !== null
-              ? <VideoInfo video={video} />
+              ? <VideoInformation video={video} />
               : null
             }
 
