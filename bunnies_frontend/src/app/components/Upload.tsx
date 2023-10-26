@@ -70,7 +70,10 @@ export default function Upload() {
         <Box>
             <Box>
                 <Dialog
-                    onClose={handleUploadClose}
+                    onClose={() => {
+                        handleUploadClose()
+                        setVideoUpload(null)
+                    }}
                     aria-labelledby="customized-dialog-title"
                     open={openUpload}
                     fullWidth
@@ -80,7 +83,10 @@ export default function Upload() {
                     </DialogTitle>
                     <IconButton
                     aria-label="close"
-                    onClick={handleUploadClose}
+                    onClick={() => {
+                        handleUploadClose()
+                        setVideoUpload(null)
+                    }}
                     sx={{
                         position: 'absolute',
                         right: 8,
@@ -96,20 +102,29 @@ export default function Upload() {
                         </Box>
                     </DialogContent>
                     <DialogActions>
-                    <Button autoFocus onClick={() => {
-                        handleUploadClose()
-                        handleClickOpen()
-                        }}
-                    >
-                        Next
-                    </Button>
+                    { videoUpload !== null 
+                        ?
+                        <Button autoFocus onClick={() => {
+                                handleUploadClose()
+                                handleClickOpen()
+                            }}
+                        >
+                            Next
+                        </Button>
+                        :
+                        null
+                    }
                     </DialogActions>
                 </Dialog>
             </Box>
 
             <Box>
                 <Dialog
-                    onClose={handleClose}
+                    onClose={() => {
+                        handleClose()
+                        setVideoUpload(null)
+                        setImageUpload(null)
+                    }}
                     aria-labelledby="customized-dialog-title"
                     open={open}
                     fullWidth
@@ -119,7 +134,11 @@ export default function Upload() {
                     </DialogTitle>
                     <IconButton
                     aria-label="close"
-                    onClick={handleClose}
+                    onClick={() => {
+                        handleClose()
+                        setVideoUpload(null)
+                        setImageUpload(null)
+                    }}
                     sx={{
                         position: 'absolute',
                         right: 8,
@@ -206,6 +225,8 @@ export default function Upload() {
                         uploadVideo()
                         uploadImage()
                         handleClose()
+                        setVideoUpload(null)
+                        setImageUpload(null)
                         }}
                     >
                         Save changes

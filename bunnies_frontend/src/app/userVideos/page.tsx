@@ -10,49 +10,7 @@ import { DataGrid } from '@mui/x-data-grid';
 import Header from "../components/Header";
 import BottomNav from "../components/BottomNav";
 import { rows, columns } from "../api/dataGrid";
-
-
-const ColorModeContext = React.createContext({ toggleColorMode: () => {} });
-
-const getDesignTokens = (mode: PaletteMode) => ({
-  palette: {
-    mode,
-    primary: {
-      ...amber,
-      ...(mode === 'dark' && {
-        main: amber[300],
-      }),
-    },
-    ...(mode === 'dark' ? {
-      background: {
-        default: '#040506',
-        additional: '#100f14',
-        drawer: 'rgba(4, 5, 6, 1)',
-        hoverColor: 'rgba(17, 24, 39, 1)',
-        paper: '#040506',
-      },
-    } : {
-      background: {
-        default: '#ffffff',
-        additional: '#f6f6f6',
-        hoverColor: grey[300],
-      },
-    }),
-    text: {
-      ...(mode === 'light'
-        ? {
-            primary: grey[900],
-            secondary: grey[800],
-          }
-        : {
-            primary: '#b1b1b1',
-            secondary: grey[500],
-            additional: grey[600],
-          }),
-    },
-  },
-});
-
+import { ColorModeContext, getDesignTokens } from "../styles/designTokens";
 
 
 export function UserVideos() {

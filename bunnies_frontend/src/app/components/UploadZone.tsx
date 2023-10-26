@@ -1,6 +1,8 @@
-import { Box, Button, Grid, Input, Typography } from '@mui/material';
 import { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
+
+import { Box, Button, Grid, Input, Typography } from '@mui/material';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 
 interface Props {
@@ -10,6 +12,8 @@ interface Props {
 
 
 export default function UploadZone({ setFile, fileType }: Props) {
+
+  const accept = fileType === 'video' ? ['video/mp4'] : ['image/png' , 'image/jpeg']
 
   const onDrop = useCallback((acceptedFiles: Array<File>) => {
     const file = new FileReader;
@@ -23,7 +27,8 @@ export default function UploadZone({ setFile, fileType }: Props) {
   }, [])
 
   const { acceptedFiles, getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop
+    onDrop,
+    accept: accept,
   });
 
   const [preview, setPreview] = useState<string | ArrayBuffer | null>(null);
@@ -38,6 +43,7 @@ export default function UploadZone({ setFile, fileType }: Props) {
         sx={{ height: 200, display: 'flex' }}
         className='border-4 border-dashed'
       >
+        <CloudUploadIcon fontSize='large' />
         <Box {...getRootProps()}>
           <input {...getInputProps()} />
           {
