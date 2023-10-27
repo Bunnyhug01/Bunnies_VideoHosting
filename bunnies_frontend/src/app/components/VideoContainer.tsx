@@ -3,6 +3,8 @@ import { useState, useEffect, useRef } from 'react';
 import { VideoPlayer } from './VideoPlayer';
 import { Video } from '../api/videos';
 import { VideoInfo, VideoTitle } from './video/video';
+import VideoInformation from './VideoInformation';
+import { Box } from '@mui/material';
 
 
 interface Props {
@@ -40,10 +42,17 @@ export default function VideoContainer( { video = DEFAULT_VIDEO } : Props ) {
               src={video.videoUrl}
               controls
               poster={ video.logoUrl }
-              className="min-w-full min-h-full w-full h-full object-cover"
+              className="min-w-full w-full lg:h-[70%] md2:h-[55%] sm:h-[70%] object-cover"
               onPlay={() => setPlaying(true)}
               onPause={() => setPlaying(false)}
           ></video>
+
+          <Box className="absolute w-full lg:w-[100%]">
+            {video.videoUrl !== ""
+              ? <VideoInformation video={video} />
+              : null
+            }
+          </Box>
 
           <div className="absolute text-sm top-0 left-0 z-10 w-full h-[60px] py-4 px-3 bg-gradient-to-b from-black to-transparent">
               <h2 className="text-textColor" id='mainVideoName'>

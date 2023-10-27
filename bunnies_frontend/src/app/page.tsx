@@ -9,7 +9,7 @@ import { PaletteMode } from '@mui/material';
 import Comments from './components/Comments';
 import RecommendedList from './components/RecommendedList';
 import VideoContainer from './components/VideoContainer';
-import VideoInfo from './components/VideoInfo';
+import VideoInfo from './components/VideoInformation';
 import { useEffect, useState } from 'react';
 import { amber, grey, pink } from '@mui/material/colors';
 import BottomNav from './components/BottomNav';
@@ -52,16 +52,16 @@ function Home() {
         {/* Main Container */}
         <Box className='md:w-full h-full'>
           {/* Top Section */}
-          <Box className='relative w-full h-[70%] max-h-[480px] grid grid-cols-3 gap-2 p-2 sm:w-[107vw] sm:right-[10vw] sm3:w-[108vw] sm3:right-[9vw] lg:right-0 md:right-0 md:w-full sm2:w-full sm2:right-0'>
+          <Box className='relative w-full h-full max-h-[700px] grid grid-cols-3 gap-2 p-2 sm:w-[107vw] sm:right-[10vw] sm3:w-[108vw] sm3:right-[9vw] lg:right-0 md:right-0 md:w-full sm2:w-full sm2:right-0'>
             
             {/* Video Container */}
-            <Box className='sm:col-span-6 md:col-span-2 rounded-lg overflow-hidden flex items-center justify-center'>
+            <Box className='sm:col-span-6 md:col-span-2 rounded-lg overflow-hidden items-center justify-center flex'>
               <VideoContainer video={video} />
             </Box>
 
             {/* Recommended list */} 
             <Box className='sm:col-span-6 md:col-span-1 overflow-y-auto
-              scrollbar-thin scrollbar-thumb-gray-800
+              scrollbar-thin scrollbar-thumb-gray-800 lg:max-h-[70%] md:max-h-[55%]
              '
               sx={{ 
                 bgcolor: 'background.additional',
@@ -70,9 +70,9 @@ function Home() {
               id='recommendedList'
             >
         
-              <p className='text-[18px] font-bold my-2 px-2'>
+              <Typography className='text-[18px] font-bold my-2 px-2'>
                 Recommended
-              </p>
+              </Typography>
 
               {data.map((video) => (
                 <Box 
@@ -88,14 +88,9 @@ function Home() {
           </Box>
 
           {/* Bottom Section */}
-          <Box className='w-full h-[30%]'>
-            {video !== undefined && video !== null
-              ? <VideoInfo video={video} />
-              : null
-            }
-
-            <BottomNav />
-          </Box>
+          {/* <Box className='w-full h-[30%]'> */}
+          <BottomNav />
+          {/* </Box> */}
         </Box>
       </Box>
     </Box>

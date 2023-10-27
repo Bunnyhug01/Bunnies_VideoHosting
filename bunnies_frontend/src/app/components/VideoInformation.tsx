@@ -11,10 +11,10 @@ interface Props {
 }
 
 
-export default function VideoInfo({ video } : Props) {
+export default function VideoInformation({ video } : Props) {
   return (
     <Box>
-      <Box className="flex items-center md:w-[65%] sm:w-[100%] h-[80px] py-4 px-8 sm:px-4">
+      <Box className="flex items-center lg:w-[100%] md:w-[100%] sm:w-[100%] h-[80px] py-4 px-8 sm:px-4">
 
         <Box>
           <Box className="inline-block">
@@ -36,7 +36,7 @@ export default function VideoInfo({ video } : Props) {
 
 
       </Box>
-      <Box className='md:w-[65%] sm:w-[100%]'>
+      <Box className='md:w-[100%] sm:w-[100%] lg:w-[100%]'>
         <Accordion sx={{bgcolor: 'background.additional'}} elevation={0}>
           <AccordionSummary
             sx={{pointerEvents: ""}}

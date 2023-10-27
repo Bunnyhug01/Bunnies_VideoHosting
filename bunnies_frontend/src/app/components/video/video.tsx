@@ -78,4 +78,27 @@ export function VideoLogo({}) {
     )
 }
 
+export function VideoLogoPlayer({}) {
+    const handleOnMouseOver = (e: React.MouseEvent<HTMLVideoElement>) => {
+        e.currentTarget.play()
+    }
+
+    const handleOnMouseOut = (e: React.MouseEvent<HTMLVideoElement>) => {
+        e.currentTarget.pause()
+        e.currentTarget.load()
+    }
+
+    const video = useContext(VideoContext)!!
+    return (
+        <video
+            src={video.videoUrl}
+            poster={video.logoUrl}
+            muted
+            disablePictureInPicture
+            onMouseOver={handleOnMouseOver}
+            onMouseOut={handleOnMouseOut}
+            className="w-full h-full rounded-lg object-cover"
+        />
+    )
+}
 
