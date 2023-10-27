@@ -57,7 +57,7 @@ export default function UploadZone({ setFile, fileType }: Props) {
       {preview && (
         <Box sx={{width: 'auto', height: 300, marginTop: 2}}>
           {fileType === 'video'
-           ? <video src={preview as string} autoPlay loop controls muted />
+           ? <video src={preview as string} autoPlay loop controls muted className="w-full h-full" />
            : <img src={preview as string} alt="" width={200} height={200} />
           }
         </Box>
