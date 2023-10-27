@@ -19,7 +19,7 @@ export default function UserIcon({ userId } : Props) {
                 <UserLogo/>
                 
                 <Box sx={{ flexDirection: 'column' }}>
-                    <Typography sx={{color: 'text.primary', fontSize: 16}} className="font-bold ml-2">
+                    <Typography sx={{color: 'text.primary', fontSize: 16}} className="font-bold ml-2 lg:text-[16px] md:text-[16px] sm:text-[13px]">
                         <UserName/>
                     </Typography>
                     <Typography sx={{color: 'text.secondary', fontSize: 12}} className="font-bold block ml-2">User</Typography>

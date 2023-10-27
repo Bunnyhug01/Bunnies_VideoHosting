@@ -61,7 +61,7 @@ function Home() {
 
             {/* Recommended list */} 
             <Box className='sm:col-span-6 md:col-span-1 overflow-y-auto
-              scrollbar-thin scrollbar-thumb-gray-800 lg:max-h-[70%] md:max-h-[55%]
+              scrollbar-thin scrollbar-thumb-gray-800 lg:max-h-[70%] md:max-h-[65%]
              '
               sx={{ 
                 bgcolor: 'background.additional',

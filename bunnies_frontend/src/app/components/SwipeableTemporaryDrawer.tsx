@@ -90,7 +90,7 @@ export default function SwipeableTemporaryDrawer() {
             PaperProps={{
               sx: {
                 backgroundColor: "background.default",
-              }
+              },
             }}
             anchor={anchor}
             open={state[anchor]}

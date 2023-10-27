@@ -1,9 +1,10 @@
 import { ThumbUp, ThumbDown } from "@mui/icons-material";
-import { Accordion, AccordionDetails, AccordionSummary, Box, IconButton, Typography } from "@mui/material";
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Box, IconButton, Typography } from "@mui/material";
 
 import UserIcon from "./UserIcon";
 import { Video } from "../api/videos";
+import MobileVideoDescription from "./MobileVideoDescription";
+import VideoDescription from "./VideoDescription";
 
 
 interface Props {
@@ -23,46 +24,23 @@ export default function VideoInformation({ video } : Props) {
           
           <Box className="inline-block">
             <IconButton className="lg:ml-2">
-                <ThumbUp sx={{color: 'text.primary'}} />
+                <ThumbUp sx={{color: 'text.primary'}} className="lg:w-[25px] lg:h-[25px] md:w-[25px] md:h-[25px] sm:w-[20px] sm:h-[20px]" />
             </IconButton>
             <Typography sx={{color: 'text.secondary', fontSize: 14}} className='inline-block font-bold ml-2'>{video?.likes}</Typography>
 
             <IconButton className="ml-2">
-                <ThumbDown sx={{color: 'text.primary'}} />
+                <ThumbDown sx={{color: 'text.primary'}} className="lg:w-[25px] lg:h-[25px] md:w-[25px] md:h-[25px] sm:w-[20px] sm:h-[20px]" />
             </IconButton>
             <Typography sx={{color: 'text.secondary', fontSize: 14}} className='inline-block font-bold ml-2'>{video?.dislikes}</Typography>
           </Box>
         </Box>
-
-
       </Box>
+      
       <Box className='md:w-[100%] sm:w-[100%] lg:w-[100%]'>
-        <Accordion sx={{bgcolor: 'background.additional'}} elevation={0}>
-          <AccordionSummary
-            sx={{pointerEvents: ""}}
-            expandIcon={
-              <ExpandMoreIcon
-                sx={{pointerEvents: "auto"}}
-              />
-            }
-            aria-controls="panel2a-content"
-            id="panel2a-header"
-          >
-            <Box className="mx-4">
-              <p className="text-[14px] font-bold">{video?.views} Views</p>
-            </Box>
+        <VideoDescription video={video} />
+        <MobileVideoDescription video={video} />
+      </Box>
 
-            <Box className="mx-4">
-              <p className="text-[14px] font-bold">02.09.2023</p>
-            </Box>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography>
-              {video.detail}
-            </Typography>
-          </AccordionDetails>
-        </Accordion>
-        </Box>
     </Box>
   )
 }

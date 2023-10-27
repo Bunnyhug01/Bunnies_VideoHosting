@@ -42,7 +42,7 @@ export default function VideoContainer( { video = DEFAULT_VIDEO } : Props ) {
               src={video.videoUrl}
               controls
               poster={ video.logoUrl }
-              className="min-w-full w-full lg:h-[70%] md2:h-[55%] sm:h-[70%] object-cover"
+              className="min-w-full w-full lg:h-[70%] md2:h-[65%] sm:h-[60%] object-cover"
               onPlay={() => setPlaying(true)}
               onPause={() => setPlaying(false)}
           ></video>

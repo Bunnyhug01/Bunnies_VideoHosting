@@ -49,10 +49,18 @@ export function UserLogo({}) {
     const user = useContext(UserContext)!!
     return (
         <Avatar
-            sx={{ bgcolor: deepPurple[500] }}
+            sx={{ bgcolor: deepPurple[500]}}
             alt="Remy Sharp"
             src={user.logoUrl}
-            className="w-[40px] h-[40px] rounded-full object-cover min-w-[40px]"
+            className="
+                lg:w-[40px] lg:h-[40px]
+                md:w-[40px] md:h-[40px]
+                sm:w-[30px] sm:h-[30px]
+                rounded-full object-cover
+                lg:min-w-[40px]
+                md:min-w-[40px]
+                sm:min-w-[30px]
+            "
         >
             {user.username[0]}
         </Avatar>
