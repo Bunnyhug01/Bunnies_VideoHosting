@@ -57,8 +57,30 @@ export function VideoViews({}) {
 }
 
 export function VideoLength({}) {
+    const [duration, setDuration] = useState(0);
+
     const video = useContext(VideoContext)!!
-    return (<>40:30</>)
+
+    const tempVideoPlayer:HTMLVideoElement = document.createElement('video')
+    tempVideoPlayer.setAttribute("type", "hidden")
+    tempVideoPlayer.src = video.videoUrl
+    tempVideoPlayer.preload = 'metadata'
+
+    tempVideoPlayer.onloadedmetadata = function () {
+
+        window.URL.revokeObjectURL(tempVideoPlayer.src);
+        setDuration(
+          () => Math.floor(tempVideoPlayer.duration)
+        );
+    };
+
+    const time = (duration / 60) >= 60
+    ? new Date(duration * 1000).toISOString().slice(11, 19)
+    : new Date(duration * 1000).toISOString().slice(14, 19)
+    
+    
+    tempVideoPlayer.remove()
+    return (<>{time}</>)
 }
 
 export function VideoUploadDate({}) {
