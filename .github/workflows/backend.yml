@@ -121,11 +121,11 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Stop and remove containers, networks
-        run: cd ./bunnies_backend && docker-compose down
+        run: cd ./bunnies_backend; docker-compose down
       
       - name: Remove unused data
-        run: cd ./bunnies_backend && docker system prune -a -f
+        run: cd ./bunnies_backend; docker system prune -a -f
 
       - name: docker-compose
-        run: cd ./bunnies_backend && docker-compose up -d
+        run: cd ./bunnies_backend; docker-compose up -d
 
