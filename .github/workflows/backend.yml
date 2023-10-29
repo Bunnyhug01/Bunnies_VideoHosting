@@ -108,16 +108,20 @@ jobs:
         # against the sigstore community Fulcio instance.
         run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
 
-  deploy-to-ara-main:
+  deploy-to-mains:
     needs: build_docker_image
     strategy:
       matrix:
         os: [ara-main-runner]
+        experimental: [true]
+    continue-on-error: ${{ matrix.experimental }}
     runs-on: ${{ matrix.os }}
     steps:
       - name: checkout repo
         uses: actions/checkout@v3
         
+      - run: cd ./bunnies_backend/VideoHosting
+
       - name: Stop and remove containers, networks
         run: docker-compose down
       
@@ -126,3 +130,5 @@ jobs:
 
       - name: docker-compose
         run: docker-compose up -d
+
+      - run: cd ./../..
