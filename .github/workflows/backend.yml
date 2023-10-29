@@ -108,20 +108,21 @@ jobs:
         # against the sigstore community Fulcio instance.
         run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
 
-  prepare-ara-environment:
-    runs-on: ara-main-runner
-    needs: build_docker_image
-    steps:
-      - name: Stop and remove containers, networks
-        run: docker-compose down
-      - name: Remove unused data
-        run: docker system prune -a -f
-
   deploy-to-ara-main:
-    runs-on: ara-main-runner
-    needs: prepare-ara-environment
+    needs: build_docker_image
+    strategy:
+      matrix:
+        os: [ara-main-runner]
+    runs-on: ${{ matrix.os }}
     steps:
       - name: checkout repo
         uses: actions/checkout@v3
+        
+      - name: Stop and remove containers, networks
+        run: docker-compose down
+      
+      - name: Remove unused data
+        run: docker system prune -a -f
+
       - name: docker-compose
         run: docker-compose up -d
