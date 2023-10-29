@@ -7,5 +7,7 @@ export async function getLine(videoId?: number): Promise<Video[]>  {
 }
 
 export async function addView(videoId: number)  {
-    return sfetch(`/view/${videoId}`)
+    return sfetch(`/view/${videoId}`, {
+        method: 'POST'
+    })
 }

@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Video, getOne } from "@/app/api/videos";
 import { Avatar } from "@mui/material";
 import { deepPurple } from "@mui/material/colors";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useMemo, useState } from "react";
 
 export const VideoContext = React.createContext<Video | undefined>(undefined)
 
@@ -57,29 +57,33 @@ export function VideoViews({}) {
 }
 
 export function VideoLength({}) {
-    const [duration, setDuration] = useState(0);
+    const [time, setTime] = useState("");
 
     const video = useContext(VideoContext)!!
 
-    const tempVideoPlayer:HTMLVideoElement = document.createElement('video')
-    tempVideoPlayer.setAttribute("type", "hidden")
-    tempVideoPlayer.src = video.videoUrl
-    tempVideoPlayer.preload = 'metadata'
-
-    tempVideoPlayer.onloadedmetadata = function () {
-
-        window.URL.revokeObjectURL(tempVideoPlayer.src);
-        setDuration(
-          () => Math.floor(tempVideoPlayer.duration)
-        );
-    };
-
-    const time = (duration / 60) >= 60
-    ? new Date(duration * 1000).toISOString().slice(11, 19)
-    : new Date(duration * 1000).toISOString().slice(14, 19)
+    useEffect(() => {
+        const tempVideoPlayer:HTMLVideoElement = document.createElement('video')
+        tempVideoPlayer.setAttribute("type", "hidden")
+        tempVideoPlayer.src = video.videoUrl
+        tempVideoPlayer.preload = 'metadata'
     
+        tempVideoPlayer.onloadedmetadata = function () {
     
-    tempVideoPlayer.remove()
+            window.URL.revokeObjectURL(tempVideoPlayer.src);
+            const duration = Math.floor(tempVideoPlayer.duration)
+
+            const time = (duration / 60) >= 60
+            ? new Date(duration * 1000).toISOString().slice(11, 19)
+            : new Date(duration * 1000).toISOString().slice(14, 19)
+
+            setTime(time)
+        };
+    
+        tempVideoPlayer.remove()
+
+    }, [video])
+
+    
     return (<>{time}</>)
 }
 

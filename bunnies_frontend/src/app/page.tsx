@@ -14,7 +14,7 @@ import { useEffect, useState } from 'react';
 import { amber, grey, pink } from '@mui/material/colors';
 import BottomNav from './components/BottomNav';
 import { getAll } from './api/users';
-import { getLine } from './api/views';
+import { addView, getLine } from './api/views';
 import { Video } from './api/videos';
 import { ColorModeContext, getDesignTokens } from './styles/designTokens';
 
@@ -77,7 +77,10 @@ function Home() {
               {data.map((video) => (
                 <Box 
                   key={video.id}
-                  onClick={() => setVideo(video)}
+                  onClick={() => {
+                    setVideo(video)
+                    addView(video.id!)
+                  }}
                 >
                   <RecommendedList video={video} />
                 </Box>
@@ -88,9 +91,8 @@ function Home() {
           </Box>
 
           {/* Bottom Section */}
-          {/* <Box className='w-full h-[30%]'> */}
           <BottomNav />
-          {/* </Box> */}
+
         </Box>
       </Box>
     </Box>
