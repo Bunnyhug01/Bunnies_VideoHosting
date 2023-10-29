@@ -120,6 +120,8 @@ jobs:
       - name: checkout repo
         uses: actions/checkout@v3
         
+      - run: dir
+
       - run: cd ./bunnies_backend/VideoHosting
       
       - run: dir
