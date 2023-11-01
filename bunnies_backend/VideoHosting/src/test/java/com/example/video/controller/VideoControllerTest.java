@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         AuthenticationController.class,
         JwtProvider.class,
         SecurityConfig.class,
-        AuthServiceImpl.class
+        AuthServiceImpl.class,
 })
 public class VideoControllerTest {
 

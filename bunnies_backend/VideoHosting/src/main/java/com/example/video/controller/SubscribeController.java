@@ -1,6 +1,6 @@
 package com.example.video.controller;
 
-import com.example.video.dto.StatusDTO;
+import com.example.video.dto.response.StatusResponse;
 import com.example.video.entity.User;
 import com.example.video.service.SubscribeService;
 import lombok.AllArgsConstructor;
@@ -27,9 +27,9 @@ public class SubscribeController {
     }
 
     @GetMapping("/subscribes/{id}")
-    public StatusDTO hasSubscribe(@PathVariable Long id, Authentication authentication) {
+    public StatusResponse hasSubscribe(@PathVariable Long id, Authentication authentication) {
         var user = (User) authentication.getPrincipal();
-        return new StatusDTO(service.hasSubscribe(user.getId(), id));
+        return new StatusResponse(service.hasSubscribe(user.getId(), id));
     }
 
 }

@@ -6,7 +6,6 @@ import com.example.video.entity.Video;
 import com.example.video.repository.VideoRepository;
 import com.example.video.service.VideoService;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,8 +17,6 @@ import java.util.Random;
 public class VideoServiceImpl implements VideoService {
 
     private final VideoRepository videoRepository;
-
-    private final Random random;
 
     @Override
     public Video findById(Long id) {
@@ -63,12 +60,14 @@ public class VideoServiceImpl implements VideoService {
 
     @Override
     public Video findRandom() {
+        final var random = new Random();
         var all = videoRepository.findAll();
         return all.get(random.nextInt(all.size()));
     }
 
     @Override
     public Video findRandomCanSee(Long userId) {
+        final var random = new Random();
         var all = videoRepository.findAll().stream().filter(x -> !x.isPrivate() || x.getOwner().getId() == userId).toList();
         return all.get(random.nextInt(all.size()));
     }

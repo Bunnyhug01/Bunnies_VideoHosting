@@ -37,19 +37,19 @@ public class JwtProvider {
         this.refreshValidityInSeconds = refreshValidityInSeconds;
     }
 
+    public String generateAccessToken(User user) {
+        return generateAccessToken(user.getId());
+    }
+
     public String generateAccessToken(Long userId) {
         final LocalDateTime now = LocalDateTime.now();
         final Instant accessExpirationInstant = now.plusSeconds(accessValidityInSeconds).atZone(ZoneId.systemDefault()).toInstant();
         final Date accessExpiration = Date.from(accessExpirationInstant);
         return Jwts.builder()
-                .setSubject("" + userId)
-                .setExpiration(accessExpiration)
+                .subject("" + userId)
+                .expiration(accessExpiration)
                 .signWith(jwtAccessSecret)
                 .compact();
-    }
-
-    public String generateAccessToken(User user) {
-        return generateAccessToken(user.getId());
     }
 
     public String generateRefreshToken(User user) {
@@ -61,8 +61,8 @@ public class JwtProvider {
         final Instant refreshExpirationInstant = now.plusSeconds(refreshValidityInSeconds).atZone(ZoneId.systemDefault()).toInstant();
         final Date refreshExpiration = Date.from(refreshExpirationInstant);
         return Jwts.builder()
-                .setSubject("" + userId)
-                .setExpiration(refreshExpiration)
+                .subject("" + userId)
+                .expiration(refreshExpiration)
                 .signWith(jwtRefreshSecret)
                 .compact();
     }

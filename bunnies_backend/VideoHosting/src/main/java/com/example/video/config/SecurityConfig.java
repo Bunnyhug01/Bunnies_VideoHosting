@@ -25,16 +25,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
-import java.util.Random;
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
-    @Bean
-    Random globalRandom() {
-        return new Random();
-    }
 
     @Bean
     PasswordEncoder passwordEncoder() {

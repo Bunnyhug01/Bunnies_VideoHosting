@@ -5,7 +5,6 @@ import com.example.video.dto.request.JwtRequest;
 import com.example.video.entity.User;
 import com.example.video.security.JwtProvider;
 import com.example.video.service.AuthService;
-import com.example.video.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -21,13 +20,10 @@ public class AuthServiceImpl implements AuthService {
 
     private final JwtProvider provider;
 
-    private final UserService users;
-
     public String refreshToken(String refreshToken) {
         provider.validateRefreshToken(refreshToken);
         var id = provider.getRefreshId(refreshToken);
-        var user = users.findById(id);
-        var access_token = provider.generateAccessToken(user);
+        var access_token = provider.generateAccessToken(id);
         return access_token;
     }
 

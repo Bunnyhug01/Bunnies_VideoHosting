@@ -1,15 +1,15 @@
-package com.example.video.dto;
+package com.example.video.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
-public class StatusDTO {
+public class StatusResponse {
 
     public String status;
 
-    public StatusDTO(boolean status) {
+    public StatusResponse(boolean status) {
         this(status + "");
     }
 

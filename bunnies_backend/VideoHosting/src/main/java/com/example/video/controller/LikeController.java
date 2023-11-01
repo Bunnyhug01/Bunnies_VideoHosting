@@ -1,6 +1,6 @@
 package com.example.video.controller;
 
-import com.example.video.dto.StatusDTO;
+import com.example.video.dto.response.StatusResponse;
 import com.example.video.entity.User;
 import com.example.video.service.LikeService;
 import lombok.AllArgsConstructor;
@@ -27,9 +27,9 @@ public class LikeController {
     }
 
     @GetMapping("/likes/{id}")
-    public StatusDTO hasLike(@PathVariable Long id, Authentication authentication) {
+    public StatusResponse hasLike(@PathVariable Long id, Authentication authentication) {
         var user = (User) authentication.getPrincipal();
-        return new StatusDTO(service.hasLike(user.getId(), id));
+        return new StatusResponse(service.hasLike(user.getId(), id));
     }
 
 }
