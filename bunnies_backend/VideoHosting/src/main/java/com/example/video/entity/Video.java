@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Data
@@ -43,14 +44,18 @@ public class Video implements BaseEntity {
     private int dislikes;
 
     @Column(nullable = false)
-    private boolean isPrivate;
+    private boolean isPrivate = false;
 
     @Column(nullable = false)
     private int views;
 
     @JsonSerialize(using = EntityAsIdOnlySerializer.class)
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User owner;
+
+    @JsonSerialize(using = EntityAsIdOnlySerializer.class)
+    @OneToMany(mappedBy = "video")
+    private Set<Comment> comments;
 
     @Override
     public int hashCode() {

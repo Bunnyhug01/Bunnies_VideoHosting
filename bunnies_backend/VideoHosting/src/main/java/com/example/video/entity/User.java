@@ -39,18 +39,22 @@ public class User implements BaseEntity, UserDetails {
     @JsonSerialize(using = EntityAsIdOnlySerializer.class)
     @OneToMany(mappedBy = "owner")
     private Set<Video> videos;
+
     @JsonSerialize(using = EntityAsIdOnlySerializer.class)
     @ManyToMany
     private Set<Video> likes;
+
     @JsonSerialize(using = EntityAsIdOnlySerializer.class)
     @ManyToMany
     private Set<Video> dislikes;
 
     @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
     private Set<VideoHistory> history;
+
     @JsonSerialize(using = EntityAsIdOnlySerializer.class)
     @ManyToMany
     private Set<User> subscribers;
+
     @JsonSerialize(using = EntityAsIdOnlySerializer.class)
     @ManyToMany(mappedBy = "subscribers")
     private Set<User> subscriptions;

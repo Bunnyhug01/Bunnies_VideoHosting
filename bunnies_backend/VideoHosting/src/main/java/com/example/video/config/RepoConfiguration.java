@@ -1,11 +1,14 @@
 package com.example.video.config;
 
+import com.example.video.entity.Comment;
 import com.example.video.entity.Role;
 import com.example.video.entity.User;
 import com.example.video.entity.Video;
+import com.example.video.repository.CommentRepository;
 import com.example.video.repository.RoleRepository;
 import com.example.video.repository.UserRepository;
 import com.example.video.repository.VideoRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Configuration;
@@ -23,11 +26,15 @@ public class RepoConfiguration {
     private final VideoRepository videoRepository;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final CommentRepository commentRepository;
+
     private final PasswordEncoder passwordEncoder;
+
+    private final ObjectMapper objectMapper;
 
     @Transactional
     @EventListener(ApplicationReadyEvent.class)
-    void init() {
+    public void init() {
         if (roleRepository.findByName("USER") == null) {
             var r = new Role();
             r.setName("USER");
@@ -69,7 +76,8 @@ public class RepoConfiguration {
             v.setUploadDate(new Date());
             v.setOwner(maksim);
             userRepository.save(maksim);
-            return videoRepository.save(v);
+            v = videoRepository.save(v);
+            return v;
         });
         var v2 = videoRepository.findByTitle("Название 2").orElseGet(() -> {
             var v = new Video();
@@ -80,7 +88,37 @@ public class RepoConfiguration {
             v.setUploadDate(new Date());
             v.setOwner(arseny);
             userRepository.save(arseny);
-            return videoRepository.save(v);
+            v = videoRepository.save(v);
+            return v;
+        });
+        commentRepository.deleteAll();
+        var c1 = commentRepository.findCommentByAuthorAndVideo(maksim, v1).orElseGet(() -> {
+            var comment = new Comment();
+            comment.setAuthor(maksim);
+            comment.setVideo(v1);
+            comment.setText("Комментарий 1");
+            return commentRepository.save(comment);
+        });
+        var c2 = commentRepository.findCommentByAuthorAndVideo(maksim, v2).orElseGet(() -> {
+            var comment = new Comment();
+            comment.setAuthor(maksim);
+            comment.setVideo(v2);
+            comment.setText("Комментарий 2");
+            return commentRepository.save(comment);
+        });
+        var c3 = commentRepository.findCommentByAuthorAndVideo(arseny, v1).orElseGet(() -> {
+            var comment = new Comment();
+            comment.setAuthor(arseny);
+            comment.setVideo(v1);
+            comment.setText("Комментарий 3");
+            return commentRepository.save(comment);
+        });
+        var c4 = commentRepository.findCommentByAuthorAndVideo(arseny, v2).orElseGet(() -> {
+            var comment = new Comment();
+            comment.setAuthor(arseny);
+            comment.setVideo(v2);
+            comment.setText("Комментарий 4");
+            return commentRepository.save(comment);
         });
     }
 

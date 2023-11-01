@@ -49,7 +49,7 @@ public class AllExceptionControllerAdvice {
     }
 
     @ResponseBody
-    @ExceptionHandler({UserNotFoundException.class, VideoNotFoundException.class})
+    @ExceptionHandler({UserNotFoundException.class, VideoNotFoundException.class, CommentNotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public Object notFoundException(RuntimeException e, WebRequest request) {
         return newException(e, request);
