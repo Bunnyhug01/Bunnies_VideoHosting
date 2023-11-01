@@ -49,7 +49,7 @@ async function updateJWT() {
             }).then(resp => resp.json())   
         }
         return resp.json()
-    }).then(json => json["access"])     .then(token => localStorage.setItem("jwt", token))
+    }).then(json => json["access"]).then(token => localStorage.setItem("jwt", token))
 }
 
 setJWTUpdateCallBack(async () => {

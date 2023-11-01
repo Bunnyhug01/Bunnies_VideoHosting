@@ -1,12 +1,22 @@
 
 import { sfetch } from "./main"
 
-
-export interface VideoBody {
+export interface VideoCreateRequest {
     logoUrl: string,
     title: string,
     detail: string,
     videoUrl: string,
+    isPrivate: boolean,
+}
+
+export interface VideoReplaceRequest {
+    title?: string,
+    detail?: string,
+
+    logoUrl?: string,
+    videoUrl?: string,
+    
+    isPrivate?: boolean,
 }
 
 export interface Video {
@@ -23,24 +33,35 @@ export interface Video {
 }
 
 export async function getAll(): Promise<Video[]>  {
-    return sfetch("/videos").then(resp => resp.json())
+    return sfetch(`/videos`).then(resp => resp.json())
 }
 
 export async function getOne(id: number): Promise<Video> {
     return sfetch(`/videos/${id}`).then(resp => resp.json())
 }
 
-export async function deleteOne(id: number) {
+export async function deleteOne(id: number): Promise<Response> {
     return sfetch(`/videos/${id}`, {
         method: "DELETE"
-    }).then(resp => resp.json())
+    })
 }
 
-export async function create(video: VideoBody): Promise<Video> {
+export async function createOne(video: VideoCreateRequest): Promise<Video> {
     return sfetch(`/videos`, {
         method: "POST",
         body: JSON.stringify(video)
     }).then(resp => resp.json())
+}
+
+export async function replaceOne(id: number, video: VideoReplaceRequest): Promise<Video> {
+    return sfetch(`/videos/${id}`, {
+        method: "PUT",
+        body: JSON.stringify(video)
+    }).then(resp => resp.json())
+}
+
+export async function replaceTitle(id: number, title: string): Promise<Video> {
+    return replaceOne(id, { title: title })
 }
 
 export async function setLike(video: number): Promise<Response> {
