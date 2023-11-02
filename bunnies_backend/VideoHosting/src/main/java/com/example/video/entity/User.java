@@ -19,6 +19,7 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "channel")
 public class User implements BaseEntity, UserDetails {
 
     @Id
@@ -65,7 +66,7 @@ public class User implements BaseEntity, UserDetails {
     @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
+        return getRoles();
     }
 
     @JsonIgnore
