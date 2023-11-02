@@ -6,10 +6,11 @@ import com.example.video.dto.request.ReplaceCommentRequest;
 import com.example.video.entity.Comment;
 import com.example.video.entity.User;
 import com.example.video.repository.CommentRepository;
+import com.example.video.repository.VideoRepository;
 import com.example.video.service.CommentService;
-import com.example.video.service.VideoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 
@@ -19,14 +20,14 @@ public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository repository;
 
-    private final VideoService service;
+    private final VideoRepository videoRepository;
 
     @Override
     public Comment createComment(CommentRequest request, User user) {
         return repository.save(Comment.builder()
                 .text(request.getText())
                 .author(user)
-                .video(service.getById(request.getVideoId()))
+                .video(videoRepository.getReferenceById(request.getVideoId()))
                 .build());
     }
 
@@ -45,6 +46,7 @@ public class CommentServiceImpl implements CommentService {
         return repository.findAll();
     }
 
+    @Transactional
     @Override
     public Comment replaceComment(long id, ReplaceCommentRequest request) {
         var comment = getOneComment(id);
