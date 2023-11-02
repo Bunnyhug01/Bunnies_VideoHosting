@@ -72,4 +72,9 @@ public class VideoServiceImpl implements VideoService {
         return all.get(random.nextInt(all.size()));
     }
 
+    @Override
+    public Video getById(long videoId) {
+        return videoRepository.getReferenceById(videoId);
+    }
+
 }

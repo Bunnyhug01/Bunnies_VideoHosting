@@ -26,7 +26,7 @@ public class CommentServiceImpl implements CommentService {
         return repository.save(Comment.builder()
                 .text(request.getText())
                 .author(user)
-//                .video(service.findById(request.getVideoId()))
+                .video(service.getById(request.getVideoId()))
                 .build());
     }
 
@@ -48,7 +48,9 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public Comment replaceComment(long id, ReplaceCommentRequest request) {
         var comment = getOneComment(id);
-        comment.setText(request.getText());
+        var text = request.getText();
+        if (text != null)
+            comment.setText(text);
         return repository.save(comment);
     }
 

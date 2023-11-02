@@ -24,4 +24,6 @@ public interface VideoService {
 
     Video findRandomCanSee(Long userId);
 
+    Video getById(long videoId);
+
 }
