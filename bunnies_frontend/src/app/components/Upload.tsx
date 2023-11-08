@@ -1,38 +1,25 @@
 import { Box, Button, Dialog, DialogTitle, IconButton, DialogContent, DialogActions, Typography, TextField, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from "@mui/material"
 import CloseIcon from '@mui/icons-material/Close';
 import VideoCallIcon from '@mui/icons-material/VideoCall';
-import { DropzoneArea } from 'material-ui-dropzone'
 
-import { ref, uploadBytes } from "firebase/storage";
+import { useEffect, useState } from "react";
 
-import { ChangeEvent, useEffect, useState } from "react";
-import { storage } from "../firebase/firebase";
 import UploadZone from "./UploadZone";
+import ProgressBar from "./ProgressBar";
+import { VideoCreateRequest, createOne } from "../api/videos";
+
 
 export default function Upload() {
   
-  // Video upload
   const [videoUpload, setVideoUpload] = useState<File|null>(null);
-  const uploadVideo = () => {
-    console.log(videoUpload)
-    if (videoUpload == null) return;
-    const videoRef = ref(storage, `videos/${videoUpload.name}`);
-
-    uploadBytes(videoRef, videoUpload).then(() => {
-      alert('Video uploaded');
-    });
-  };
-
-  // Image upload
   const [imageUpload, setImageUpload] = useState<File|null>(null);
-  const uploadImage = () => {
-    if (imageUpload == null) return;
-    const imageRef = ref(storage, `images/${imageUpload.name}`);
 
-    uploadBytes(imageRef, imageUpload).then(() => {
-      alert('Image uploaded');
-    });
-  };
+  const [videoRef, setVideoRef] = useState<string>("");
+  const [imageRef, setImageRef] = useState<string>("");
+
+  const [videoLoadProgress, setVideoLoadProgress] = useState<number>(0);
+  const [imageLoadProgress, setImageLoadProgress] = useState<number>(0);
+
 
   const [privacy, setPrivacy] = useState('');
 
@@ -48,16 +35,25 @@ export default function Upload() {
   };
   const handleClose = () => {
     setOpen(false);
+
+    setVideoUpload(null)
+    setImageUpload(null)
+
+    setIsVideoUpload(false)
   };
+
 
   const [openUpload, setOpenUpload] = useState(false);
 
   const handleClickUploadOpen = () => {
     setOpenUpload(true);
   };
+
   const handleUploadClose = () => {
     setOpenUpload(false);
+    setIsVideoUpload(false)
   };
+
 
   const [isThumbnailUpload, setIsThumbnailUpload] = useState<boolean>(false)
 
@@ -68,9 +64,40 @@ export default function Upload() {
   const [isVideoUpload, setIsVideoUpload] = useState<boolean>(false)
 
   useEffect(() => {
-    setIsVideoUpload(!isVideoUpload)
+    if (videoUpload !== null) {
+        setIsVideoUpload(true)
+    }
   }, [videoUpload])
 
+
+  const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
+
+    handleClose()
+
+    event.preventDefault();
+    const form = event.currentTarget
+    const formElements = form.elements as typeof form.elements & {
+        title: {value: string},
+        description: {value: string},
+    }
+
+    const isPrivate = privacy === 'private' ? false : true
+    const video: VideoCreateRequest = {
+        logoUrl: imageRef,
+        title: formElements.title.value,
+        detail: formElements.description.value,
+        videoUrl: videoRef,
+        isPrivate: isPrivate,
+    }
+
+    console.log(video)
+    // createOne(video)
+  }
+
+  useEffect(() => {
+    console.log('Ref', videoRef)
+  }, [videoRef])
+ 
   return (
     <Box>
  
@@ -93,29 +120,39 @@ export default function Upload() {
                     Video Upload
                     </DialogTitle>
                     <IconButton
-                    aria-label="close"
-                    onClick={() => {
-                        handleUploadClose()
-                        setVideoUpload(null)
-                    }}
-                    sx={{
-                        position: 'absolute',
-                        right: 8,
-                        top: 8,
-                        color: (theme) => theme.palette.grey[500],
-                    }}
+                        aria-label="close"
+                        onClick={() => {
+                            handleUploadClose()
+                            setVideoUpload(null)
+                        }}
+                        sx={{
+                            position: 'absolute',
+                            right: 8,
+                            top: 8,
+                            color: (theme) => theme.palette.grey[500],
+                        }}
                     >
                     <CloseIcon />
                     </IconButton>
                     <DialogContent dividers>
                         <Box>
-                            <UploadZone setFile={setVideoUpload} fileType={'video'}/>
+                            <UploadZone
+                                setFile={setVideoUpload}
+                                fileType={'video'}
+                                reference={{fileRef: videoRef, setFileRef: setVideoRef}}
+                                setProgress={setVideoLoadProgress}
+                            />
+
+                            {videoUpload
+                                ? <ProgressBar value={videoLoadProgress} />
+                                : null
+                            }
                         </Box>
                     </DialogContent>
                     <DialogActions>
    
                         <Button
-                            disabled={isVideoUpload} 
+                            disabled={!isVideoUpload} 
                             autoFocus 
                             onClick={() => {
                                 handleUploadClose()
@@ -133,8 +170,6 @@ export default function Upload() {
                 <Dialog
                     onClose={() => {
                         handleClose()
-                        setVideoUpload(null)
-                        setImageUpload(null)
                     }}
                     aria-labelledby="customized-dialog-title"
                     open={open}
@@ -147,8 +182,6 @@ export default function Upload() {
                     aria-label="close"
                     onClick={() => {
                         handleClose()
-                        setVideoUpload(null)
-                        setImageUpload(null)
                     }}
                     sx={{
                         position: 'absolute',
@@ -161,15 +194,15 @@ export default function Upload() {
                     </IconButton>
                     <form
                         method="post" 
-                        onSubmit={() => {
-                            uploadVideo()
-                            uploadImage()
-                            handleClose()
-                            setVideoUpload(null)
-                            setImageUpload(null)
+                        onSubmit={(event) => {
+                            handleSubmit(event)
                         }}
                     >
                         <DialogContent dividers>
+
+                        <Typography variant="h5">Video uploading progress</Typography>
+
+                        <ProgressBar value={videoLoadProgress} />
 
                         <Typography variant="h5">Details</Typography>
                         <Box
@@ -209,6 +242,7 @@ export default function Upload() {
                             >
                                 <InputLabel>Privacy</InputLabel>
                                 <Select
+                                    id="privacy"
                                     value={privacy}
                                     label="Privacy"
                                     onChange={handleChange}
@@ -234,14 +268,29 @@ export default function Upload() {
                                 className="sm:w-full w-[40%]"
                             >
      
-                                <UploadZone setFile={setImageUpload} fileType="image"/>
+                                <UploadZone
+                                    setFile={setImageUpload}
+                                    fileType="image"
+                                    reference={{fileRef: imageRef, setFileRef: setImageRef}}
+                                    setProgress={setImageLoadProgress}
+                                />
+                                
+                                {imageUpload
+                                    ? <ProgressBar value={imageLoadProgress} />
+                                    : null
+                                }
+
                             </Box>
                             
                         </Box>
 
                         </DialogContent>
                         <DialogActions>
-                            <Button type="submit" disabled={isThumbnailUpload} autoFocus>
+                            <Button 
+                                type="submit"
+                                disabled={!(imageLoadProgress === 100 && videoLoadProgress === 100)}
+                                autoFocus
+                            >
                                 Save changes
                             </Button>
                         </DialogActions>

@@ -11,19 +11,33 @@ interface Props {
   video: Video
 }
 
-const DEFAULT_VIDEO: Video = {
-  logoUrl: "https://firebasestorage.googleapis.com/v0/b/bunnies-aad60.appspot.com/o/gifs%2Fpls-stand-by.gif?alt=media&token=5acd497a-8ad8-462c-a208-21958dc6edca&_gl=1*12bnvus*_ga*NDQwMTkyNzg1LjE2OTgxNjA5ODA.*_ga_CW55HF8NVT*MTY5ODE2MDk4MC4xLjEuMTY5ODE2MTU4OS4xMS4wLjA.",
-  title: '',
-  detail: '',
-  videoUrl: '',
-  uploadDate: new Date(),
-  likes: 0,
-  dislikes: 0,
-  views: 0,
-  owner: 0
+
+const default_logo_urls: string[] = [
+  "https://firebasestorage.googleapis.com/v0/b/bunnies-aad60.appspot.com/o/gifs%2Fpls-stand-by.gif?alt=media&token=5acd497a-8ad8-462c-a208-21958dc6edca&_gl=1*12bnvus*_ga*NDQwMTkyNzg1LjE2OTgxNjA5ODA.*_ga_CW55HF8NVT*MTY5ODE2MDk4MC4xLjEuMTY5ODE2MTU4OS4xMS4wLjA.",
+  "https://firebasestorage.googleapis.com/v0/b/bunnies-aad60.appspot.com/o/gifs%2Fpl_stand_by_second.gif?alt=media&token=782d6dd2-dee7-4798-bbf3-08665f9d68f0",
+  "https://firebasestorage.googleapis.com/v0/b/bunnies-aad60.appspot.com/o/gifs%2Ffallout-please-stand-by.gif?alt=media&token=f712d9e4-85e7-49c1-ae1d-3c06af65f2e7",
+]
+
+
+
+function DEFAULT_VIDEO(): Video {
+  const random_default_logo:string = default_logo_urls[(Math.floor(Math.random() * default_logo_urls.length))]
+  
+  return {
+    logoUrl: random_default_logo,
+    title: '',
+    detail: '',
+    videoUrl: '',
+    uploadDate: new Date(),
+    likes: 0,
+    dislikes: 0,
+    views: 0,
+    owner: 0
+  }
 }
 
-export default function VideoContainer( { video = DEFAULT_VIDEO } : Props ) {
+
+export default function VideoContainer( { video = DEFAULT_VIDEO() } : Props ) {
   const [isPlaying, setPlaying] = useState<boolean>(false);
   const tl: TimelineLite = new TimelineLite({ delay: 0.3 });
   
