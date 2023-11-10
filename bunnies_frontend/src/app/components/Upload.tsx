@@ -90,18 +90,18 @@ export default function Upload() {
         isPrivate: isPrivate,
     }
 
-    console.log(video)
     // createOne(video)
   }
 
-  useEffect(() => {
-    console.log('Ref', videoRef)
-  }, [videoRef])
  
   return (
     <Box>
  
-        <IconButton size="large" color="inherit" onClick={handleClickUploadOpen}>
+        <IconButton
+            size="large"
+            color="inherit"
+            onClick={handleClickUploadOpen}
+        >
             <VideoCallIcon />
         </IconButton>
 

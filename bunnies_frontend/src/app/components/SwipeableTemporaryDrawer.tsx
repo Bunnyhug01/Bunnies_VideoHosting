@@ -1,9 +1,14 @@
 import React from "react";
 
+import Link from 'next/link';
+
 import { Box, Divider, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SwipeableDrawer, Toolbar, useTheme } from "@mui/material";
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
+import HomeIcon from '@mui/icons-material/Home';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import HistoryIcon from '@mui/icons-material/History';
 import Logo from "./Logo";
 
 
@@ -46,30 +51,43 @@ export default function SwipeableTemporaryDrawer() {
 
       <Divider />
       <List>
-        {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-          <ListItem key={text} disablePadding>
+        
+        <Link href='/'>
+          <ListItem key={'Home'} disablePadding>
             <ListItemButton>
               <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                <HomeIcon />
               </ListItemIcon>
-              <ListItemText primary={text} />
+              <ListItemText primary={'Home'} />
             </ListItemButton>
           </ListItem>
-        ))}
+        </Link>
+
+        <Link href='/favorites'>
+          <ListItem key={'Favorites'} disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                <FavoriteIcon />
+              </ListItemIcon>
+              <ListItemText primary={'Favorites'} />
+            </ListItemButton>
+          </ListItem>
+        </Link>
+
+        <Link href='/history'>
+          <ListItem key={'History'} disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                <HistoryIcon />
+              </ListItemIcon>
+              <ListItemText primary={'History'} />
+            </ListItemButton>
+          </ListItem>
+        </Link>
+
       </List>
       <Divider />
-      <List>
-        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
+
     </Box>
   );
 

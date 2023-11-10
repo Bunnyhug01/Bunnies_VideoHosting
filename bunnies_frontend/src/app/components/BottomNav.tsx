@@ -1,5 +1,7 @@
 import React from 'react'
 
+import Link from 'next/link';
+
 import { Paper, BottomNavigation, BottomNavigationAction } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -18,9 +20,18 @@ export default function BottomNav() {
                 setValue(newValue);
             }}
             >
-            <BottomNavigationAction label="Home" icon={<HomeIcon />} />
-            <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />
-            <BottomNavigationAction label="History" icon={<HistoryIcon />} />
+                <Link href='/'>
+                    <BottomNavigationAction label="Home" icon={<HomeIcon />} />
+                </Link>
+
+                <Link href='/favorites'>
+                    <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />
+                </Link>
+                
+                <Link href='/history'>
+                    <BottomNavigationAction label="History" icon={<HistoryIcon />} />
+                </Link>
+                
             </BottomNavigation>
         </Paper>
     )

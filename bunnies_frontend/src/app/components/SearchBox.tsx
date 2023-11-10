@@ -1,33 +1,70 @@
-import { Search } from "@mui/icons-material";
 import { Box, IconButton, InputBase } from "@mui/material";
+import SearchIcon from '@mui/icons-material/Search';
+import { styled, alpha } from '@mui/material/styles';
+
+
+const Search = styled('div')(({ theme }) => ({
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: theme.palette.mode === 'dark' 
+      ? alpha(theme.palette.common.white, 0.15)
+      : alpha(theme.palette.common.black, 0.15),
+    '&:hover': {
+      backgroundColor: theme.palette.mode === 'dark' 
+      ? alpha(theme.palette.common.white, 0.25)
+      : alpha(theme.palette.common.black, 0.1),
+    },
+    marginRight: theme.spacing(2),
+    marginLeft: 0,
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing(3),
+      width: 'auto',
+    },
+  }));
+  
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+    padding: theme.spacing(0, 2),
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+}));
+  
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+    color: 'inherit',
+    '& .MuiInputBase-input': {
+      padding: theme.spacing(1, 1, 1, 0),
+      // vertical padding + font size from searchIcon
+      paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+      transition: theme.transitions.create('width'),
+      width: '100%',
+      [theme.breakpoints.up('md')]: {
+        width: '20ch',
+      },
+    },
+}));
 
 
 interface Props {
-    boxId? : string,
-    inputId? : string,
-    onChange? : React.ChangeEventHandler<HTMLInputElement>
+    onChange : React.ChangeEventHandler<HTMLInputElement>
 }
 
 
-export default function SearchBox({boxId = undefined, inputId = undefined, onChange = undefined} : Props) {
+export default function SearchBox({onChange} : Props) {
 
     return (
-        <Box
-            sx={{bgcolor: 'background.additional'}}
-            className="ml-20 h-[40px] px-2 md:flex items-center rounded-md overflow-hidden sm:hidden"
-            id={boxId}
-        >
-            <InputBase 
-                id={inputId}
-                placeholder="Search..."
-                inputProps={{ 'aria-label': 'search google maps' }}
-                className="w-full h-full bg-transparent outline-none
-                border-none text-textColor placeholder-gray-400 px-2"
+        <Search sx={{bgcolor: 'background.additional'}}>
+            <SearchIconWrapper>
+            <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+                placeholder="Search…"
+                inputProps={{ 'aria-label': 'search' }}
                 onChange={onChange}
             />
-            <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
-                <Search />
-            </IconButton>
-        </Box>
+        </Search>
     )
 }

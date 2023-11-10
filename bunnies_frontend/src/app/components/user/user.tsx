@@ -20,7 +20,7 @@ export function UserIdInfo({ id, children }: { id: number, children: React.React
         getOne(id).then((user) => {
             setUser(user)
         })
-    }, [])
+    }, [id])
 
     return (
         <>

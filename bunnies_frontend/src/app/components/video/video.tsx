@@ -23,7 +23,7 @@ export function VideoIdInfo({ id, children }: { id: number, children: React.Reac
         getOne(id).then((video) => {
             setVideo(video)
         })
-    }, [])
+    }, [id])
 
     return (
         <>

@@ -20,7 +20,7 @@ export function CommentIdInfo({ id, children }: { id: number, children: React.Re
         getOne(id).then((comment) => {
             setComment(comment)
         })
-    }, [])
+    }, [id])
 
     return (
         <>
