@@ -25,13 +25,13 @@ public class Video implements BaseEntity {
     @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false, length = 8 * 1024)
+    @Column(nullable = false, length = 2 * 1024)
     private String detail;
 
-    @Column(nullable = false, length = 8 * 1024)
+    @Column(nullable = false, length = 2 * 1024)
     private String logoUrl;
 
-    @Column(nullable = false, length = 8 * 1024)
+    @Column(nullable = false, length = 2 * 1024)
     private String videoUrl;
 
     @Column(nullable = false)
