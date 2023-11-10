@@ -20,7 +20,7 @@ export interface VideoReplaceRequest {
 }
 
 export interface Video {
-    id?: number,
+    id: number,
     logoUrl: string,
     title: string,
     detail: string,

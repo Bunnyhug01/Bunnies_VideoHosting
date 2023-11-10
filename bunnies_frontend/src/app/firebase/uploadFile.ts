@@ -27,39 +27,18 @@ const uploadFile = ({file, setFileRef, directory, setProgress, cancel}: Props) =
 
             if (setProgress !== undefined) {
                 setProgress(progress)
-            }
-            
-            // if (cancel.uploadingCancellation) {
-            //     console.log('CANCEL 1')
-            //     uploadTask.cancel()
-            //     cancel.setUploadingCancellation(false)
-            // }
-            
+            }            
         },
         (error) => {
 
         },
         () => {
 
-            // if (cancel.uploadingCancellation) {
-            //     console.log('CANCEL 2')
-            //     const refecence =  uploadTask.snapshot.ref
-            //     deleteObject(refecence)
-            //     cancel.setUploadingCancellation(false)
-            // }
-
             getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
                 setFileRef(downloadURL.toString())
             })
         }
     )
-
-    // if (cancel.uploadingCancellation) {
-    //     console.log('CANCEL 3')
-    //     const refecence =  uploadTask.snapshot.ref
-    //     deleteObject(refecence)
-    //     cancel.setUploadingCancellation(false)
-    // }
 };
 
 export default uploadFile

@@ -7,11 +7,9 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
@@ -19,62 +17,18 @@ import SwipeableTemporaryDrawer from './SwipeableTemporaryDrawer';
 import { LightMode, DarkMode } from '@mui/icons-material';
 import Logo from './Logo';
 import Upload from './Upload';
-
-
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: theme.palette.mode === 'dark' 
-    ? alpha(theme.palette.common.white, 0.15)
-    : alpha(theme.palette.common.black, 0.15),
-  '&:hover': {
-    backgroundColor: theme.palette.mode === 'dark' 
-    ? alpha(theme.palette.common.white, 0.25)
-    : alpha(theme.palette.common.black, 0.1),
-  },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(3),
-    width: 'auto',
-  },
-}));
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
-    },
-  },
-}));
+import SearchBox from './SearchBox';
 
 
 interface Props {
-    inputHandler? : React.ChangeEventHandler<HTMLInputElement>
+    searchHandler: React.ChangeEventHandler<HTMLInputElement>
     ColorModeContext: React.Context<{
         toggleColorMode: () => void;
     }>
 }
 
 
-export default function Header({inputHandler = undefined, ColorModeContext} : Props) {
+export default function Header({searchHandler, ColorModeContext} : Props) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
@@ -149,7 +103,7 @@ export default function Header({inputHandler = undefined, ColorModeContext} : Pr
                 <Upload />
                 <p>Upload video</p>
             </MenuItem>
-            <MenuItem>
+            {/* <MenuItem>
                 <IconButton
                     size="large"
                     aria-label="show 17 new notifications"
@@ -160,11 +114,12 @@ export default function Header({inputHandler = undefined, ColorModeContext} : Pr
                     </Badge>
                 </IconButton>
                 <p>Notifications</p>
-            </MenuItem>
+            </MenuItem> */}
             <MenuItem onClick={colorMode.toggleColorMode}>
                 <IconButton
                     color="inherit"
                     size="large"
+                    style={{ backgroundColor: 'transparent' }}
                 >
                     {theme.palette.mode === 'dark'
                         ? <LightMode className="text-yellow-400"/>
@@ -180,6 +135,7 @@ export default function Header({inputHandler = undefined, ColorModeContext} : Pr
                     aria-controls="primary-search-account-menu"
                     aria-haspopup="true"
                     color="inherit"
+                    style={{ backgroundColor: 'transparent' }}
                 >
                     <AccountCircle />
                 </IconButton>
@@ -194,19 +150,11 @@ export default function Header({inputHandler = undefined, ColorModeContext} : Pr
                 <Toolbar sx={{ bgcolor: 'background.default' }}>
                     <SwipeableTemporaryDrawer />
                     <Logo />
-                    <Search sx={{bgcolor: 'background.additional'}}>
-                        <SearchIconWrapper>
-                        <SearchIcon />
-                        </SearchIconWrapper>
-                        <StyledInputBase
-                        placeholder="Search…"
-                        inputProps={{ 'aria-label': 'search' }}
-                        />
-                    </Search>
+                    <SearchBox onChange={searchHandler} />
                     <Box sx={{ flexGrow: 1 }} />
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                         <Upload />
-                        <IconButton
+                        {/* <IconButton
                             size="large"
                             aria-label="show 17 new notifications"
                             color="inherit"
@@ -214,7 +162,7 @@ export default function Header({inputHandler = undefined, ColorModeContext} : Pr
                         <Badge badgeContent={17} color="error">
                             <NotificationsIcon />
                         </Badge>
-                        </IconButton>
+                        </IconButton> */}
                         <IconButton
                             onClick={colorMode.toggleColorMode}
                             color="inherit"

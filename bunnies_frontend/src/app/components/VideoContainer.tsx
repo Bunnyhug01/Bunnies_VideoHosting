@@ -24,6 +24,7 @@ function DEFAULT_VIDEO(): Video {
   const random_default_logo:string = default_logo_urls[(Math.floor(Math.random() * default_logo_urls.length))]
   
   return {
+    id: -1,
     logoUrl: random_default_logo,
     title: '',
     detail: '',

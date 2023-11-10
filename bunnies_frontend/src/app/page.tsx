@@ -13,20 +13,34 @@ import BottomNav from './components/BottomNav';
 import { addView, getLine } from './api/views';
 import { Video } from './api/videos';
 import { ColorModeContext, getDesignTokens } from './styles/designTokens';
+import { searchOne } from './api/search';
 
 
 function Home() {
 
   const [data, setData] = useState<Video[]>([])
 
-  useEffect(() => {
-    getLine().then((videoArray) => {
-      setData(videoArray)
-    })
-  }, [])
-
   const [video, setVideo] = useState<Video>(data[0])
+
+  const [searchText, setSearchText] = useState<string|undefined>(undefined);
+  const searchHandler = (e: React.FormEvent<HTMLInputElement>) => {
+    setSearchText(e.currentTarget.value);
+  }
   
+  useEffect(() => {
+    if (searchText === undefined || searchText === '') {
+      getLine().then((videoArray) => {
+        setData(videoArray)
+      })
+    } else {
+      searchOne(searchText).then((videoArray) => {
+        setData(videoArray)
+      })
+    }
+
+  }, [searchText])
+  
+
   return (
     <Box
       sx={{
@@ -34,7 +48,7 @@ function Home() {
         color: 'text.primary',
       }}>
       
-      <Header ColorModeContext={ColorModeContext} />
+      <Header searchHandler={searchHandler} ColorModeContext={ColorModeContext} />
       
       <Box 
         component="main"
@@ -75,7 +89,7 @@ function Home() {
                   key={video.id}
                   onClick={() => {
                     setVideo(video)
-                    addView(video.id!)
+                    addView(video.id)
                   }}
                 >
                   <RecommendedList video={video} />
