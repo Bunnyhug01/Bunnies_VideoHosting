@@ -51,7 +51,7 @@ export default function UploadZone({ setFile, fileType, reference, setProgress }
         cancel: {uploadingCancellation: uploadingCancellation, setUploadingCancellation: setUploadingCancellation}
       }
       
-      // uploadFile(fileObj)
+      uploadFile(fileObj)
     }
 
   }, [])

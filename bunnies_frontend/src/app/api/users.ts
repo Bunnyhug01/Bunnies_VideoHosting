@@ -8,6 +8,8 @@ export interface User {
     subscribers: number[],
     subscriptions: number[],
     history: History[],
+    likes: number[],
+    dislikes: number[]
 }
 
 export interface History {
@@ -20,6 +22,10 @@ export async function getAll(): Promise<User[]>  {
 
 export async function getOne(id: number): Promise<User> {
     return sfetch(`/users/${id}`).then(resp => resp.json())
+}
+
+export async function getMe(): Promise<User> {
+    return sfetch(`/users/me`).then(resp => resp.json())
 }
 
 export async function addSubscribe(id: number): Promise<User> {

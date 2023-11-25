@@ -1,5 +1,7 @@
 'use client'
 
+import Link from 'next/link'
+
 import React, { useEffect, useState } from "react";
 
 import { Box, ThemeProvider, Typography, createTheme } from "@mui/material";
@@ -11,15 +13,15 @@ import { ColorModeContext, getDesignTokens } from "../styles/designTokens";
 import { searchOne } from "../api/search";
 import { addView, getLine } from "../api/views";
 import { UserVideos } from "../userVideos/page";
-import { Video, hasLike } from "../api/videos";
+import { Video, getOne, hasLike } from "../api/videos";
 import RecommendedList from "../components/RecommendedList";
+import { getMe } from "../api/users";
 
 
 export function Favorites() {
 
     const [data, setData] = useState<Video[]>([])
 
-    const [video, setVideo] = useState<Video>(data[0])
 
     const [searchText, setSearchText] = useState<string|undefined>(undefined);
     const searchHandler = (e: React.FormEvent<HTMLInputElement>) => {
@@ -28,9 +30,17 @@ export function Favorites() {
     
     useEffect(() => {
       if (searchText === undefined || searchText === '') {
-        getLine().then((videoArray) => {
-          setData(videoArray)
-        })
+        
+        getMe().then((user) => 
+          user.likes.map((videoId) =>
+            getOne(videoId)
+              .then((video) => {
+                setData(data.concat([video]))
+              }
+            )
+          )
+        )
+  
       } else {
         searchOne(searchText).then((videoArray) => {
           setData(videoArray)
@@ -39,7 +49,7 @@ export function Favorites() {
   
     }, [searchText])
 
-
+    console.log('DATA', data)
   return(
     <Box
       sx={{
@@ -67,15 +77,15 @@ export function Favorites() {
 
             {data.length !== 0
               ? data.map((video) => (
-                <Box 
+                <Link 
                   key={video.id}
+                  href={`/video/${video.id}`}
                   onClick={() => {
-                      setVideo(video)
                       addView(video.id)
                   }}
                 >
                   <RecommendedList video={video} />
-                </Box>
+                </Link>
               ))
               : <Typography className="my-2 px-2">You haven't liked any of the videos</Typography>
             }

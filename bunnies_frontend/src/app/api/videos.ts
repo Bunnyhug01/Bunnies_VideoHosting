@@ -49,7 +49,10 @@ export async function deleteOne(id: number): Promise<Response> {
 export async function createOne(video: VideoCreateRequest): Promise<Video> {
     return sfetch(`/videos`, {
         method: "POST",
-        body: JSON.stringify(video)
+        body: JSON.stringify(video),
+        headers: {
+            "Content-Type": "application/json",
+        }
     }).then(resp => resp.json())
 }
 

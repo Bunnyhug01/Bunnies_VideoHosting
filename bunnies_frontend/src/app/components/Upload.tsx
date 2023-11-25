@@ -70,7 +70,7 @@ export default function Upload() {
   }, [videoUpload])
 
 
-  const handleSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: any) => {
 
     handleClose()
 
@@ -90,7 +90,8 @@ export default function Upload() {
         isPrivate: isPrivate,
     }
 
-    // createOne(video)
+    console.log(video)
+    createOne(video)
   }
 
  
@@ -290,6 +291,7 @@ export default function Upload() {
                                 type="submit"
                                 disabled={!(imageLoadProgress === 100 && videoLoadProgress === 100)}
                                 autoFocus
+                                onSubmit={(event) => handleSubmit(event)}
                             >
                                 Save changes
                             </Button>
