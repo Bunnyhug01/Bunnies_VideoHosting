@@ -26,7 +26,11 @@ export async function sfetch(url: string, init?: RequestInit): Promise<Response>
     }catch(e) {
     }
     await updateJWT()
-    return await fetch(`${API_URL}${url}`, init)
+    try{
+        return await fetch(`${API_URL}${url}`, init)
+    }catch(e) {
+        throw e
+    }
 }
 
 export function setJWTUpdateCallBack(func: JWTUpdateCallBack) {
