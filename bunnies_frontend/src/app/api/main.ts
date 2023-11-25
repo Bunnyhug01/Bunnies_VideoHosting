@@ -20,13 +20,13 @@ export async function sfetch(url: string, init?: RequestInit): Promise<Response>
     if(init.headers === undefined)
         init.headers = {}
     init.credentials = "include"
-    init.headers["Authorization"] = `Bearer ${localStorage.getItem("jwt")}`
+    init.headers.Authorization = `Bearer ${localStorage.getItem("jwt")}`
     try {
         return await fetch(`${API_URL}${url}`, init)
     }catch(e) {
     }
     await updateJWT()
-    return fetch(`${API_URL}${url}`, init)
+    return await fetch(`${API_URL}${url}`, init)
 }
 
 export function setJWTUpdateCallBack(func: JWTUpdateCallBack) {
