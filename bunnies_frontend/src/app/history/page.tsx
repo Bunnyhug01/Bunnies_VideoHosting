@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import { Box, ThemeProvider, Typography, createTheme } from "@mui/material";
 import HistoryIcon from '@mui/icons-material/History';
@@ -21,9 +21,9 @@ export function History() {
     const [video, setVideo] = useState<Video>(data[0])
 
     const [searchText, setSearchText] = useState<string|undefined>(undefined);
-    const searchHandler = (e: React.FormEvent<HTMLInputElement>) => {
+    const searchHandler = useCallback((e: React.FormEvent<HTMLInputElement>) => {
       setSearchText(e.currentTarget.value);
-    }
+    }, [])
     
     useEffect(() => {
       if (searchText === undefined || searchText === '') {

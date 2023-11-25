@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import { Box, ThemeProvider, Typography, createTheme } from "@mui/material";
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -24,9 +24,9 @@ export function Favorites() {
 
 
     const [searchText, setSearchText] = useState<string|undefined>(undefined);
-    const searchHandler = (e: React.FormEvent<HTMLInputElement>) => {
+    const searchHandler = useCallback((e: React.FormEvent<HTMLInputElement>) => {
       setSearchText(e.currentTarget.value);
-    }
+    }, [])
     
     useEffect(() => {
       if (searchText === undefined || searchText === '') {

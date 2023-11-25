@@ -8,7 +8,7 @@ import { Box } from '@mui/material';
 
 
 interface Props {
-  video: Video
+  video?: Video
 }
 
 

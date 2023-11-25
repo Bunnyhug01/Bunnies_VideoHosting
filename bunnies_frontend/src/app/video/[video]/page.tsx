@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useParams, notFound } from 'next/navigation'
 
 import * as React from 'react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -26,27 +26,30 @@ function Video() {
   const params  = useParams();
   const videoId = Number(params.video)
 
-  const [data, setData] = useState<Video[]>([])
+  const [recommendation, setRecommendation] = useState<Video[]>([])
 
-  const [video, setVideo] = useState<Video>(data[0])
+  const [video, setVideo] = useState<Video>()
 
   const [searchText, setSearchText] = useState<string|undefined>(undefined);
-  const searchHandler = (e: React.FormEvent<HTMLInputElement>) => {
+  const searchHandler = useCallback((e: React.FormEvent<HTMLInputElement>) => {
     setSearchText(e.currentTarget.value);
-  }
+  }, [])
 
-  getOne(videoId).then((video) => {
-    setVideo(video)
-  })
+  useEffect(() => {
+    getOne(videoId).then((video) => {
+      console.log(video)
+      setVideo(video)
+    })
+  },[])
   
   useEffect(() => {
     if (searchText === undefined || searchText === '') {
       getLine().then((videoArray) => {
-        setData(videoArray)
+        setRecommendation(videoArray)
       })
     } else {
       searchOne(searchText).then((videoArray) => {
-        setData(videoArray)
+        setRecommendation(videoArray)
       })
     }
 
@@ -96,7 +99,7 @@ function Video() {
                 Recommended
               </Typography>
 
-              {data.map((video) => (
+              {recommendation.map((video) => (
                 <Link 
                   key={video.id}
                   href={`/video/${video.id}`}
