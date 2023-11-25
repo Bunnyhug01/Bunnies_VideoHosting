@@ -13,7 +13,7 @@ export interface User {
 }
 
 export interface History {
-    videoId: number,
+    video: number,
 }
 
 export async function getAll(): Promise<User[]>  {

@@ -24,11 +24,13 @@ export async function sfetch(url: string, init?: RequestInit): Promise<Response>
     try {
         return await fetch(`${API_URL}${url}`, init)
     }catch(e) {
+        console.log('ERROR 1', e)
     }
     await updateJWT()
     try{
         return await fetch(`${API_URL}${url}`, init)
     }catch(e) {
+        console.log('ERROR 2', e)
         throw e
     }
 }

@@ -35,7 +35,7 @@ export function Favorites() {
           user.likes.map((videoId) =>
             getOne(videoId)
               .then((video) => {
-                setData(data.concat([video]))
+                setData((prev)=>[...prev, video])
               }
             )
           )

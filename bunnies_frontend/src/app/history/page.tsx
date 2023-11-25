@@ -1,5 +1,7 @@
 'use client'
 
+import Link from 'next/link'
+
 import React, { useCallback, useEffect, useState } from "react";
 
 import { Box, ThemeProvider, Typography, createTheme } from "@mui/material";
@@ -10,15 +12,14 @@ import BottomNav from "../components/BottomNav";
 import { ColorModeContext, getDesignTokens } from "../styles/designTokens";
 import { searchOne } from "../api/search";
 import { addView, getLine } from "../api/views";
-import { Video } from "../api/videos";
+import { Video, getOne } from "../api/videos";
 import RecommendedList from "../components/RecommendedList";
+import { getMe } from "../api/users";
 
 
 export function History() {
 
     const [data, setData] = useState<Video[]>([])
-
-    const [video, setVideo] = useState<Video>(data[0])
 
     const [searchText, setSearchText] = useState<string|undefined>(undefined);
     const searchHandler = useCallback((e: React.FormEvent<HTMLInputElement>) => {
@@ -27,8 +28,14 @@ export function History() {
     
     useEffect(() => {
       if (searchText === undefined || searchText === '') {
-        getLine().then((videoArray) => {
-          setData(videoArray)
+        getMe().then((user) => 
+          user.history.map((history) => history.video) 
+        ).then((videoIdArray) => {
+          for (const videoId of videoIdArray) {
+            getOne(videoId).then((video) => {
+              setData((prev)=>[...prev, video])
+            })
+          }
         })
       } else {
         searchOne(searchText).then((videoArray) => {
@@ -66,15 +73,14 @@ export function History() {
 
             {data.length !== 0
               ? data.map((video) => (
-                <Box 
-                  key={video.id}
+                <Link
+                  href={`/video/${video.id}`}
                   onClick={() => {
-                      setVideo(video)
                       addView(video.id)
                   }}
                 >
                   <RecommendedList video={video} />
-                </Box>
+                </Link>
               ))
               : <Typography className="my-2 px-2">You haven't watched any of the videos</Typography>
             }
