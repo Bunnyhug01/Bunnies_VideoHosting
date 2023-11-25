@@ -19,7 +19,7 @@ import BottomNav from '../../components/BottomNav';
 import { addView, getLine } from '../../api/views';
 import { Video, getOne } from '../../api/videos';
 import { ColorModeContext, getDesignTokens } from '../../styles/designTokens';
-import { searchOne } from '../../api/search';
+import { search } from '../../api/search';
 
 
 function Video() {
@@ -45,7 +45,7 @@ function Video() {
         setData(videoArray)
       })
     } else {
-      searchOne(searchText).then((videoArray) => {
+      search(searchText).then((videoArray) => {
         setData(videoArray)
       })
     }

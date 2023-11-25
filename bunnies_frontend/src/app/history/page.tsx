@@ -8,7 +8,7 @@ import HistoryIcon from '@mui/icons-material/History';
 import Header from "../components/Header";
 import BottomNav from "../components/BottomNav";
 import { ColorModeContext, getDesignTokens } from "../styles/designTokens";
-import { searchOne } from "../api/search";
+import { search, searchInHistory } from "../api/search";
 import { addView, getLine } from "../api/views";
 import { Video } from "../api/videos";
 import RecommendedList from "../components/RecommendedList";
@@ -31,7 +31,7 @@ export function History() {
           setData(videoArray)
         })
       } else {
-        searchOne(searchText).then((videoArray) => {
+        searchInHistory(searchText).then((videoArray) => {
           setData(videoArray)
         })
       }

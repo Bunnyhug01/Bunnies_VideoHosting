@@ -10,7 +10,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import Header from "../components/Header";
 import BottomNav from "../components/BottomNav";
 import { ColorModeContext, getDesignTokens } from "../styles/designTokens";
-import { searchOne } from "../api/search";
+import { search, searchInLiked } from "../api/search";
 import { addView, getLine } from "../api/views";
 import { UserVideos } from "../userVideos/page";
 import { Video, getOne, hasLike } from "../api/videos";
@@ -42,7 +42,7 @@ export function Favorites() {
         )
   
       } else {
-        searchOne(searchText).then((videoArray) => {
+        searchInLiked(searchText).then((videoArray) => {
           setData(videoArray)
         })
       }
