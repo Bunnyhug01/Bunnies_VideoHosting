@@ -10,7 +10,7 @@ import Header from "./components/Header";
 import BottomNav from "./components/BottomNav";
 import { ColorModeContext, getDesignTokens } from "./styles/designTokens";
 import { search } from './api/search';
-import { addView, getLine } from './api/views';
+import { getLine } from './api/views';
 import { Video } from './api/videos';
 import VideoList from './components/VideoList';
 
@@ -43,7 +43,7 @@ export function Home() {
       }}
     >
       
-      <Header searchHandler={searchHandler} ColorModeContext={ColorModeContext} />
+      <Header searchHandler={searchHandler} ColorModeContext={ColorModeContext} text={{searchText: searchText, setSearchText: setSearchText}} />
       
 
       <Box sx={{ height: 'calc(100vh - 90px);', width: '100vw', marginTop: 5 }}>
@@ -55,9 +55,6 @@ export function Home() {
             <Link 
               key={video.id}
               href={`/video/${video.id}`}
-              onClick={() => {
-                addView(video.id)
-              }} 
             >
               <VideoList video={video} />
             </Link>

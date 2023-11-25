@@ -31,7 +31,8 @@ export async function getMe(): Promise<User> {
 export async function addSubscribe(id: number): Promise<User> {
     return sfetch(`/subscribes/${id}`, {
         method: "POST"
-    }).then(resp => resp.json())
+    })
+    .then(resp => resp.json())
 }
 
 export async function removeSubscribe(id: number): Promise<User> {

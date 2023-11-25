@@ -18,19 +18,26 @@ export default function VideoInformation({ video } : Props) {
 
   const [user, setUser] = useState<number | null>(null)
 
+  const [likeView, setViewLike] = useState(video?.likes)
+  const [dislikeView, setViewDislike] = useState(video?.dislikes)
+  const [subscribeView, setSubscribeView] = useState()
+
   async function handleLike() {
 
     if (await hasDisLike(video.id!)) {
       await removeDisLike(video.id!)
+      setViewDislike(dislikeView - 1)
     }
 
     if (await hasLike(video.id!))
     {
       removeLike(video.id!)
+      setViewLike(likeView - 1)
     }
     else
     {
       setLike(video.id!)
+      setViewLike(likeView + 1)
     }
 
   }
@@ -40,15 +47,18 @@ export default function VideoInformation({ video } : Props) {
     if (await hasLike(video.id!))
     {
       await removeLike(video.id!)
+      setViewLike(likeView - 1)
     }
 
     if (await hasDisLike(video.id!))
     {
       removeDisLike(video.id!)
+      setViewDislike(dislikeView - 1)
     }
     else
     {
       setDisLike(video.id!)
+      setViewDislike(dislikeView + 1)
     }
 
   }
@@ -86,6 +96,7 @@ export default function VideoInformation({ video } : Props) {
               sx={{color: 'text.primary', ml:1}}
               disableElevation
               onClick={handleSubscribe}
+              className="font-bold"
             >
               Subscribe
             </Button>
@@ -96,7 +107,7 @@ export default function VideoInformation({ video } : Props) {
             >
                 <ThumbUp sx={{color: 'text.primary'}} className="lg:w-[25px] lg:h-[25px] md:w-[25px] md:h-[25px] sm:w-[20px] sm:h-[20px]" />
             </IconButton>
-            <Typography sx={{color: 'text.secondary', fontSize: 14}} className='inline-block font-bold ml-2'>{video.likes}</Typography>
+            <Typography sx={{color: 'text.secondary', fontSize: 14}} className='inline-block font-bold ml-2'>{likeView}</Typography>
 
             <IconButton 
               className="ml-2"
@@ -104,7 +115,7 @@ export default function VideoInformation({ video } : Props) {
             >
                 <ThumbDown sx={{color: 'text.primary'}} className="lg:w-[25px] lg:h-[25px] md:w-[25px] md:h-[25px] sm:w-[20px] sm:h-[20px]" />
             </IconButton>
-            <Typography sx={{color: 'text.secondary', fontSize: 14}} className='inline-block font-bold ml-2'>{video.dislikes}</Typography>
+            <Typography sx={{color: 'text.secondary', fontSize: 14}} className='inline-block font-bold ml-2'>{dislikeView}</Typography>
           </Box>
         </Box>
       </Box>

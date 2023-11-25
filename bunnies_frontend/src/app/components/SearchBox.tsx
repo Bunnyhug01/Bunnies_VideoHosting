@@ -1,6 +1,8 @@
 import { Box, IconButton, InputBase } from "@mui/material";
 import SearchIcon from '@mui/icons-material/Search';
 import { styled, alpha } from '@mui/material/styles';
+import { useEffect, useState } from "react";
+import Dictaphone from "./Dictaphone/Dictaphone";
 
 
 const Search = styled('div')(({ theme }) => ({
@@ -49,22 +51,27 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 
 interface Props {
-    onChange : React.ChangeEventHandler<HTMLInputElement>
+    onChange : React.ChangeEventHandler<HTMLInputElement>,
+    text?: {
+      searchText?: string,
+      setSearchText: React.Dispatch<React.SetStateAction<string | undefined>>
+  }
 }
 
 
-export default function SearchBox({onChange} : Props) {
+export default function SearchBox({onChange, text} : Props) {
 
-    return (
-        <Search sx={{bgcolor: 'background.additional'}}>
-            <SearchIconWrapper>
-            <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-                placeholder="Search…"
-                inputProps={{ 'aria-label': 'search' }}
-                onChange={onChange}
-            />
-        </Search>
-    )
+  return (
+    <Search sx={{bgcolor: 'background.additional'}}>
+      <SearchIconWrapper>
+        <SearchIcon />
+      </SearchIconWrapper>
+      <StyledInputBase
+        placeholder="Search…"
+        inputProps={{ 'aria-label': 'search' }}
+        onChange={onChange}
+        value={text?.searchText}
+      />
+    </Search> 
+  )
 }

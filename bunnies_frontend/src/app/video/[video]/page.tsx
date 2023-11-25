@@ -37,8 +37,8 @@ function Video() {
 
   useEffect(() => {
     getOne(videoId).then((video) => {
-      console.log(video)
       setVideo(video)
+      addView(video.id)
     })
   },[])
   
@@ -63,7 +63,7 @@ function Video() {
         color: 'text.primary',
       }}>
       
-      <Header searchHandler={searchHandler} ColorModeContext={ColorModeContext} />
+      <Header searchHandler={searchHandler} ColorModeContext={ColorModeContext} text={{searchText: searchText, setSearchText: setSearchText}} />
       
       <Box 
         component="main"
@@ -105,7 +105,6 @@ function Video() {
                   href={`/video/${video.id}`}
                   onClick={() => {
                     setVideo(video)
-                    addView(video.id)
                   }}
                 >
                   <RecommendedList video={video} />

@@ -1,7 +1,5 @@
 import * as React from 'react';
 
-import Link from 'next/link';
-
 import { styled, alpha, useTheme } from '@mui/material/styles';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -18,6 +16,8 @@ import { LightMode, DarkMode } from '@mui/icons-material';
 import Logo from './Logo';
 import Upload from './Upload';
 import SearchBox from './SearchBox';
+import { Link } from '@mui/material';
+import Dictaphone from './Dictaphone/Dictaphone';
 
 
 interface Props {
@@ -25,10 +25,14 @@ interface Props {
     ColorModeContext: React.Context<{
         toggleColorMode: () => void;
     }>
+    text?: {
+        searchText?: string,
+        setSearchText: React.Dispatch<React.SetStateAction<string | undefined>>
+    }
 }
 
 
-export default function Header({searchHandler, ColorModeContext} : Props) {
+export default function Header({searchHandler, ColorModeContext, text} : Props) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
@@ -73,10 +77,10 @@ export default function Header({searchHandler, ColorModeContext} : Props) {
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <Link href='/sign-in'>
+            <Link href='/sign-in' style={{ textDecoration: 'none' }}>
                 <MenuItem onClick={handleMenuClose}>Sign in</MenuItem>
             </Link>
-            <Link href='/sign-up'>
+            <Link href='/sign-up' style={{ textDecoration: 'none' }}>
                 <MenuItem onClick={handleMenuClose}>Sign up</MenuItem>
             </Link>
         </Menu>
@@ -150,7 +154,12 @@ export default function Header({searchHandler, ColorModeContext} : Props) {
                 <Toolbar sx={{ bgcolor: 'background.default' }}>
                     <SwipeableTemporaryDrawer />
                     <Logo />
-                    <SearchBox onChange={searchHandler} />
+
+                    <SearchBox onChange={searchHandler} text={text} />
+                    <Dictaphone setDictaphoneInput={text?.setSearchText} />
+
+                    
+
                     <Box sx={{ flexGrow: 1 }} />
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                         <Upload />
@@ -194,7 +203,7 @@ export default function Header({searchHandler, ColorModeContext} : Props) {
                             onClick={handleMobileMenuOpen}
                             color="inherit"
                         >
-                        <MoreIcon />
+                            <MoreIcon />
                         </IconButton>
                     </Box>
                 </Toolbar>

@@ -1,0 +1,72 @@
+import 'regenerator-runtime/runtime'
+import { Box, IconButton } from '@mui/material';
+import React from 'react';
+import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
+
+import MicIcon from '@mui/icons-material/Mic';
+
+import { useEffect, useState } from "react";
+
+interface Props {
+    setDictaphoneInput?: React.Dispatch<React.SetStateAction<string | undefined>>
+}
+
+
+export default function Dictaphone({ setDictaphoneInput }: Props) {
+  const [isStart, setIsStart] = useState<boolean>(false);
+  
+
+  const {
+    transcript,
+    resetTranscript,
+  } = useSpeechRecognition({
+    commands: [
+      {
+        command: "reset",
+        callback: () => resetTranscript()
+      },
+    ]
+  });
+
+  useEffect(() => {
+    if (transcript !== "" && setDictaphoneInput !== undefined) {
+      setDictaphoneInput(transcript)
+    }
+    
+  }, [transcript]);
+
+
+  function listenContinuously() {
+    SpeechRecognition.startListening({
+      continuous: true,
+      language: "en"
+    });
+  };
+
+
+  const handleClick = () => {
+    setIsStart(!isStart)
+  }
+
+  useEffect(() => {
+    if (isStart) {
+        listenContinuously()
+    }
+    else {
+        SpeechRecognition.stopListening()
+        resetTranscript()
+    }
+  }, [isStart])
+
+  return (
+    <Box>
+        <IconButton
+            color="inherit"
+            type="button"
+            onClick={handleClick}
+        >
+            <MicIcon />
+        </IconButton>
+    </Box>
+  );
+}

@@ -11,7 +11,6 @@ import Header from "../components/Header";
 import BottomNav from "../components/BottomNav";
 import { ColorModeContext, getDesignTokens } from "../styles/designTokens";
 import { search, searchInHistory } from "../api/search";
-import { addView, getLine } from "../api/views";
 import { Video, getOne } from "../api/videos";
 import RecommendedList from "../components/RecommendedList";
 import { getMe } from "../api/users";
@@ -54,7 +53,7 @@ export function History() {
       }}
     >
       
-      <Header searchHandler={searchHandler} ColorModeContext={ColorModeContext} />
+      <Header searchHandler={searchHandler} ColorModeContext={ColorModeContext} text={{searchText: searchText, setSearchText: setSearchText}} />
             
       <Box 
         component="main"
@@ -62,7 +61,9 @@ export function History() {
           bgcolor: 'background.default',
           color: 'text.primary',
           flexGrow: 1, p: 3,
-        }}>
+        }}
+        className='overflow-scroll scrollbar-thin scrollbar-thumb-gray-800'
+      >
 
             <Box className="flex items-center">
                 <Typography className='text-[18px] font-bold my-2 px-2'>
@@ -75,9 +76,6 @@ export function History() {
               ? data.map((video) => (
                 <Link
                   href={`/video/${video.id}`}
-                  onClick={() => {
-                      addView(video.id)
-                  }}
                 >
                   <RecommendedList video={video} />
                 </Link>

@@ -11,8 +11,6 @@ import Header from "../components/Header";
 import BottomNav from "../components/BottomNav";
 import { ColorModeContext, getDesignTokens } from "../styles/designTokens";
 import { search, searchInLiked } from "../api/search";
-import { addView, getLine } from "../api/views";
-import { UserVideos } from "../userVideos/page";
 import { Video, getOne, hasLike } from "../api/videos";
 import RecommendedList from "../components/RecommendedList";
 import { getMe } from "../api/users";
@@ -20,36 +18,36 @@ import { getMe } from "../api/users";
 
 export function Favorites() {
 
-    const [data, setData] = useState<Video[]>([])
+  const [data, setData] = useState<Video[]>([])
 
 
-    const [searchText, setSearchText] = useState<string|undefined>(undefined);
-    const searchHandler = useCallback((e: React.FormEvent<HTMLInputElement>) => {
-      setSearchText(e.currentTarget.value);
-    }, [])
+  const [searchText, setSearchText] = useState<string|undefined>(undefined);
+  const searchHandler = useCallback((e: React.FormEvent<HTMLInputElement>) => {
+    setSearchText(e.currentTarget.value);
+  }, [])
     
-    useEffect(() => {
-      if (searchText === undefined || searchText === '') {
+  useEffect(() => {
+    if (searchText === undefined || searchText === '') {
         
-        getMe().then((user) => 
-          user.likes.map((videoId) =>
-            getOne(videoId)
-              .then((video) => {
-                setData((prev)=>[...prev, video])
-              }
-            )
+      getMe().then((user) => 
+        user.likes.map((videoId) =>
+          getOne(videoId)
+            .then((video) => {
+              setData((prev)=>[...prev, video])
+            }
           )
         )
+      )
   
-      } else {
-        searchInLiked(searchText).then((videoArray) => {
-          setData(videoArray)
-        })
-      }
+    } else {
+      searchInLiked(searchText).then((videoArray) => {
+        setData(videoArray)
+      })
+    }
   
-    }, [searchText])
+  }, [searchText])
 
-    console.log('DATA', data)
+
   return(
     <Box
       sx={{
@@ -58,7 +56,7 @@ export function Favorites() {
       }}
     >
       
-      <Header searchHandler={searchHandler} ColorModeContext={ColorModeContext} />
+      <Header searchHandler={searchHandler} ColorModeContext={ColorModeContext} text={{searchText: searchText, setSearchText: setSearchText}} />
             
       <Box 
         component="main"
@@ -66,7 +64,9 @@ export function Favorites() {
           bgcolor: 'background.default',
           color: 'text.primary',
           flexGrow: 1, p: 3,
-        }}>
+        }}
+        className='overflow-scroll scrollbar-thin scrollbar-thumb-gray-800'  
+      >
 
             <Box className="flex items-center">
                 <Typography className='text-[18px] font-bold my-2 px-2'>
@@ -80,9 +80,6 @@ export function Favorites() {
                 <Link 
                   key={video.id}
                   href={`/video/${video.id}`}
-                  onClick={() => {
-                      addView(video.id)
-                  }}
                 >
                   <RecommendedList video={video} />
                 </Link>
