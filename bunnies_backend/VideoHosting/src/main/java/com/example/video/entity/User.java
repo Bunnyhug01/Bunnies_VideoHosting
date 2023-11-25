@@ -49,7 +49,7 @@ public class User implements BaseEntity, UserDetails {
     @ManyToMany
     private Set<Video> dislikes;
 
-    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<VideoHistory> history;
 
     @JsonSerialize(using = EntityAsIdOnlySerializer.class)

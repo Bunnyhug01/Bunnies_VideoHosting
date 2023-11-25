@@ -30,4 +30,10 @@ public class SearchController {
         return service.searchLikedVideoByName(name, user);
     }
 
+    @GetMapping("/videos/search/history/{name}")
+    public List<Video> searchVideoByNameInHistory(@PathVariable String name, Authentication authentication) {
+        var user = (User) authentication.getPrincipal();
+        return service.searchVideoByNameInHistory(name, user);
+    }
+
 }
