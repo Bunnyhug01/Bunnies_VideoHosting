@@ -106,7 +106,12 @@ export function VideoLogo({}) {
 
 export function VideoLogoPlayer({}) {
     const handleOnMouseOver = (e: React.MouseEvent<HTMLVideoElement>) => {
-        e.currentTarget.play()
+        const isPlaying = e.currentTarget.currentTime > 0 && !e.currentTarget.paused && !e.currentTarget.ended 
+        && e.currentTarget.readyState > e.currentTarget.HAVE_CURRENT_DATA;
+
+        if (!isPlaying) {
+            e.currentTarget.play()
+        }
     }
 
     const handleOnMouseOut = (e: React.MouseEvent<HTMLVideoElement>) => {

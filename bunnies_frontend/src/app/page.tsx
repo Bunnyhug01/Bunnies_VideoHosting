@@ -23,6 +23,7 @@ export function Home() {
   }, [])
   
   useEffect(() => {
+    console.log('Ciao')
     if (searchText === undefined || searchText === '') {
       getLine().then((videoArray) => {
         setData(videoArray)

@@ -41,5 +41,5 @@ export async function removeSubscribe(id: number): Promise<User> {
 }
 
 export async function hasSubscribe(id: number): Promise<User> {
-    return sfetch(`/subscribes/${id}`).then(resp => resp.json()).then(resp => resp.json()).then(json => json["status"])
+    return sfetch(`/subscribes/${id}`).then(resp => resp.json()).then(json => json["status"])
 }
