@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import { Box, ThemeProvider, createTheme } from "@mui/material";
 
@@ -14,15 +14,13 @@ import { addView, getLine } from './api/views';
 import { Video } from './api/videos';
 import VideoList from './components/VideoList';
 
-
 export function Home() {
-
   const [data, setData] = useState<Video[]>([])
 
   const [searchText, setSearchText] = useState<string|undefined>(undefined);
-  const searchHandler = (e: React.FormEvent<HTMLInputElement>) => {
+  const searchHandler = useCallback((e: React.FormEvent<HTMLInputElement>) => {
     setSearchText(e.currentTarget.value);
-  }
+  }, [])
   
   useEffect(() => {
     if (searchText === undefined || searchText === '') {
@@ -34,9 +32,7 @@ export function Home() {
         setData(videoArray)
       })
     }
-
   }, [searchText])
-
 
   return(
     <Box
