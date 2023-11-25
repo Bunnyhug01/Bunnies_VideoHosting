@@ -42,7 +42,7 @@ public class User implements BaseEntity, UserDetails {
     private Set<Video> videos;
 
     @JsonSerialize(using = EntityAsIdOnlySerializer.class)
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Video> likes;
 
     @JsonSerialize(using = EntityAsIdOnlySerializer.class)

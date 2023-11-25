@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Service
 @AllArgsConstructor
@@ -67,8 +69,8 @@ public class VideoServiceImpl implements VideoService {
 
     @Override
     public Video findRandomCanSee(Long userId) {
-        final var random = new Random();
-        var all = videoRepository.findAll().stream().filter(x -> !x.isPrivate() || x.getOwner().getId() == userId).toList();
+        final var random = ThreadLocalRandom.current();
+        var all = videoRepository.findAll().stream().filter(x -> !x.isPrivate() || Objects.equals(x.getOwner().getId(), userId)).toList();
         return all.get(random.nextInt(all.size()));
     }
 

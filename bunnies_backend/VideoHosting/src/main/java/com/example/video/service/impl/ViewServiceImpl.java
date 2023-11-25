@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Objects;
 
 @AllArgsConstructor
 @Service
@@ -23,7 +24,14 @@ public class ViewServiceImpl implements ViewService {
     @Transactional(readOnly = true)
     @Override
     public Collection<Video> getLine(Long userId, Long videoId) {
-        return getLine(userId);
+        var result = new HashSet<Video>();
+        while (result.size() < Math.min(10, videoService.countCanSee(userId) - 1)) {
+            var video = videoService.findRandomCanSee(userId);
+            if (Objects.equals(video.getId(), videoId))
+                continue;
+            result.add(video);
+        }
+        return result;
     }
 
     @Transactional(readOnly = true)
