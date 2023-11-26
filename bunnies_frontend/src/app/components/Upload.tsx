@@ -2,11 +2,13 @@ import { Box, Button, Dialog, DialogTitle, IconButton, DialogContent, DialogActi
 import CloseIcon from '@mui/icons-material/Close';
 import VideoCallIcon from '@mui/icons-material/VideoCall';
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import UploadZone from "./UploadZone";
 import ProgressBar from "./ProgressBar";
 import { VideoCreateRequest, createOne } from "../api/videos";
+import { UploadTask } from "firebase/storage";
+import deleteFile from "../firebase/deleteFile";
 
 
 export default function Upload() {
@@ -19,7 +21,9 @@ export default function Upload() {
 
   const [videoLoadProgress, setVideoLoadProgress] = useState<number>(0);
   const [imageLoadProgress, setImageLoadProgress] = useState<number>(0);
-
+  
+  const uploadRef = useRef<UploadTask>()
+  const [uploadingCancellation, setUploadingCancellation] = useState<boolean>(false)
 
   const [privacy, setPrivacy] = useState('');
 
@@ -40,6 +44,18 @@ export default function Upload() {
     setImageUpload(null)
 
     setIsVideoUpload(false)
+
+    if (videoRef !== "") {
+        deleteFile(videoRef)
+        setVideoRef("")
+    }
+    
+    if (imageRef !== "") {
+        deleteFile(imageRef)
+        setImageRef("")
+    }
+
+    uploadRef.current?.cancel()
   };
 
 
@@ -53,6 +69,15 @@ export default function Upload() {
     setOpenUpload(false);
     setIsVideoUpload(false)
   };
+
+  const handleUploadCancel = () => {
+    if (videoRef !== "") {
+        deleteFile(videoRef)
+        setVideoRef("")
+    }
+        
+    uploadRef.current?.cancel()
+  }
 
 
   const [isThumbnailUpload, setIsThumbnailUpload] = useState<boolean>(false)
@@ -90,7 +115,6 @@ export default function Upload() {
         isPrivate: isPrivate,
     }
 
-    console.log(video)
     createOne(video)
   }
 
@@ -111,6 +135,7 @@ export default function Upload() {
                 <Dialog
                     onClose={() => {
                         handleUploadClose()
+                        handleUploadCancel()
                         setVideoUpload(null)
                     }}
                     aria-labelledby="customized-dialog-title"
@@ -124,6 +149,7 @@ export default function Upload() {
                         aria-label="close"
                         onClick={() => {
                             handleUploadClose()
+                            handleUploadCancel()
                             setVideoUpload(null)
                         }}
                         sx={{
@@ -142,9 +168,10 @@ export default function Upload() {
                                 fileType={'video'}
                                 reference={{fileRef: videoRef, setFileRef: setVideoRef}}
                                 setProgress={setVideoLoadProgress}
+                                cancel={{uploadRef: uploadRef, setUploadingCancellation: setUploadingCancellation, setIsFileUpload: setIsVideoUpload}}
                             />
 
-                            {videoUpload
+                            {videoUpload && !uploadingCancellation
                                 ? <ProgressBar value={videoLoadProgress} />
                                 : null
                             }
@@ -177,21 +204,21 @@ export default function Upload() {
                     fullWidth
                 >
                     <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-                    Video Upload
+                        Video Upload
                     </DialogTitle>
                     <IconButton
-                    aria-label="close"
-                    onClick={() => {
-                        handleClose()
-                    }}
-                    sx={{
-                        position: 'absolute',
-                        right: 8,
-                        top: 8,
-                        color: (theme) => theme.palette.grey[500],
-                    }}
+                        aria-label="close"
+                        onClick={() => {
+                            handleClose()
+                        }}
+                        sx={{
+                            position: 'absolute',
+                            right: 8,
+                            top: 8,
+                            color: (theme) => theme.palette.grey[500],
+                        }}
                     >
-                    <CloseIcon />
+                        <CloseIcon />
                     </IconButton>
                     <form
                         method="post" 
@@ -274,9 +301,10 @@ export default function Upload() {
                                     fileType="image"
                                     reference={{fileRef: imageRef, setFileRef: setImageRef}}
                                     setProgress={setImageLoadProgress}
+                                    cancel={{uploadRef: uploadRef, setUploadingCancellation: setUploadingCancellation, setIsFileUpload: setIsThumbnailUpload}}
                                 />
                                 
-                                {imageUpload
+                                {imageUpload && !uploadingCancellation
                                     ? <ProgressBar value={imageLoadProgress} />
                                     : null
                                 }

@@ -1,6 +1,7 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, MutableRefObject, SetStateAction } from "react";
 import { storage } from "../firebase/firebase";
-import { ref, getDownloadURL, uploadBytesResumable, deleteObject } from "firebase/storage";
+import { ref, getDownloadURL, uploadBytesResumable, deleteObject, UploadTask } from "firebase/storage";
+import deleteFile from "./deleteFile";
 
 
 interface Props {
@@ -8,18 +9,16 @@ interface Props {
     setFileRef: Dispatch<SetStateAction<string>>
     directory: string,
     setProgress?: Dispatch<SetStateAction<number>>,
-    cancel: {
-        uploadingCancellation: boolean,
-        setUploadingCancellation: Dispatch<SetStateAction<boolean>>
-    }
+    uploadRef: MutableRefObject<UploadTask | undefined>,
 }
 
 
-const uploadFile = ({file, setFileRef, directory, setProgress, cancel}: Props) => {
+const uploadFile = ({file, setFileRef, directory, setProgress, uploadRef}: Props) => {
 
     if (file == null) return;
     const storageRef = ref(storage, `${directory}/${file.name}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
+    uploadRef.current = uploadTask
 
     uploadTask.on('state_changed',
         (snapshot) => {
@@ -35,6 +34,7 @@ const uploadFile = ({file, setFileRef, directory, setProgress, cancel}: Props) =
         () => {
 
             getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+
                 setFileRef(downloadURL.toString())
             })
         }

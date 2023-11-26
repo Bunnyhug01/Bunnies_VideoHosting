@@ -89,7 +89,16 @@ export function VideoLength({}) {
 
 export function VideoUploadDate({}) {
     const video = useContext(VideoContext)!!
-    return (<>{video.uploadDate}</>)
+
+    const uploadDate = new Date(video.uploadDate)
+
+    const month = uploadDate.getUTCMonth() + 1
+    const day = uploadDate.getUTCDate()
+    const year = uploadDate.getUTCFullYear()
+
+    const date = day + "." + month + "." + year
+
+    return (<>{date}</>)
 }
 
 export function VideoLogo({}) {

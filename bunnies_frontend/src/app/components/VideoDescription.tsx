@@ -1,6 +1,7 @@
 import { Accordion, AccordionSummary, Box, Typography, AccordionDetails } from '@mui/material'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Video } from '../api/videos';
+import { VideoUploadDate } from './video/video';
 
 
 interface Props {
@@ -30,7 +31,9 @@ export default function VideoDescription({ video } : Props) {
         </Box>
 
         <Box className="mx-4">
-          <Typography className="text-[14px] font-bold">02.09.2023</Typography>
+          <Typography className="text-[14px] font-bold">
+            <VideoUploadDate />
+          </Typography>
         </Box>
       </AccordionSummary>
       <AccordionDetails>

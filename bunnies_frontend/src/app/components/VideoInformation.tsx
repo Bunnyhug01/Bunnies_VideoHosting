@@ -20,7 +20,7 @@ export default function VideoInformation({ video } : Props) {
 
   const [likeView, setViewLike] = useState(video?.likes)
   const [dislikeView, setViewDislike] = useState(video?.dislikes)
-  const [subscribeView, setSubscribeView] = useState()
+  const [subscribeView, setSubscribeView] = useState(video.owner)
 
   async function handleLike() {
 
@@ -78,9 +78,13 @@ export default function VideoInformation({ video } : Props) {
   }
 
   useEffect(() => {
-    getMe().then((user) => setUser(user.id))
-  },[])
+    getMe().then((user) => {
+      setUser(user.id)
+    })
 
+
+  },[])
+  
   return (
     <Box>
       <Box className="flex items-center lg:w-[100%] md:w-[100%] sm:w-[100%] h-[80px] py-4 px-8 sm:px-4">

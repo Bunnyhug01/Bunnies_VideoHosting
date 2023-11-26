@@ -11,6 +11,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import { Video } from '../api/videos';
 import { Divider } from '@mui/material';
+import { VideoUploadDate } from './video/video';
 
 const drawerBleeding = 56;
 
@@ -88,7 +89,9 @@ export default function MobileVideoDescription(props: Props) {
           </Box>
 
           <Box className="mx-4">
-            <Typography className="text-[14px] font-bold">02.09.2023</Typography>
+            <Typography className="text-[14px] font-bold">
+              <VideoUploadDate />
+            </Typography>
           </Box>
           <ExpandMoreIcon
             sx={{pointerEvents: "auto"}}
