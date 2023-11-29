@@ -21,18 +21,14 @@ export async function sfetch(url: string, init?: RequestInit): Promise<Response>
         init.headers = {}
     init.credentials = "include"
     init.headers.Authorization = `Bearer ${localStorage.getItem("jwt")}`
-    try {
-        return await fetch(`${API_URL}${url}`, init)
-    }catch(e) {
-        console.log('ERROR 1', e)
+    let response = await fetch(`${API_URL}${url}`, init)
+    if(response.status === 401) {
+        await updateJWT()
+        response = await fetch(`${API_URL}${url}`, init)
     }
-    await updateJWT()
-    try{
-        return await fetch(`${API_URL}${url}`, init)
-    }catch(e) {
-        console.log('ERROR 2', e)
-        throw e
-    }
+    if(response.ok)
+        return response
+    return Promise.reject(response)
 }
 
 export function setJWTUpdateCallBack(func: JWTUpdateCallBack) {

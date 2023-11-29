@@ -39,6 +39,9 @@ function Video() {
     getOne(videoId).then((video) => {
       setVideo(video)
       addView(video.id)
+    }).catch(response => {
+      if(response.status == 404)
+        notFound()
     })
   },[])
   
