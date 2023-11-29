@@ -54,6 +54,19 @@ async function updateJWT() {
     }).then(json => json["access"]).then(token => localStorage.setItem("jwt", token))
 }
 
+interface UserSingUpRequest extends UsernamePasswordDTO {
+}
+
+export async function singup(request: UserSingUpRequest) {
+    return fetch(`${API_URL}/auth/refreshtoken`, {
+        method: "POST",
+    }).then(response => {
+        if(response.ok)
+            return response.json()
+        return Promise.reject(response)
+    }).then(json => json["access"]).then(token => localStorage.setItem("jwt", token))
+}
+
 setJWTUpdateCallBack(async () => {
     console.log("authentication")
     return { username: "Arseny", password: "1234" }
