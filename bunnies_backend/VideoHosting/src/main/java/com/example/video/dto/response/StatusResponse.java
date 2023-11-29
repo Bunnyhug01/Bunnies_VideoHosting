@@ -7,10 +7,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class StatusResponse {
 
-    public String status;
-
-    public StatusResponse(boolean status) {
-        this(status + "");
-    }
+    public Boolean status;
 
 }

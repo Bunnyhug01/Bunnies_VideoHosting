@@ -22,6 +22,7 @@ public class SubscribeServiceImpl implements SubscribeService {
         if (chanel.getSubscribers().contains(user))
             throw new UserAlreadySubscribe(userId, chanelId);
         chanel.getSubscribers().add(user);
+        user.getSubscriptions().add(chanel);
         userService.save(chanel);
         userService.save(user);
     }
@@ -34,6 +35,7 @@ public class SubscribeServiceImpl implements SubscribeService {
         if (!chanel.getSubscribers().contains(user))
             throw new UserNotSubscribe(userId, chanelId);
         chanel.getSubscribers().remove(user);
+        user.getSubscriptions().remove(chanel);
         userService.save(chanel);
         userService.save(user);
     }

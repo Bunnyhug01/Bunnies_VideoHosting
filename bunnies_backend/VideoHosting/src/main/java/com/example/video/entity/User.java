@@ -53,11 +53,11 @@ public class User implements BaseEntity, UserDetails {
     private Set<VideoHistory> history;
 
     @JsonSerialize(using = EntityAsIdOnlySerializer.class)
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<User> subscribers;
 
     @JsonSerialize(using = EntityAsIdOnlySerializer.class)
-    @ManyToMany(mappedBy = "subscribers")
+    @ManyToMany(mappedBy = "subscribers", fetch = FetchType.EAGER)
     private Set<User> subscriptions;
 
     @Column(nullable = false)
