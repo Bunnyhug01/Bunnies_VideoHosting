@@ -28,19 +28,18 @@ export async function getMe(): Promise<User> {
     return sfetch(`/users/me`).then(resp => resp.json())
 }
 
-export async function addSubscribe(id: number): Promise<User> {
+export async function addSubscribe(id: number): Promise<Response> {
     return sfetch(`/subscribes/${id}`, {
         method: "POST"
     })
-    .then(resp => resp.json())
 }
 
-export async function removeSubscribe(id: number): Promise<User> {
+export async function removeSubscribe(id: number): Promise<Response> {
     return sfetch(`/subscribes/${id}`, {
         method: "DELETE"
-    }).then(resp => resp.json())
+    })
 }
 
-export async function hasSubscribe(id: number): Promise<User> {
+export async function hasSubscribe(id: number): Promise<Boolean> {
     return sfetch(`/subscribes/${id}`).then(resp => resp.json()).then(json => json["status"])
 }
