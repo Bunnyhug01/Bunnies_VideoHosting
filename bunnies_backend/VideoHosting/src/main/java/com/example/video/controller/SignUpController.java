@@ -24,7 +24,7 @@ public class SignUpController {
 
     @PostMapping("/auth/base/signup")
     public JwtResponse signup(@RequestBody JwtRequest request, HttpServletResponse response) {
-        LOG.debug("signup");
+        LOG.debug("signup " + request);
         var tokens = signUpAuthService.signup(request);
         return AuthenticationController.getJwtResponse(response, tokens);
     }

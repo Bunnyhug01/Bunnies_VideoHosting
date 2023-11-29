@@ -4,7 +4,7 @@ import { sfetch } from "./main"
 export interface User {
     id: number,
     username: string,
-    logoUrl: string,
+    logoUrl?: string,
     subscribers: number[],
     subscriptions: number[],
     history: History[],

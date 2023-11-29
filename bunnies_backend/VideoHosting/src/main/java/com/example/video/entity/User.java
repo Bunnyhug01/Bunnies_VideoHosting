@@ -60,7 +60,7 @@ public class User implements BaseEntity, UserDetails {
     @ManyToMany(mappedBy = "subscribers", fetch = FetchType.EAGER)
     private Set<User> subscriptions;
 
-    @Column(nullable = false)
+    @Column
     private String logoUrl;
 
     @JsonIgnore
