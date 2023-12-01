@@ -6,12 +6,12 @@ import java.util.Collection;
 
 public interface ViewService {
 
-    Collection<Video> getLine(Long userId, Long videoId);
+    Collection<Video> getLine(long userId, long videoId);
 
-    Collection<Video> getLine(Long userId);
+    Collection<Video> getLine(long userId);
 
-    void addAnonymousView(Long videoId);
+    void addAnonymousView(long videoId);
 
-    void addView(Long userId, Long videoId);
+    void addView(long userId, long videoId);
 
 }

@@ -30,6 +30,7 @@ export interface Video {
     dislikes: number,
     views: number,
     owner: number,
+    isPrivate: boolean,
 }
 
 export async function getAll(): Promise<Video[]>  {

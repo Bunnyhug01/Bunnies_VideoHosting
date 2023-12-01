@@ -1,7 +1,7 @@
 package com.example.video.service;
 
 import com.example.video.config.SecurityConfig;
-import com.example.video.dto.request.JwtRequest;
+import com.example.video.dto.request.SignInUserRequest;
 import com.example.video.entity.User;
 import com.example.video.repository.UserRepository;
 import com.example.video.security.JwtProvider;
@@ -45,7 +45,7 @@ public class AuthServiceTest {
     void signin() {
         var v1 = User.builder().id(1L).username("Mihail").password("1234").build();
         Mockito.when(userRepository.findByUsername("Mihail")).thenReturn(Optional.of(v1));
-        var tokens = service.signin(JwtRequest.builder()
+        var tokens = service.signin(SignInUserRequest.builder()
                 .username("Mihail")
                 .password("1234")
                 .build());
@@ -60,7 +60,7 @@ public class AuthServiceTest {
         var v1 = User.builder().id(1L).username("Mihail").password("1234").build();
         Mockito.when(userRepository.findByUsername(v1.getUsername())).thenReturn(Optional.of(v1));
         Mockito.when(userRepository.findById(v1.getId())).thenReturn(Optional.of(v1));
-        var tokens = service.signin(JwtRequest.builder()
+        var tokens = service.signin(SignInUserRequest.builder()
                 .username(v1.getUsername())
                 .password(v1.getPassword())
                 .build());

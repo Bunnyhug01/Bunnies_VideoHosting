@@ -1,7 +1,8 @@
 package com.example.video.controller;
 
-import com.example.video.dto.request.CommentRequest;
-import com.example.video.dto.request.ReplaceCommentRequest;
+import com.example.video.controller.annotations.CommentAuthorById;
+import com.example.video.dto.request.CommentCreateRequest;
+import com.example.video.dto.request.CommentReplaceRequest;
 import com.example.video.entity.Comment;
 import com.example.video.entity.User;
 import com.example.video.service.CommentService;
@@ -18,7 +19,7 @@ import java.util.Collection;
 @RequiredArgsConstructor
 public class CommentController {
 
-    private final Logger LOG = LoggerFactory.getLogger(AuthenticationController.class);
+    private final Logger LOG = LoggerFactory.getLogger(CommentController.class);
 
     private final CommentService service;
 
@@ -32,19 +33,21 @@ public class CommentController {
         return service.getOneComment(id);
     }
 
+    @PostMapping("/comments")
+    public Comment create(@RequestBody CommentCreateRequest request, Authentication authentication) {
+        var user = (User) authentication.getPrincipal();
+        return service.createComment(request, user);
+    }
+
+    @CommentAuthorById
     @DeleteMapping("/comments/{id}")
     public void deleteOne(@PathVariable long id) {
         service.deleteComment(id);
     }
 
-    @PostMapping("/comments")
-    public Comment create(@RequestBody CommentRequest request, Authentication authentication) {
-        var user = (User) authentication.getPrincipal();
-        return service.createComment(request, user);
-    }
-
+    @CommentAuthorById
     @PutMapping("/comments/{id}")
-    public Comment replace(@PathVariable long id, @RequestBody ReplaceCommentRequest request) {
+    public Comment replace(@PathVariable long id, @RequestBody CommentReplaceRequest request) {
         return service.replaceComment(id, request);
     }
 

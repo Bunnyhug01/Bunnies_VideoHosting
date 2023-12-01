@@ -52,7 +52,7 @@ public class VideoControllerTest {
     void getOne() throws Exception {
         var user = User.builder().id(0L).username("Michail").password("1234").roles(Set.of()).build();
         var video = Video.builder().id(0L).title("Title").build();
-        Mockito.when(userService.findById(user.getId())).thenReturn(user);
+        Mockito.when(userService.getOneUser(user.getId())).thenReturn(user);
         Mockito.when(service.findById(video.getId())).thenReturn(video);
         var token = jwtProvider.generateAccessToken(user);
         mvc.perform(get("/videos/{id}", video.getId())
@@ -65,7 +65,7 @@ public class VideoControllerTest {
     void getOnePrivateOk() throws Exception {
         var userA = User.builder().id(1L).username("Michail A").password("1234").roles(Set.of()).build();
         var video = Video.builder().id(1L).title("Title").owner(userA).isPrivate(true).build();
-        Mockito.when(userService.findById(userA.getId())).thenReturn(userA);
+        Mockito.when(userService.getOneUser(userA.getId())).thenReturn(userA);
         Mockito.when(service.findById(video.getId())).thenReturn(video);
         var token = jwtProvider.generateAccessToken(userA);
         mvc.perform(get("/videos/{id}", video.getId())
@@ -79,8 +79,8 @@ public class VideoControllerTest {
         var userA = User.builder().id(1L).username("Michail A").password("1234").roles(Set.of()).build();
         var userB = User.builder().id(2L).username("Michail B").password("1234").roles(Set.of()).build();
         var video = Video.builder().id(1L).title("Title").owner(userA).isPrivate(true).build();
-        Mockito.when(userService.findById(userA.getId())).thenReturn(userA);
-        Mockito.when(userService.findById(userB.getId())).thenReturn(userB);
+        Mockito.when(userService.getOneUser(userA.getId())).thenReturn(userA);
+        Mockito.when(userService.getOneUser(userB.getId())).thenReturn(userB);
         Mockito.when(service.findById(video.getId())).thenReturn(video);
         var token = jwtProvider.generateAccessToken(userB);
         mvc.perform(get("/videos/{id}", video.getId())
@@ -93,8 +93,8 @@ public class VideoControllerTest {
         var userA = User.builder().id(1L).username("Michail A").password("1234").roles(Set.of()).build();
         var userB = User.builder().id(2L).username("Michail B").password("1234").roles(Set.of(new Role("ADMIN"))).build();
         var video = Video.builder().id(1L).title("Title").owner(userA).isPrivate(true).build();
-        Mockito.when(userService.findById(userA.getId())).thenReturn(userA);
-        Mockito.when(userService.findById(userB.getId())).thenReturn(userB);
+        Mockito.when(userService.getOneUser(userA.getId())).thenReturn(userA);
+        Mockito.when(userService.getOneUser(userB.getId())).thenReturn(userB);
         Mockito.when(service.findById(video.getId())).thenReturn(video);
         var token = jwtProvider.generateAccessToken(userB);
         mvc.perform(get("/videos/{id}", video.getId())

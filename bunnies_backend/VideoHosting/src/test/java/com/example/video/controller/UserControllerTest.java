@@ -35,7 +35,7 @@ public class UserControllerTest {
     void getOne() throws Exception {
         var person = User.builder().username("Michail").password("1234").build();
         var id = 1L;
-        Mockito.when(service.findById(id)).thenReturn(person);
+        Mockito.when(service.getOneUser(id)).thenReturn(person);
         mvc.perform(get("/users/{id}", id))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(person)));
@@ -44,7 +44,7 @@ public class UserControllerTest {
     @Test
     void getOneNotFound() throws Exception {
         var id = 1L;
-        Mockito.when(service.findById(id)).thenThrow(new UserNotFoundException(id));
+        Mockito.when(service.getOneUser(id)).thenThrow(new UserNotFoundException(id));
         mvc.perform(get("/users/{id}", id))
                 .andExpect(status().isNotFound());
     }
@@ -52,7 +52,7 @@ public class UserControllerTest {
     @Test
     void getAll() throws Exception {
         var person = User.builder().username("Michail").password("1234").build();
-        Mockito.when(service.findAll()).thenReturn(List.of(person));
+        Mockito.when(service.getAllUsers()).thenReturn(List.of(person));
         mvc.perform(get("/users"))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(List.of(person))));

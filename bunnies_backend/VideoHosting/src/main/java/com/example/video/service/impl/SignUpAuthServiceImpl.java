@@ -2,7 +2,7 @@ package com.example.video.service.impl;
 
 import com.example.video.controller.advice.exception.UserAlreadyExists;
 import com.example.video.dto.TokensDTO;
-import com.example.video.dto.request.JwtRequest;
+import com.example.video.dto.request.SignInUserRequest;
 import com.example.video.entity.Role;
 import com.example.video.entity.User;
 import com.example.video.repository.RoleRepository;
@@ -26,7 +26,7 @@ public class SignUpAuthServiceImpl implements SignUpAuthService {
 
     private final PasswordEncoder passwordEncoder;
 
-    public TokensDTO signup(JwtRequest data) {
+    public TokensDTO signup(SignInUserRequest data) {
         var username = data.getUsername();
         var password = data.getPassword();
         {

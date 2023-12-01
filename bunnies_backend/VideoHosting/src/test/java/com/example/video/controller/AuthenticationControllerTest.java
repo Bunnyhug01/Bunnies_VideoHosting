@@ -2,7 +2,7 @@ package com.example.video.controller;
 
 import com.example.video.controller.advice.exception.UserNotFoundException;
 import com.example.video.dto.TokensDTO;
-import com.example.video.dto.request.JwtRequest;
+import com.example.video.dto.request.SignInUserRequest;
 import com.example.video.dto.response.JwtResponse;
 import com.example.video.service.AuthService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,7 +34,7 @@ public class AuthenticationControllerTest {
 
     @Test
     void signin() throws Exception {
-        var user = new JwtRequest("Andrey", "1234");
+        var user = new SignInUserRequest("Andrey", "1234");
         Mockito.when(service.signin(user)).thenReturn(TokensDTO.builder().accessToken("accessToken").refreshToken("refreshToken").build());
         mvc.perform(post("/auth/base/signin")
                         .content(objectMapper.writeValueAsBytes(user))
@@ -46,7 +46,7 @@ public class AuthenticationControllerTest {
 
     @Test
     void signinNotFound() throws Exception {
-        var user = new JwtRequest("Andrey", "1234");
+        var user = new SignInUserRequest("Andrey", "1234");
         Mockito.when(service.signin(user)).thenThrow(new UserNotFoundException("Andrey"));
         mvc.perform(post("/auth/base/signin")
                         .content(objectMapper.writeValueAsBytes(user))
@@ -57,9 +57,9 @@ public class AuthenticationControllerTest {
 
     @Test
     void signinWrongPassword() throws Exception {
-        Mockito.when(service.signin(new JwtRequest("Andrey", "qwerty"))).thenThrow(new BadCredentialsException("wrong password"));
+        Mockito.when(service.signin(new SignInUserRequest("Andrey", "qwerty"))).thenThrow(new BadCredentialsException("wrong password"));
         mvc.perform(post("/auth/base/signin")
-                        .content(objectMapper.writeValueAsBytes(new JwtRequest("Andrey", "qwerty")))
+                        .content(objectMapper.writeValueAsBytes(new SignInUserRequest("Andrey", "qwerty")))
                         .contentType("application/json")
                 )
                 .andExpect(status().isUnauthorized());

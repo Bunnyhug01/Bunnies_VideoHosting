@@ -3,7 +3,7 @@ package com.example.video.dto.request;
 import lombok.Data;
 
 @Data
-public class CommentRequest {
+public class CommentCreateRequest {
 
     String text;
     long videoId;

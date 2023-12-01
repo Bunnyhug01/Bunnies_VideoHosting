@@ -33,7 +33,7 @@ public class JwtTokenAuthenticationFilter extends GenericFilterBean {
         if (token != null) {
             provider.validateAccessToken(token);
             final var id = provider.getAccessId(token);
-            final var user = users.findById(id);
+            final var user = users.getOneUser(id);
             final var jwtInfoToken = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(jwtInfoToken);
         }

@@ -1,29 +1,21 @@
 package com.example.video.service;
 
+import com.example.video.dto.request.VideoCreateRequest;
+import com.example.video.dto.request.VideoReplaceRequest;
 import com.example.video.entity.Video;
 
-import java.util.Collection;
+import java.util.List;
 
 public interface VideoService {
 
-    Video findById(Long id);
+    Video createVideo(VideoCreateRequest request, long author);
 
-    Video save(Video video);
+    Video getOneVideo(long id);
 
-    Collection<Video> findAll();
+    List<Video> getAllVideos();
 
-    void delete(Long userId, Long videoId);
+    void deleteVideo(long id);
 
-    void delete(Long videoId);
-
-    long count();
-
-    Video findRandom();
-
-    long countCanSee(Long userId);
-
-    Video findRandomCanSee(Long userId);
-
-    Video getById(long videoId);
+    Video replaceVideo(long id, VideoReplaceRequest request);
 
 }

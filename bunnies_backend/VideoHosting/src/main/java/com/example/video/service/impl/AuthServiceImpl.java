@@ -1,7 +1,7 @@
 package com.example.video.service.impl;
 
 import com.example.video.dto.TokensDTO;
-import com.example.video.dto.request.JwtRequest;
+import com.example.video.dto.request.SignInUserRequest;
 import com.example.video.entity.User;
 import com.example.video.security.JwtProvider;
 import com.example.video.service.AuthService;
@@ -28,7 +28,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public TokensDTO signin(JwtRequest request) {
+    public TokensDTO signin(SignInUserRequest request) {
         try {
             var username = request.getUsername();
             var password = request.getPassword();

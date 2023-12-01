@@ -52,7 +52,6 @@ public class RepoConfiguration {
             m.setPassword(passwordEncoder.encode("1234"));
             var roles = new HashSet<Role>();
             roles.add(roleRepository.findByName("USER"));
-            roles.add(roleRepository.findByName("ADMIN"));
             m.setRoles(roles);
             return userRepository.save(m);
         });
@@ -63,7 +62,6 @@ public class RepoConfiguration {
             m.setPassword(passwordEncoder.encode("1234"));
             var roles = new HashSet<Role>();
             roles.add(roleRepository.findByName("USER"));
-            roles.add(roleRepository.findByName("ADMIN"));
             m.setRoles(roles);
             return userRepository.save(m);
         });

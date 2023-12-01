@@ -24,7 +24,7 @@ public class User implements BaseEntity, UserDetails {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private long id;
 
     @Column(nullable = false, unique = true)
     private String username;

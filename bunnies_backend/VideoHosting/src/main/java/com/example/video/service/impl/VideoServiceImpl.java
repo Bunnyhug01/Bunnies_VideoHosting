@@ -1,82 +1,76 @@
 package com.example.video.service.impl;
 
-import com.example.video.controller.advice.exception.ForbiddenException;
 import com.example.video.controller.advice.exception.VideoNotFoundException;
+import com.example.video.dto.request.VideoCreateRequest;
+import com.example.video.dto.request.VideoReplaceRequest;
 import com.example.video.entity.Video;
+import com.example.video.repository.UserRepository;
 import com.example.video.repository.VideoRepository;
 import com.example.video.service.VideoService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
-import java.util.Objects;
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.Date;
+import java.util.List;
 
-@Service
+@Service("videoService")
 @AllArgsConstructor
 public class VideoServiceImpl implements VideoService {
 
-    private final VideoRepository videoRepository;
+    private final VideoRepository repository;
+    private final UserRepository userRepository;
 
     @Override
-    public Video findById(Long id) {
-        return videoRepository.findById(id).orElseThrow(() -> new VideoNotFoundException(id));
+    public Video createVideo(VideoCreateRequest request, long owner) {
+        return repository.save(Video.builder()
+                .uploadDate(new Date())
+                .owner(userRepository.getReferenceById(owner))
+                .title(request.getTitle())
+                .detail(request.getDetail())
+                .videoUrl(request.getVideoUrl())
+                .logoUrl(request.getLogoUrl())
+                .isPrivate(request.getIsPrivate())
+                .build());
     }
 
     @Override
-    public Video save(Video video) {
-        return videoRepository.save(video);
+    public Video getOneVideo(long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new VideoNotFoundException(id));
     }
 
     @Override
-    public Collection<Video> findAll() {
-        return videoRepository.findAll();
+    public List<Video> getAllVideos() {
+        return repository.findAll();
+    }
+
+    @Override
+    public void deleteVideo(long id) {
+        repository.deleteById(id);
     }
 
     @Transactional
     @Override
-    public void delete(Long userId, Long videoId) {
-        var video = findById(videoId);
-        if (userId != video.getOwner().getId())
-            throw new ForbiddenException();
-        videoRepository.delete(video);
-    }
-
-    @Override
-    public void delete(Long videoId) {
-        var video = findById(videoId);
-        videoRepository.delete(video);
-    }
-
-    @Override
-    public long count() {
-        return videoRepository.count();
-    }
-
-    @Override
-    public long countCanSee(Long userId) {
-        return videoRepository.findAll().stream().filter(x -> !x.isPrivate() || x.getOwner().getId() == userId).count();
-    }
-
-    @Override
-    public Video findRandom() {
-        final var random = new Random();
-        var all = videoRepository.findAll();
-        return all.get(random.nextInt(all.size()));
-    }
-
-    @Override
-    public Video findRandomCanSee(Long userId) {
-        final var random = ThreadLocalRandom.current();
-        var all = videoRepository.findAll().stream().filter(x -> !x.isPrivate() || Objects.equals(x.getOwner().getId(), userId)).toList();
-        return all.get(random.nextInt(all.size()));
-    }
-
-    @Override
-    public Video getById(long videoId) {
-        return videoRepository.getReferenceById(videoId);
+    public Video replaceVideo(long id, VideoReplaceRequest request) {
+        System.out.println(request);
+        var video = getOneVideo(id);
+        var title = request.getTitle();
+        if (title != null)
+            video.setTitle(title);
+        var detail = request.getDetail();
+        if (detail != null)
+            video.setDetail(detail);
+        var videoUrl = request.getVideoUrl();
+        if (videoUrl != null)
+            video.setVideoUrl(videoUrl);
+        var logoUrl = request.getLogoUrl();
+        if (logoUrl != null)
+            video.setLogoUrl(logoUrl);
+        var isPrivate = request.getIsPrivate();
+        if (isPrivate != null)
+            video.setIsPrivate(isPrivate);
+        return repository.save(video);
     }
 
 }

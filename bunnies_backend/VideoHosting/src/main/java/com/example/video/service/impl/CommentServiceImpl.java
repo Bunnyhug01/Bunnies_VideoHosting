@@ -1,8 +1,8 @@
 package com.example.video.service.impl;
 
 import com.example.video.controller.advice.exception.CommentNotFoundException;
-import com.example.video.dto.request.CommentRequest;
-import com.example.video.dto.request.ReplaceCommentRequest;
+import com.example.video.dto.request.CommentCreateRequest;
+import com.example.video.dto.request.CommentReplaceRequest;
 import com.example.video.entity.Comment;
 import com.example.video.entity.User;
 import com.example.video.repository.CommentRepository;
@@ -15,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Collection;
 
 @RequiredArgsConstructor
-@Service
+@Service("commentService")
 public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository repository;
@@ -23,10 +23,10 @@ public class CommentServiceImpl implements CommentService {
     private final VideoRepository videoRepository;
 
     @Override
-    public Comment createComment(CommentRequest request, User user) {
+    public Comment createComment(CommentCreateRequest request, User author) {
         return repository.save(Comment.builder()
                 .text(request.getText())
-                .author(user)
+                .author(author)
                 .video(videoRepository.getReferenceById(request.getVideoId()))
                 .build());
     }
@@ -48,7 +48,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Transactional
     @Override
-    public Comment replaceComment(long id, ReplaceCommentRequest request) {
+    public Comment replaceComment(long id, CommentReplaceRequest request) {
         var comment = getOneComment(id);
         var text = request.getText();
         if (text != null)

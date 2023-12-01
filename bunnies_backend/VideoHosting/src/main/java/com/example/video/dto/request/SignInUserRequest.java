@@ -9,8 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RefreshJwtRequest {
+public class SignInUserRequest {
 
-    public String refreshToken;
+    private String username;
+    private String password;
 
 }

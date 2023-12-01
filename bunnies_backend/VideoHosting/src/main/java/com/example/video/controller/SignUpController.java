@@ -1,6 +1,6 @@
 package com.example.video.controller;
 
-import com.example.video.dto.request.JwtRequest;
+import com.example.video.dto.request.SignInUserRequest;
 import com.example.video.dto.response.JwtResponse;
 import com.example.video.service.SignUpAuthService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -23,7 +23,7 @@ public class SignUpController {
     private final SignUpAuthService signUpAuthService;
 
     @PostMapping("/auth/base/signup")
-    public JwtResponse signup(@RequestBody JwtRequest request, HttpServletResponse response) {
+    public JwtResponse signup(@RequestBody SignInUserRequest request, HttpServletResponse response) {
         LOG.debug("signup " + request);
         var tokens = signUpAuthService.signup(request);
         return AuthenticationController.getJwtResponse(response, tokens);

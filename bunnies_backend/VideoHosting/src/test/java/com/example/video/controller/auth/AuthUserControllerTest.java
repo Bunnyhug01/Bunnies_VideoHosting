@@ -43,7 +43,7 @@ public class AuthUserControllerTest {
         var id = 1L;
         var person = User.builder().id(id).username("Michail").password("1234").build();
         var token = jwt.generateAccessToken(id);
-        Mockito.when(service.findById(id)).thenReturn(person);
+        Mockito.when(service.getOneUser(id)).thenReturn(person);
         mvc.perform(get("/users/me").header(AUTHORIZATION, HEADER_PREFIX + token))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(person)));

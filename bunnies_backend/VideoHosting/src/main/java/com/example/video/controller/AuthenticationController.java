@@ -2,7 +2,7 @@ package com.example.video.controller;
 
 import com.example.video.controller.advice.exception.NotHaveRefreshTokenException;
 import com.example.video.dto.TokensDTO;
-import com.example.video.dto.request.JwtRequest;
+import com.example.video.dto.request.SignInUserRequest;
 import com.example.video.dto.response.JwtResponse;
 import com.example.video.service.AuthService;
 import jakarta.servlet.http.Cookie;
@@ -40,7 +40,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/auth/base/signin")
-    public JwtResponse signin(@RequestBody JwtRequest request, HttpServletResponse response) {
+    public JwtResponse signin(@RequestBody SignInUserRequest request, HttpServletResponse response) {
         LOG.debug("signin");
         var tokens = service.signin(request);
         return getJwtResponse(response, tokens);

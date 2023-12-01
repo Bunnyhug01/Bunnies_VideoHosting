@@ -1,7 +1,7 @@
 package com.example.video.service;
 
-import com.example.video.dto.request.CommentRequest;
-import com.example.video.dto.request.ReplaceCommentRequest;
+import com.example.video.dto.request.CommentCreateRequest;
+import com.example.video.dto.request.CommentReplaceRequest;
 import com.example.video.entity.Comment;
 import com.example.video.entity.User;
 
@@ -9,7 +9,7 @@ import java.util.Collection;
 
 public interface CommentService {
 
-    Comment createComment(CommentRequest request, User user);
+    Comment createComment(CommentCreateRequest request, User author);
 
     void deleteComment(long id);
 
@@ -17,6 +17,6 @@ public interface CommentService {
 
     Collection<Comment> getAllComments();
 
-    Comment replaceComment(long id, ReplaceCommentRequest request);
+    Comment replaceComment(long id, CommentReplaceRequest request);
 
 }

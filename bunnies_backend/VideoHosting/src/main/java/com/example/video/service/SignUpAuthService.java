@@ -1,10 +1,10 @@
 package com.example.video.service;
 
 import com.example.video.dto.TokensDTO;
-import com.example.video.dto.request.JwtRequest;
+import com.example.video.dto.request.SignInUserRequest;
 
 public interface SignUpAuthService {
 
-    TokensDTO signup(JwtRequest data);
+    TokensDTO signup(SignInUserRequest data);
 
 }

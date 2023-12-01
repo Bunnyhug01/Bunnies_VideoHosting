@@ -1,5 +1,6 @@
 package com.example.video.service;
 
+import com.example.video.dto.request.UserReplaceRequest;
 import com.example.video.entity.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -11,10 +12,12 @@ public interface UserService extends UserDetailsService {
     @Override
     User loadUserByUsername(String username) throws UsernameNotFoundException;
 
-    User findById(Long id);
+    User getOneUser(long id);
 
-    User save(User user);
+    Collection<User> getAllUsers();
 
-    Collection<User> findAll();
+    void deleteUser(long id);
+
+    User replaceUser(long id, UserReplaceRequest request);
 
 }

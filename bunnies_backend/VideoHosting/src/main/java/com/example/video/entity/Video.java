@@ -20,7 +20,7 @@ public class Video implements BaseEntity {
 
     @Id
     @GeneratedValue
-    private Long id;
+    private long id;
 
     @Column(nullable = false)
     private String title;
@@ -44,7 +44,7 @@ public class Video implements BaseEntity {
     private int dislikes;
 
     @Column(nullable = false)
-    private boolean isPrivate = false;
+    private Boolean isPrivate = false;
 
     @Column(nullable = false)
     private int views;
