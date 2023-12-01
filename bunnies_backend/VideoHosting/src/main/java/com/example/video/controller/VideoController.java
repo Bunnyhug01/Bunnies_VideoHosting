@@ -2,7 +2,7 @@ package com.example.video.controller;
 
 import com.example.video.controller.annotations.NotReturnIfPrivateById;
 import com.example.video.controller.annotations.VideoOwnerById;
-import com.example.video.controller.annotations.VideoOwnerIfPrivateById;
+import com.example.video.controller.annotations.VideoOwnerIfPrivateByResult;
 import com.example.video.dto.request.VideoCreateRequest;
 import com.example.video.dto.request.VideoReplaceRequest;
 import com.example.video.entity.User;
@@ -27,7 +27,7 @@ public class VideoController {
         return service.getAllVideos();
     }
 
-    @VideoOwnerIfPrivateById
+    @VideoOwnerIfPrivateByResult
     @GetMapping("/videos/{id}")
     public Video getOne(@PathVariable long id) {
         return service.getOneVideo(id);

@@ -9,7 +9,8 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@PostAuthorize("hasRole('ROLE_ADMIN') or !returnObject.isPrivate or returnObject.owner.id == authentication.principal.id")
-public @interface VideoOwnerIfPrivateById {
+//@PostAuthorize("@console.log(returnObject.isPrivate == false)")
+@PostAuthorize("hasRole('ROLE_ADMIN') or returnObject.isPrivate == false or returnObject.owner.id == authentication.principal.id")
+public @interface VideoOwnerIfPrivateByResult {
 
 }

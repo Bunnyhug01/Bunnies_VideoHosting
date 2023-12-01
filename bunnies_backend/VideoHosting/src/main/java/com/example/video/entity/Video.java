@@ -44,7 +44,7 @@ public class Video implements BaseEntity {
     private int dislikes;
 
     @Column(nullable = false)
-    private Boolean isPrivate = false;
+    private Boolean isPrivate;
 
     @Column(nullable = false)
     private int views;

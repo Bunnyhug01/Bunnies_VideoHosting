@@ -5,9 +5,9 @@ import org.springframework.stereotype.Service;
 @Service("console")
 public class ConsoleService {
 
-    public boolean log(Long id) {
-        System.out.println(id);
-        return false;
+    public boolean log(Object obj) {
+        System.err.println(obj);
+        return true;
     }
 
 }

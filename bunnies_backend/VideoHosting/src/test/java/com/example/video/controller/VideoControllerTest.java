@@ -1,5 +1,7 @@
 package com.example.video.controller;
 
+import com.example.video.config.ConsoleService;
+import com.example.video.config.MethodSecurityConfig;
 import com.example.video.config.SecurityConfig;
 import com.example.video.entity.Role;
 import com.example.video.entity.User;
@@ -29,7 +31,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         AuthenticationController.class,
         JwtProvider.class,
         SecurityConfig.class,
+        MethodSecurityConfig.class,
         AuthServiceImpl.class,
+        ConsoleService.class,
 })
 public class VideoControllerTest {
 
@@ -51,9 +55,11 @@ public class VideoControllerTest {
     @Test
     void getOne() throws Exception {
         var user = User.builder().id(0L).username("Michail").password("1234").roles(Set.of()).build();
-        var video = Video.builder().id(0L).title("Title").build();
+        var owner = User.builder().id(1L).username("Michail").password("1234").roles(Set.of()).build();
+        var video = Video.builder().id(0L).owner(owner).title("Title").isPrivate(false).build();
         Mockito.when(userService.getOneUser(user.getId())).thenReturn(user);
-        Mockito.when(service.findById(video.getId())).thenReturn(video);
+        Mockito.when(userService.getOneUser(owner.getId())).thenReturn(owner);
+        Mockito.when(service.getOneVideo(video.getId())).thenReturn(video);
         var token = jwtProvider.generateAccessToken(user);
         mvc.perform(get("/videos/{id}", video.getId())
                         .header(HttpHeaders.AUTHORIZATION, JwtTokenAuthenticationFilter.HEADER_PREFIX + token))
@@ -66,7 +72,7 @@ public class VideoControllerTest {
         var userA = User.builder().id(1L).username("Michail A").password("1234").roles(Set.of()).build();
         var video = Video.builder().id(1L).title("Title").owner(userA).isPrivate(true).build();
         Mockito.when(userService.getOneUser(userA.getId())).thenReturn(userA);
-        Mockito.when(service.findById(video.getId())).thenReturn(video);
+        Mockito.when(service.getOneVideo(video.getId())).thenReturn(video);
         var token = jwtProvider.generateAccessToken(userA);
         mvc.perform(get("/videos/{id}", video.getId())
                         .header(HttpHeaders.AUTHORIZATION, JwtTokenAuthenticationFilter.HEADER_PREFIX + token))
@@ -81,7 +87,7 @@ public class VideoControllerTest {
         var video = Video.builder().id(1L).title("Title").owner(userA).isPrivate(true).build();
         Mockito.when(userService.getOneUser(userA.getId())).thenReturn(userA);
         Mockito.when(userService.getOneUser(userB.getId())).thenReturn(userB);
-        Mockito.when(service.findById(video.getId())).thenReturn(video);
+        Mockito.when(service.getOneVideo(video.getId())).thenReturn(video);
         var token = jwtProvider.generateAccessToken(userB);
         mvc.perform(get("/videos/{id}", video.getId())
                         .header(HttpHeaders.AUTHORIZATION, JwtTokenAuthenticationFilter.HEADER_PREFIX + token))
@@ -95,7 +101,7 @@ public class VideoControllerTest {
         var video = Video.builder().id(1L).title("Title").owner(userA).isPrivate(true).build();
         Mockito.when(userService.getOneUser(userA.getId())).thenReturn(userA);
         Mockito.when(userService.getOneUser(userB.getId())).thenReturn(userB);
-        Mockito.when(service.findById(video.getId())).thenReturn(video);
+        Mockito.when(service.getOneVideo(video.getId())).thenReturn(video);
         var token = jwtProvider.generateAccessToken(userB);
         mvc.perform(get("/videos/{id}", video.getId())
                         .header(HttpHeaders.AUTHORIZATION, JwtTokenAuthenticationFilter.HEADER_PREFIX + token))
