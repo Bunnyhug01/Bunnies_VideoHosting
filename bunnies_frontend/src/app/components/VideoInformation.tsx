@@ -16,11 +16,9 @@ interface Props {
 
 export default function VideoInformation({ video } : Props) {
 
-  const [user, setUser] = useState<number | null>(null)
-
   const [likeView, setViewLike] = useState(video?.likes)
   const [dislikeView, setViewDislike] = useState(video?.dislikes)
-  const [subscribeView, setSubscribeView] = useState(video.owner)
+  const [subscribeView, setSubscribeView] = useState<boolean | undefined>(undefined)
 
   async function handleLike() {
 
@@ -44,6 +42,12 @@ export default function VideoInformation({ video } : Props) {
 
   async function handleDislike() {
 
+    await hasLike(video.id!).then((result) => {
+      console.log('Res', result)
+    }).catch((error) => {
+      console.log('Error', error)
+    })
+
     if (await hasLike(video.id!))
     {
       await removeLike(video.id!)
@@ -65,26 +69,27 @@ export default function VideoInformation({ video } : Props) {
 
   async function handleSubscribe() {
     
-    if (user != null) {
-      if (await hasSubscribe(video.owner)) {
-        addSubscribe(user)
-      }
-      else
-      {
-        removeSubscribe(user)
-      }
+    if (await hasSubscribe(video.owner)) {
+      await removeSubscribe(video.owner)
+      setSubscribeView(false)
+    }
+    else
+    {
+      await addSubscribe(video.owner)
+      setSubscribeView(true)
     }
 
   }
 
   useEffect(() => {
-    getMe().then((user) => {
-      setUser(user.id)
+    hasSubscribe(video.owner).then((result) => {
+      if (result) {
+        setSubscribeView(true)
+      }
     })
-
-
-  },[])
+  }, [])
   
+
   return (
     <Box>
       <Box className="flex items-center lg:w-[100%] md:w-[100%] sm:w-[100%] h-[80px] py-4 px-8 sm:px-4">
@@ -102,7 +107,11 @@ export default function VideoInformation({ video } : Props) {
               onClick={handleSubscribe}
               className="font-bold"
             >
-              Subscribe
+              {
+                subscribeView
+                ? 'Unsubscribe'
+                : 'Subscribe'
+              }
             </Button>
 
             <IconButton

@@ -23,11 +23,12 @@ interface Props {
     uploadRef: MutableRefObject<UploadTask | undefined>,
     setUploadingCancellation: Dispatch<SetStateAction<boolean>>,
     setIsFileUpload: Dispatch<SetStateAction<boolean>>
-}
+  },
+  langDictionary: any
 }
 
 
-export default function UploadZone({ setFile, fileType, reference, setProgress, cancel }: Props) {
+export default function UploadZone({ setFile, fileType, reference, setProgress, cancel, langDictionary }: Props) {
 
   const accept = fileType === 'video' ? ['video/mp4'] : ['image/png' , 'image/jpeg']
 
@@ -103,8 +104,8 @@ export default function UploadZone({ setFile, fileType, reference, setProgress, 
           <input {...getInputProps()} />
           {
             isDragActive ?
-            <Typography>Drop the files here ...</Typography> :
-            <Typography>Drag 'n' drop some files here, or click to select files</Typography>
+            <Typography>{langDictionary['drop_files']}</Typography> :
+            <Typography>{langDictionary['drag_or_click_files']}</Typography>
           }
         </Box>
       </Grid>

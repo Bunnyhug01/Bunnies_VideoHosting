@@ -1,22 +1,31 @@
 'use client'
 
 import Link from 'next/link'
+import { useParams, notFound } from 'next/navigation';
 
 import React, { useCallback, useEffect, useState } from "react";
 
 import { Box, ThemeProvider, Typography, createTheme } from "@mui/material";
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
-import Header from "../components/Header";
-import BottomNav from "../components/BottomNav";
-import { ColorModeContext, getDesignTokens } from "../styles/designTokens";
-import { search, searchInLiked } from "../api/search";
-import { Video, getOne, hasLike } from "../api/videos";
-import RecommendedList from "../components/RecommendedList";
-import { getMe } from "../api/users";
+import Header from "../../components/Header";
+import BottomNav from "../../components/BottomNav";
+import { ColorModeContext, getDesignTokens } from "../../styles/designTokens";
+import { search, searchInLiked } from "../../api/search";
+import { Video, getOne, hasLike } from "../../api/videos";
+import RecommendedList from "../../components/RecommendedList";
+import { getMe } from "../../api/users";
 
+import translation from '@/app/locales/translation';
 
 export function Favorites() {
+
+  const params  = useParams();
+  const lang: string = (params.lang).toString()
+
+  const langDictionary = translation[lang]
+  if (langDictionary === undefined)
+    notFound()
 
   const [data, setData] = useState<Video[]>([])
 
@@ -56,7 +65,12 @@ export function Favorites() {
       }}
     >
       
-      <Header searchHandler={searchHandler} ColorModeContext={ColorModeContext} text={{searchText: searchText, setSearchText: setSearchText}} />
+      <Header
+        searchHandler={searchHandler}
+        ColorModeContext={ColorModeContext}
+        text={{searchText: searchText, setSearchText: setSearchText}}
+        language={{langDictionary: langDictionary, lang: lang}}
+      />
             
       <Box 
         component="main"
@@ -70,7 +84,7 @@ export function Favorites() {
 
             <Box className="flex items-center">
                 <Typography className='text-[18px] font-bold my-2 px-2'>
-                    Favorites
+                  {langDictionary['favorites']}
                 </Typography>
                 <FavoriteIcon />
             </Box>
@@ -84,11 +98,11 @@ export function Favorites() {
                   <RecommendedList video={video} />
                 </Link>
               ))
-              : <Typography className="my-2 px-2">You haven't liked any of the videos</Typography>
+              : <Typography className="my-2 px-2">{langDictionary['favorites_list']}</Typography>
             }
         </Box>
 
-      <BottomNav />
+      <BottomNav language={{langDictionary: langDictionary, lang: lang}} />
 
     </Box>
       

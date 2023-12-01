@@ -1,20 +1,30 @@
 'use client'
 
 import Link from 'next/link'
+import { notFound, useParams } from 'next/navigation';
 
 import React, { useCallback, useEffect, useState } from "react";
 
 import { Box, ThemeProvider, createTheme } from "@mui/material";
 
-import Header from "./components/Header";
-import BottomNav from "./components/BottomNav";
-import { ColorModeContext, getDesignTokens } from "./styles/designTokens";
-import { search } from './api/search';
-import { getLine } from './api/views';
-import { Video } from './api/videos';
-import VideoList from './components/VideoList';
+import Header from "../components/Header";
+import BottomNav from "../components/BottomNav";
+import { ColorModeContext, getDesignTokens } from "../styles/designTokens";
+import { search } from '../api/search';
+import { getLine } from '../api/views';
+import { Video } from '../api/videos';
+import VideoList from '../components/VideoList';
+
+import translation from '../locales/translation';
 
 export function Home() {
+  const params  = useParams();
+  const lang: string = (params.lang).toString()
+
+  const langDictionary = translation[lang]
+  if (langDictionary === undefined)
+    notFound()
+
   const [data, setData] = useState<Video[]>([])
 
   const [searchText, setSearchText] = useState<string|undefined>(undefined);
@@ -23,7 +33,7 @@ export function Home() {
   }, [])
   
   useEffect(() => {
-    console.log('Ciao')
+
     if (searchText === undefined || searchText === '') {
       getLine().then((videoArray) => {
         setData(videoArray)
@@ -35,6 +45,7 @@ export function Home() {
     }
   }, [searchText])
 
+
   return(
     <Box
       sx={{
@@ -43,7 +54,12 @@ export function Home() {
       }}
     >
       
-      <Header searchHandler={searchHandler} ColorModeContext={ColorModeContext} text={{searchText: searchText, setSearchText: setSearchText}} />
+      <Header
+        searchHandler={searchHandler}
+        ColorModeContext={ColorModeContext}
+        text={{searchText: searchText, setSearchText: setSearchText}}
+        language={{langDictionary: langDictionary, lang: lang}}
+      />
       
 
       <Box sx={{ height: 'calc(100vh - 90px);', width: '100vw', marginTop: 5 }}>
@@ -54,7 +70,7 @@ export function Home() {
           {data.map((video) => (
             <Link 
               key={video.id}
-              href={`/video/${video.id}`}
+              href={`${lang}/video/${video.id}`}
             >
               <VideoList video={video} />
             </Link>
@@ -63,8 +79,7 @@ export function Home() {
 
       </Box>
       
-      
-      <BottomNav />
+      <BottomNav language={{langDictionary: langDictionary, lang: lang}} />
 
     </Box>
       

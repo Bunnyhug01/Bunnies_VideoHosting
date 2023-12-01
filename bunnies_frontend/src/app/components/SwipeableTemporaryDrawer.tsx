@@ -12,10 +12,18 @@ import HistoryIcon from '@mui/icons-material/History';
 import Logo from "./Logo";
 
 
+interface Props {
+  language: {
+    langDictionary: any,
+    lang: string
+  }
+}
+
+
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
 
 
-export default function SwipeableTemporaryDrawer() {
+export default function SwipeableTemporaryDrawer({ language }: Props) {
   const [state, setState] = React.useState({
     top: false,
     left: false,
@@ -52,35 +60,35 @@ export default function SwipeableTemporaryDrawer() {
       <Divider />
       <List>
         
-        <Link href='/'>
+        <Link href={`/${language.lang}/`}>
           <ListItem key={'Home'} disablePadding>
             <ListItemButton>
               <ListItemIcon>
                 <HomeIcon />
               </ListItemIcon>
-              <ListItemText primary={'Home'} />
+              <ListItemText primary={language.langDictionary['home']} />
             </ListItemButton>
           </ListItem>
         </Link>
 
-        <Link href='/favorites'>
+        <Link href={`/${language.lang}/favorites`}>
           <ListItem key={'Favorites'} disablePadding>
             <ListItemButton>
               <ListItemIcon>
                 <FavoriteIcon />
               </ListItemIcon>
-              <ListItemText primary={'Favorites'} />
+              <ListItemText primary={language.langDictionary['favorites']} />
             </ListItemButton>
           </ListItem>
         </Link>
 
-        <Link href='/history'>
+        <Link href={`/${language.lang}/history`}>
           <ListItem key={'History'} disablePadding>
             <ListItemButton>
               <ListItemIcon>
                 <HistoryIcon />
               </ListItemIcon>
-              <ListItemText primary={'History'} />
+              <ListItemText primary={language.langDictionary['history']} />
             </ListItemButton>
           </ListItem>
         </Link>

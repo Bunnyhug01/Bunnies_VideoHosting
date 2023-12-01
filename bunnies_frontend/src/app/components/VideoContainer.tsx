@@ -33,7 +33,8 @@ function DEFAULT_VIDEO(): Video {
     likes: 0,
     dislikes: 0,
     views: 0,
-    owner: 0
+    owner: 0,
+    isPrivate: false
   }
 }
 

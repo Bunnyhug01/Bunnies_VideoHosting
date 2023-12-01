@@ -1,3 +1,5 @@
+import { useParams } from 'next/navigation';
+
 import * as React from 'react';
 
 import { styled, alpha, useTheme } from '@mui/material/styles';
@@ -16,8 +18,11 @@ import { LightMode, DarkMode } from '@mui/icons-material';
 import Logo from './Logo';
 import Upload from './Upload';
 import SearchBox from './SearchBox';
-import { Link } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 import Dictaphone from './Dictaphone/Dictaphone';
+import LanguageMenu from './LanguageMenu';
+
+import translation from '../locales/translation'
 
 
 interface Props {
@@ -28,11 +33,15 @@ interface Props {
     text?: {
         searchText?: string,
         setSearchText: React.Dispatch<React.SetStateAction<string | undefined>>
+    },
+    language: {
+        langDictionary: any,
+        lang: string
     }
 }
 
 
-export default function Header({searchHandler, ColorModeContext, text} : Props) {
+export default function Header({searchHandler, ColorModeContext, text, language} : Props) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
@@ -103,22 +112,11 @@ export default function Header({searchHandler, ColorModeContext, text} : Props) 
             open={isMobileMenuOpen}
             onClose={handleMobileMenuClose}
         >
-            <MenuItem>
-                <Upload />
-                <p>Upload video</p>
-            </MenuItem>
-            {/* <MenuItem>
-                <IconButton
-                    size="large"
-                    aria-label="show 17 new notifications"
-                    color="inherit"
-                >
-                    <Badge badgeContent={17} color="error">
-                        <NotificationsIcon />
-                    </Badge>
-                </IconButton>
-                <p>Notifications</p>
-            </MenuItem> */}
+
+            <Upload type='menu' langDictionary={language.langDictionary} />
+
+            <LanguageMenu type='menu' language={{langDictionary: language.langDictionary, lang: language.lang}} />
+
             <MenuItem onClick={colorMode.toggleColorMode}>
                 <IconButton
                     color="inherit"
@@ -130,7 +128,7 @@ export default function Header({searchHandler, ColorModeContext, text} : Props) 
                         : <DarkMode className="text-darkThemeIconColor"/>
                     }
                 </IconButton>
-                <p>Theme</p>
+                <Typography>{language.langDictionary['theme']}</Typography>
             </MenuItem>
             <MenuItem onClick={handleProfileMenuOpen}>
                 <IconButton
@@ -143,7 +141,7 @@ export default function Header({searchHandler, ColorModeContext, text} : Props) 
                 >
                     <AccountCircle />
                 </IconButton>
-                <p>Profile</p>
+                <Typography>{language.langDictionary['profile']}</Typography>
             </MenuItem>
         </Menu>
     );
@@ -152,26 +150,16 @@ export default function Header({searchHandler, ColorModeContext, text} : Props) 
         <Box sx={{ flexGrow: 1, height: 50 }}>
             <AppBar sx={{ bgcolor: 'background.default' }} elevation={0} style={{position: 'fixed'}}>
                 <Toolbar sx={{ bgcolor: 'background.default' }}>
-                    <SwipeableTemporaryDrawer />
+                    <SwipeableTemporaryDrawer language={{langDictionary: language.langDictionary, lang: language.lang}} />
                     <Logo />
 
-                    <SearchBox onChange={searchHandler} text={text} />
-                    <Dictaphone setDictaphoneInput={text?.setSearchText} />
-
-                    
+                    <SearchBox onChange={searchHandler} text={text} langDictionary={language.langDictionary} />
+                    <Dictaphone setDictaphoneInput={text?.setSearchText} lang={language.lang} />
 
                     <Box sx={{ flexGrow: 1 }} />
                     <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-                        <Upload />
-                        {/* <IconButton
-                            size="large"
-                            aria-label="show 17 new notifications"
-                            color="inherit"
-                        >
-                        <Badge badgeContent={17} color="error">
-                            <NotificationsIcon />
-                        </Badge>
-                        </IconButton> */}
+                        <Upload type='button' langDictionary={language.langDictionary} />
+
                         <IconButton
                             onClick={colorMode.toggleColorMode}
                             color="inherit"
@@ -182,6 +170,9 @@ export default function Header({searchHandler, ColorModeContext, text} : Props) 
                                 : <DarkMode className="hover:text-darkThemeIconColor"/>
                                 }
                         </IconButton>
+
+                        <LanguageMenu type='button' language={{langDictionary: language.langDictionary, lang: language.lang}} />
+                        
                         <IconButton
                             size="large"
                             edge="end"

@@ -11,7 +11,13 @@ import { UploadTask } from "firebase/storage";
 import deleteFile from "../firebase/deleteFile";
 
 
-export default function Upload() {
+interface Props {
+    type: string,
+    langDictionary: any
+}
+
+
+export default function Upload({ type, langDictionary } : Props) {
   
   const [videoUpload, setVideoUpload] = useState<File|null>(null);
   const [imageUpload, setImageUpload] = useState<File|null>(null);
@@ -45,17 +51,6 @@ export default function Upload() {
 
     setIsVideoUpload(false)
 
-    if (videoRef !== "") {
-        deleteFile(videoRef)
-        setVideoRef("")
-    }
-    
-    if (imageRef !== "") {
-        deleteFile(imageRef)
-        setImageRef("")
-    }
-
-    uploadRef.current?.cancel()
   };
 
 
@@ -79,6 +74,14 @@ export default function Upload() {
     uploadRef.current?.cancel()
   }
 
+  const handleImageCancel = () => {
+    if (imageRef !== "") {
+        deleteFile(imageRef)
+        setImageRef("")
+    }
+        
+    uploadRef.current?.cancel()
+  }
 
   const [isThumbnailUpload, setIsThumbnailUpload] = useState<boolean>(false)
 
@@ -121,14 +124,32 @@ export default function Upload() {
  
   return (
     <Box>
- 
-        <IconButton
-            size="large"
-            color="inherit"
-            onClick={handleClickUploadOpen}
-        >
-            <VideoCallIcon />
-        </IconButton>
+
+        {
+            type === 'button'
+            ?
+                <IconButton
+                    size="large"
+                    color="inherit"
+                    onClick={handleClickUploadOpen}
+                >
+                    <VideoCallIcon />
+                </IconButton>
+            :
+                <MenuItem
+                    onClick={handleClickUploadOpen}
+                >
+                    <IconButton
+                        size="large"
+                        color="inherit"
+                        style={{ backgroundColor: 'transparent' }}
+                    >
+                        <VideoCallIcon />
+                    </IconButton>
+                    <Typography>{langDictionary['upload']}</Typography>
+                </MenuItem>
+        
+        }
 
         <Box>
             <Box>
@@ -143,7 +164,7 @@ export default function Upload() {
                     fullWidth
                 >
                     <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-                    Video Upload
+                        {langDictionary['video_upload']}
                     </DialogTitle>
                     <IconButton
                         aria-label="close"
@@ -169,6 +190,7 @@ export default function Upload() {
                                 reference={{fileRef: videoRef, setFileRef: setVideoRef}}
                                 setProgress={setVideoLoadProgress}
                                 cancel={{uploadRef: uploadRef, setUploadingCancellation: setUploadingCancellation, setIsFileUpload: setIsVideoUpload}}
+                                langDictionary={langDictionary}
                             />
 
                             {videoUpload && !uploadingCancellation
@@ -187,7 +209,7 @@ export default function Upload() {
                                 handleClickOpen()
                             }}
                         >
-                            Next
+                            {langDictionary['next_button']}
                         </Button>
     
                     </DialogActions>
@@ -198,18 +220,22 @@ export default function Upload() {
                 <Dialog
                     onClose={() => {
                         handleClose()
+                        handleImageCancel()
+                        handleUploadCancel()
                     }}
                     aria-labelledby="customized-dialog-title"
                     open={open}
                     fullWidth
                 >
                     <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
-                        Video Upload
+                        {langDictionary['video_upload']}
                     </DialogTitle>
                     <IconButton
                         aria-label="close"
                         onClick={() => {
                             handleClose()
+                            handleImageCancel()
+                            handleUploadCancel()
                         }}
                         sx={{
                             position: 'absolute',
@@ -228,11 +254,11 @@ export default function Upload() {
                     >
                         <DialogContent dividers>
 
-                        <Typography variant="h5">Video uploading progress</Typography>
+                        <Typography variant="h5">{langDictionary['video_uploading_progress']}</Typography>
 
                         <ProgressBar value={videoLoadProgress} />
 
-                        <Typography variant="h5">Details</Typography>
+                        <Typography variant="h5">{langDictionary['details']}</Typography>
                         <Box
                             sx={{
                             marginTop: 2,
@@ -243,7 +269,7 @@ export default function Upload() {
                                 required
                                 id="title"
                                 name="title"
-                                label="Title"
+                                label={langDictionary['title']}
                                 fullWidth
                                 autoComplete="off"
                                 variant="outlined" 
@@ -255,7 +281,7 @@ export default function Upload() {
                                 }}
                                 placeholder="Tell viewers about your video"
                                 id="description"
-                                label="Description"
+                                label={langDictionary['description']}
                                 multiline
                                 fullWidth
                                 rows={4}
@@ -268,15 +294,15 @@ export default function Upload() {
                                 fullWidth
                                 required          
                             >
-                                <InputLabel>Privacy</InputLabel>
+                                <InputLabel>{langDictionary['privacy']}</InputLabel>
                                 <Select
                                     id="privacy"
                                     value={privacy}
-                                    label="Privacy"
+                                    label={langDictionary['privacy']}
                                     onChange={handleChange}
                                 >
-                                    <MenuItem value={'private'}>Private</MenuItem>
-                                    <MenuItem value={'public'}>Public</MenuItem>
+                                    <MenuItem value={'private'}>{langDictionary['private']}</MenuItem>
+                                    <MenuItem value={'public'}>{langDictionary['public']}</MenuItem>
                                 </Select>
                             </FormControl>
                         </Box>
@@ -286,8 +312,8 @@ export default function Upload() {
                             marginTop: 2,
                             }}
                         >
-                            <Typography variant="h5">Thumbnail</Typography>
-                            <Typography>Select a thumbnail for your video</Typography>
+                            <Typography variant="h5">{langDictionary['thumbnail']}</Typography>
+                            <Typography>{langDictionary['select_thumbnail']}</Typography>
 
                             <Box
                                 sx={{
@@ -302,6 +328,7 @@ export default function Upload() {
                                     reference={{fileRef: imageRef, setFileRef: setImageRef}}
                                     setProgress={setImageLoadProgress}
                                     cancel={{uploadRef: uploadRef, setUploadingCancellation: setUploadingCancellation, setIsFileUpload: setIsThumbnailUpload}}
+                                    langDictionary={langDictionary}
                                 />
                                 
                                 {imageUpload && !uploadingCancellation
@@ -321,7 +348,7 @@ export default function Upload() {
                                 autoFocus
                                 onSubmit={(event) => handleSubmit(event)}
                             >
-                                Save changes
+                                {langDictionary['save']}
                             </Button>
                         </DialogActions>
                     </form>

@@ -32,8 +32,10 @@ async function updateJWT() {
         method: "POST",
         credentials: 'include'
     }).then(async resp => {
-        if(resp.status == 401)
-            window.location.replace("/sign-in");   
+        if(resp.status == 401) {
+            window.location.replace("/sign-in"); 
+        }
+              
         return resp.json()
     }).then(json => json["access"]).then(token => localStorage.setItem("jwt", token))
 }
@@ -41,7 +43,7 @@ async function updateJWT() {
 interface UserSingUpRequest extends UsernamePasswordDTO {
 }
 
-export async function singup(request: UserSingUpRequest) {
+export async function signup(request: UserSingUpRequest) {
     return fetch(`${API_URL}/auth/base/signup`, {
         method: "POST",
     }).then(response => {
@@ -51,7 +53,7 @@ export async function singup(request: UserSingUpRequest) {
     }).then(json => json["access"]).then(token => localStorage.setItem("jwt", token))
 }
 
-export async function singin(request: UserSingUpRequest) {
+export async function signin(request: UserSingUpRequest) {
     return fetch(`${API_URL}/auth/base/signin`, {
         method: "POST",
     }).then(response => {

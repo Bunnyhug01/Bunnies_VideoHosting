@@ -1,13 +1,13 @@
 'use client'
 
+import { redirect } from 'next/navigation'
+
 import * as React from 'react';
 
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -15,6 +15,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { signup } from '../api/main';
 
 function Copyright(props: any) {
   return (
@@ -32,15 +33,34 @@ function Copyright(props: any) {
 
 const defaultTheme = createTheme();
 
+
 export default function SignUp() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+
+  const [ifRedirect, setIfRedirect] = React.useState(false)
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+
+    if (data.get('confrimPassword') === data.get('password')) {
+      signup({
+        username: (data.get('userName'))!.toString(),
+        password: (data.get('password'))!.toString(),
+      })
+      .then((response) => {
+        setIfRedirect(true)
+      })
+      .catch((response) => {
+        console.log(response)
+      })
+    }
+
   };
+
+  React.useEffect(() => {
+    if (ifRedirect)
+      redirect('/')
+  }, [ifRedirect])
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -73,7 +93,7 @@ export default function SignUp() {
                   autoFocus
                 />
               </Grid>
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
@@ -82,7 +102,7 @@ export default function SignUp() {
                   name="email"
                   autoComplete="email"
                 />
-              </Grid>
+              </Grid> */}
               <Grid item xs={12}>
                 <TextField
                   required

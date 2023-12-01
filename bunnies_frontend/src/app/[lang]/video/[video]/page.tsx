@@ -10,21 +10,30 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
-import Header from '../../components/Header';
-import Comments from '../../components/Comments';
-import RecommendedList from '../../components/RecommendedList';
-import VideoContainer from '../../components/VideoContainer';
-import BottomNav from '../../components/BottomNav';
+import Header from '../../../components/Header';
+import Comments from '../../../components/Comments';
+import RecommendedList from '../../../components/RecommendedList';
+import VideoContainer from '../../../components/VideoContainer';
+import BottomNav from '../../../components/BottomNav';
 
-import { addView, getLine } from '../../api/views';
-import { Video, getOne } from '../../api/videos';
-import { ColorModeContext, getDesignTokens } from '../../styles/designTokens';
-import { search } from '../../api/search';
+import { addView, getLine } from '../../../api/views';
+import { Video, getOne } from '../../../api/videos';
+import { ColorModeContext, getDesignTokens } from '../../../styles/designTokens';
+import { search } from '../../../api/search';
+
+import translation from '@/app/locales/translation';
 
 
 function Video() {
   const params  = useParams();
   const videoId = Number(params.video)
+  const lang: string = (params.lang).toString()
+
+  const langDictionary = translation[lang]
+  if (langDictionary === undefined)
+    notFound()
+
+  const [ifNotFound, setIfNotFound] = useState<boolean>(false)
 
   const [recommendation, setRecommendation] = useState<Video[]>([])
 
@@ -41,13 +50,13 @@ function Video() {
       addView(video.id)
     }).catch(response => {
       if(response.status == 404)
-        notFound()
+        setIfNotFound(true)
     })
   },[])
   
   useEffect(() => {
     if (searchText === undefined || searchText === '') {
-      getLine().then((videoArray) => {
+      getLine(videoId).then((videoArray) => {
         setRecommendation(videoArray)
       })
     } else {
@@ -58,6 +67,10 @@ function Video() {
 
   }, [searchText])
   
+  useEffect(() => {
+    if (ifNotFound)
+      notFound()
+  }, [ifNotFound])
 
   return (
     <Box
@@ -66,7 +79,12 @@ function Video() {
         color: 'text.primary',
       }}>
       
-      <Header searchHandler={searchHandler} ColorModeContext={ColorModeContext} text={{searchText: searchText, setSearchText: setSearchText}} />
+      <Header
+        searchHandler={searchHandler}
+        ColorModeContext={ColorModeContext}
+        text={{searchText: searchText, setSearchText: setSearchText}}
+        language={{langDictionary: langDictionary, lang: lang}}
+      />
       
       <Box 
         component="main"
@@ -99,7 +117,7 @@ function Video() {
             >
         
               <Typography className='text-[18px] font-bold my-2 px-2'>
-                Recommended
+                {langDictionary['recommendation']}
               </Typography>
 
               {recommendation.map((video) => (
@@ -119,7 +137,7 @@ function Video() {
           </Box>
 
           {/* Bottom Section */}
-          <BottomNav />
+          <BottomNav language={{langDictionary: langDictionary, lang: lang}} />
 
         </Box>
       </Box>

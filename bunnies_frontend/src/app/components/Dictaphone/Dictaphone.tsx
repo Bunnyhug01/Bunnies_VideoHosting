@@ -8,11 +8,12 @@ import MicIcon from '@mui/icons-material/Mic';
 import { useEffect, useState } from "react";
 
 interface Props {
-    setDictaphoneInput?: React.Dispatch<React.SetStateAction<string | undefined>>
+    setDictaphoneInput?: React.Dispatch<React.SetStateAction<string | undefined>>,
+    lang: string
 }
 
 
-export default function Dictaphone({ setDictaphoneInput }: Props) {
+export default function Dictaphone({ setDictaphoneInput, lang }: Props) {
   const [isStart, setIsStart] = useState<boolean>(false);
   
 
@@ -39,7 +40,7 @@ export default function Dictaphone({ setDictaphoneInput }: Props) {
   function listenContinuously() {
     SpeechRecognition.startListening({
       continuous: true,
-      language: "en"
+      language: lang
     });
   };
 

@@ -55,11 +55,12 @@ interface Props {
     text?: {
       searchText?: string,
       setSearchText: React.Dispatch<React.SetStateAction<string | undefined>>
-  }
+    },
+    langDictionary: any
 }
 
 
-export default function SearchBox({onChange, text} : Props) {
+export default function SearchBox({onChange, text, langDictionary} : Props) {
 
   return (
     <Search sx={{bgcolor: 'background.additional'}}>
@@ -67,7 +68,7 @@ export default function SearchBox({onChange, text} : Props) {
         <SearchIcon />
       </SearchIconWrapper>
       <StyledInputBase
-        placeholder="Search…"
+        placeholder={langDictionary['search']}
         inputProps={{ 'aria-label': 'search' }}
         onChange={onChange}
         value={text?.searchText}
