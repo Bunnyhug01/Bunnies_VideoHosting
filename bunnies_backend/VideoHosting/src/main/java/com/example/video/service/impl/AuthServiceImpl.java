@@ -1,5 +1,6 @@
 package com.example.video.service.impl;
 
+import com.example.video.controller.advice.exception.NotValidJWT;
 import com.example.video.dto.TokensDTO;
 import com.example.video.dto.request.SignInUserRequest;
 import com.example.video.entity.User;
@@ -21,7 +22,8 @@ public class AuthServiceImpl implements AuthService {
     private final JwtProvider provider;
 
     public String refreshToken(String refreshToken) {
-        provider.validateRefreshToken(refreshToken);
+        if(!provider.isValidateRefreshToken(refreshToken))
+            throw new NotValidJWT();
         var id = provider.getRefreshId(refreshToken);
         var access_token = provider.generateAccessToken(id);
         return access_token;

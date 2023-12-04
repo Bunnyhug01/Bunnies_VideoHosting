@@ -30,8 +30,7 @@ public class JwtTokenAuthenticationFilter extends GenericFilterBean {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain fc)
             throws IOException, ServletException {
         final String token = getTokenFromRequest((HttpServletRequest) request);
-        if (token != null) {
-            provider.validateAccessToken(token);
+        if (token != null && provider.isValidateAccessToken(token)) {
             final var id = provider.getAccessId(token);
             final var user = users.getOneUser(id);
             final var jwtInfoToken = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());

@@ -64,3 +64,9 @@ export async function signin(request: UserSingUpRequest) {
         return Promise.reject(response)
     }).then(json => json["access"]).then(token => localStorage.setItem("jwt", token))
 }
+
+export async function signout() {
+    return fetch(`${API_URL}/auth/signout`, {
+        method: "POST"
+    })
+}

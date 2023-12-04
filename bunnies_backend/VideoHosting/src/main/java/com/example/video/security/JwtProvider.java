@@ -67,19 +67,24 @@ public class JwtProvider {
                 .compact();
     }
 
-    public void validateAccessToken(String accessToken) {
-        validateToken(accessToken, jwtAccessSecret);
+    public boolean isValidateAccessToken(String accessToken) {
+        return isValidateToken(accessToken, jwtAccessSecret);
     }
 
-    private void validateToken(String token, Key secret) {
-        Jwts.parser()
-                .setSigningKey(secret)
-                .build()
-                .parseClaimsJws(token);
+    private boolean isValidateToken(String token, Key secret) {
+        try {
+            Jwts.parser()
+                    .setSigningKey(secret)
+                    .build()
+                    .parseClaimsJws(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
-    public void validateRefreshToken(String refreshToken) {
-        validateToken(refreshToken, jwtRefreshSecret);
+    public boolean isValidateRefreshToken(String refreshToken) {
+        return isValidateToken(refreshToken, jwtRefreshSecret);
     }
 
     public Long getAccessId(String token) {
