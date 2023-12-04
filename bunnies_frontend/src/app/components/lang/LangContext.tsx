@@ -24,7 +24,7 @@ export function Text({ token }: { token: string }) {
     )
 }
 
-function useLang(token: string): string {
+export function useLang(token: string): string {
     const lang = useContext(LangContext)
     return translation[lang][token]
 }
