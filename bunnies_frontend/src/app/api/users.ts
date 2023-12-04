@@ -12,6 +12,12 @@ export interface User {
     dislikes: number[]
 }
 
+export interface UserReplaseReuest {
+    username?: string,
+    password?: string,
+    logoUrl?: string,
+}
+
 export interface History {
     video: number,
 }
@@ -22,6 +28,16 @@ export async function getAll(): Promise<User[]>  {
 
 export async function getOne(id: number): Promise<User> {
     return sfetch(`/users/${id}`).then(resp => resp.json())
+}
+
+export async function replaceOne(user: UserReplaseReuest): Promise<User> {
+    return sfetch(`/users/me`, {
+        method: "PUT",
+        body: JSON.stringify(user),
+        headers: {
+            "Content-Type": "application/json",
+        }
+    }).then(resp => resp.json())
 }
 
 export async function getMe(): Promise<User> {

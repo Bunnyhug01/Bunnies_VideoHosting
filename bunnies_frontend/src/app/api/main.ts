@@ -32,7 +32,6 @@ async function updateJWT() {
         method: "POST",
         credentials: 'include'
     }).then(resp => {
-
         if(resp.status == 401) {
             window.location.replace("/sign-in");
         }

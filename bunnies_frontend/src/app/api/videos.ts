@@ -60,7 +60,10 @@ export async function createOne(video: VideoCreateRequest): Promise<Video> {
 export async function replaceOne(id: number, video: VideoReplaceRequest): Promise<Video> {
     return sfetch(`/videos/${id}`, {
         method: "PUT",
-        body: JSON.stringify(video)
+        body: JSON.stringify(video),
+        headers: {
+            "Content-Type": "application/json",
+        }
     }).then(resp => resp.json())
 }
 

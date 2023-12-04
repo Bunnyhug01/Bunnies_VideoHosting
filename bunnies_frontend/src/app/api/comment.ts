@@ -28,7 +28,10 @@ export async function getOne(id: number): Promise<Comment>  {
 export async function createOne(comment: CommentCreateRequest): Promise<Comment>  {
     return sfetch(`/comments`, {
         method: "POST",
-        body: JSON.stringify(comment)
+        body: JSON.stringify(comment),
+        headers: {
+            "Content-Type": "application/json",
+        }
     }).then(resp => resp.json())
 }
 
@@ -41,7 +44,10 @@ export async function deleteOne(id: number): Promise<Response> {
 export async function replaceOne(id: number, comment: CommentReplaceRequest): Promise<Comment> {
     return sfetch(`/comments/${id}`, {
         method: "PUT",
-        body: JSON.stringify(comment)
+        body: JSON.stringify(comment),
+        headers: {
+            "Content-Type": "application/json",
+        }
     }).then(resp => resp.json())
 }
 

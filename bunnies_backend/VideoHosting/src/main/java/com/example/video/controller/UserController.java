@@ -33,9 +33,10 @@ public class UserController {
     }
 
     @UserById
-    @PutMapping("/users/{id}")
-    public User replace(@PathVariable long id, @RequestBody UserReplaceRequest request) {
-        return service.replaceUser(id, request);
+    @PutMapping("/users/me")
+    public User replace(Authentication authentication, @RequestBody UserReplaceRequest request) {
+        var user = (User) authentication.getPrincipal();
+        return service.replaceUser(user.getId(), request);
     }
 
     @UserById
