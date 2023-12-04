@@ -35,7 +35,7 @@ interface Props {
         setSearchText: React.Dispatch<React.SetStateAction<string | undefined>>
     },
     language: {
-        langDictionary: any,
+        langDictionary: Record<string, string>,
         lang: string
     }
 }
