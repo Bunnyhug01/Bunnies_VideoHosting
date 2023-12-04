@@ -45,7 +45,7 @@ public class ViewServiceImpl implements ViewService {
     public Collection<Video> getLine(long userId) {
         var result = new HashSet<Video>();
         var videos = videoService.getAllVideos();
-        while (result.size() < Math.min(10, videos.size() - 1)) {
+        while (result.size() < Math.min(10, videos.size())) {
             var video = videos.get(ThreadLocalRandom.current().nextInt(videos.size()));
             result.add(video);
         }
