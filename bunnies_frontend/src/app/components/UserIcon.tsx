@@ -8,11 +8,12 @@ import { UserIdInfo, UserInfo, UserLogo, UserName, UserSubscribers } from './use
 
 
 interface Props {
-    userId: number
+    userId: number,
+    langDictionary: any
 }
 
 
-export default function UserIcon({ userId } : Props) {
+export default function UserIcon({ userId, langDictionary } : Props) {
     return (
         <Box className="flex items-center">
             <UserIdInfo id={userId}>
@@ -23,7 +24,7 @@ export default function UserIcon({ userId } : Props) {
                         <UserName/>
                     </Typography>
                     <Typography sx={{color: 'text.secondary', fontSize: 12}} className="font-bold block ml-2">
-                        <UserSubscribers /> subs
+                        <UserSubscribers /> {langDictionary['subs']}
                     </Typography>
                 </Box>
             </UserIdInfo>

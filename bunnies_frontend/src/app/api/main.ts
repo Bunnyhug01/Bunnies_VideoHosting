@@ -33,7 +33,7 @@ async function updateJWT() {
         credentials: 'include'
     }).then(resp => {
         if(resp.status == 401) {
-            window.location.replace("/sign-in");
+            window.location.replace("/en/sign-in");
         }
         return resp.json()
     }).then(json => json["access"]).then(token => localStorage.setItem("jwt", token))

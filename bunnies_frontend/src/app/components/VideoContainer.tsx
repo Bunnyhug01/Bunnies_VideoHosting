@@ -8,7 +8,8 @@ import { Box } from '@mui/material';
 
 
 interface Props {
-  video?: Video
+  video?: Video,
+  langDictionary: any
 }
 
 
@@ -39,7 +40,7 @@ function DEFAULT_VIDEO(): Video {
 }
 
 
-export default function VideoContainer( { video = DEFAULT_VIDEO() } : Props ) {
+export default function VideoContainer( { video = DEFAULT_VIDEO(), langDictionary } : Props ) {
   const [isPlaying, setPlaying] = useState<boolean>(false);
   const tl: TimelineLite = new TimelineLite({ delay: 0.3 });
   
@@ -65,7 +66,7 @@ export default function VideoContainer( { video = DEFAULT_VIDEO() } : Props ) {
 
           <Box className="absolute w-full lg:w-[100%]">
             {video.videoUrl !== ""
-              ? <VideoInformation video={video} />
+              ? <VideoInformation video={video} langDictionary={langDictionary} />
               : null
             }
           </Box>

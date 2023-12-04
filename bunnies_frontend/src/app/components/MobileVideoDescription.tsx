@@ -22,6 +22,7 @@ interface Props {
    */
   window?: () => Window;
   video:Video;
+  langDictionary: any;
 }
 
 const Root = styled('div')(({ theme }) => ({
@@ -45,7 +46,7 @@ const Puller = styled(Box)(({ theme }) => ({
 }));
 
 export default function MobileVideoDescription(props: Props) {
-  const { window, video } = props;
+  const { window, video, langDictionary } = props;
   const [open, setOpen] = React.useState(false);
   const [hidden, setHidden] = React.useState(true);
 
@@ -85,7 +86,7 @@ export default function MobileVideoDescription(props: Props) {
           }}
         >
           <Box className="mx-4">
-            <Typography className="text-[14px] font-bold">{video?.views} Views</Typography>
+            <Typography className="text-[14px] font-bold">{video?.views} {langDictionary['views']}</Typography>
           </Box>
 
           <Box className="mx-4">
@@ -126,7 +127,7 @@ export default function MobileVideoDescription(props: Props) {
           }}
         >
           <Puller />
-          <Typography sx={{ p: 2, color: 'text.secondary' }}>Description</Typography>
+          <Typography sx={{ p: 2, color: 'text.secondary' }}>{langDictionary['description']}</Typography>
         </StyledBox>
         <Divider />
         <StyledBox

@@ -22,7 +22,9 @@ import { Link, Typography } from '@mui/material';
 import Dictaphone from './Dictaphone/Dictaphone';
 import LanguageMenu from './LanguageMenu';
 
-import translation from '../locales/translation'
+import { getMe } from '../api/users';
+import { MyLogo, UserIdInfo } from './user/user';
+import { logout } from '../api/main';
 
 
 interface Props {
@@ -42,6 +44,9 @@ interface Props {
 
 
 export default function Header({searchHandler, ColorModeContext, text, language} : Props) {
+
+    const [userId, setUserId] = React.useState<number>(0)
+
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
@@ -69,6 +74,16 @@ export default function Header({searchHandler, ColorModeContext, text, language}
         setMobileMoreAnchorEl(event.currentTarget);
     };
 
+    const handleSignOut = () => {
+        logout()
+    }
+
+    React.useEffect(() => {
+        getMe().then((user) => 
+            setUserId(user.id)
+        )
+    }, [])
+
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
         <Menu
@@ -86,11 +101,15 @@ export default function Header({searchHandler, ColorModeContext, text, language}
             open={isMenuOpen}
             onClose={handleMenuClose}
         >
-            <Link href='/sign-in' style={{ textDecoration: 'none' }}>
-                <MenuItem onClick={handleMenuClose}>Sign in</MenuItem>
-            </Link>
-            <Link href='/sign-up' style={{ textDecoration: 'none' }}>
-                <MenuItem onClick={handleMenuClose}>Sign up</MenuItem>
+            <Link href={`/${language.lang}/sign-in`} style={{ textDecoration: 'none' }}>
+                <MenuItem
+                    onClick={() => {
+                        handleMenuClose()
+                        handleSignOut()
+                    }}
+                >
+                    {language.langDictionary['sign_out']}
+                </MenuItem>
             </Link>
         </Menu>
     );
@@ -139,7 +158,9 @@ export default function Header({searchHandler, ColorModeContext, text, language}
                     color="inherit"
                     style={{ backgroundColor: 'transparent' }}
                 >
-                    <AccountCircle />
+                    <UserIdInfo id={userId}>
+                        <MyLogo />
+                    </UserIdInfo>
                 </IconButton>
                 <Typography>{language.langDictionary['profile']}</Typography>
             </MenuItem>
@@ -182,7 +203,9 @@ export default function Header({searchHandler, ColorModeContext, text, language}
                             onClick={handleProfileMenuOpen}
                             color="inherit"
                         >
-                            <AccountCircle />
+                            <UserIdInfo id={userId}>
+                                <MyLogo />
+                            </UserIdInfo>
                         </IconButton>
                     </Box>
                     <Box sx={{ display: { xs: 'flex', md: 'none' } }}>

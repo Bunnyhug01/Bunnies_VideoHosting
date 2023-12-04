@@ -88,31 +88,27 @@ export function Home() {
 }
 
 export default function ToggleColorMode() {
-    const [mode, setMode] = React.useState<'light' | 'dark'>('dark');
-    const colorMode = React.useMemo(
-      () => ({
-        toggleColorMode: () => {
-          setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
-        },
-      }),
-      [],
-    );
-  
-    const theme = React.useMemo(
-      () =>
-        createTheme(getDesignTokens(mode)),
-      [mode],
-    );
-  
-    return (
-      <ColorModeContext.Provider value={colorMode}>
-      <ThemeProvider theme={theme}>
-        <Home />
-      </ThemeProvider>
-    </ColorModeContext.Provider>
-    );
-  }
+  const [mode, setMode] = React.useState<'light' | 'dark'>('dark');
+  const colorMode = React.useMemo(
+    () => ({
+      toggleColorMode: () => {
+        setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
+      },
+    }),
+    [],
+  );
 
-function styled(Dialog: any) {
-  throw new Error("Function not implemented.");
+  const theme = React.useMemo(
+    () =>
+      createTheme(getDesignTokens(mode)),
+    [mode],
+  );
+
+  return (
+    <ColorModeContext.Provider value={colorMode}>
+    <ThemeProvider theme={theme}>
+      <Home />
+    </ThemeProvider>
+  </ColorModeContext.Provider>
+  );
 }

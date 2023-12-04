@@ -27,7 +27,21 @@ const translation:any = {
         "select_thumbnail": "Select a thumbnail for your video",
         "save": "Save changes",
         "drop_files": "Drop the files here ...",
-        "drag_or_click_files": "Drag 'n' drop some files here, or click to select files"
+        "drag_or_click_files": "Drag 'n' drop some files here, or click to select files",
+        "sign_up": "Sign up",
+        "user_name": "Username",
+        "password": "Password",
+        "confirm_password": "Confirm Password",
+        "sign_up_button": "Sign Up",
+        "have_accout": "Already have an account? Sign in",
+        "sign_in": "Sign in",
+        "sign_in_button": "Sign In",
+        "havent_account": "Don't have an account? Sign Up",
+        "subscribe": "Subscribe",
+        "unsubscribe": "Unsubscribe",
+        "views": "Views",
+        "subs": "subs",
+        "sign_out": "Sign Out",
     },
 
     "ru": {
@@ -57,7 +71,21 @@ const translation:any = {
         "select_thumbnail": "Выберите превью для вашего видео",
         "save": "Сохранить",
         "drop_files": "Скиньте файлы сюда ...",
-        "drag_or_click_files": "Перетащите сюда несколько файлов или щёлкните, чтобы выбрать их"
+        "drag_or_click_files": "Перетащите сюда несколько файлов или щёлкните, чтобы выбрать их",
+        "sign_up": "Регистрация",
+        "user_name": "Имя пользователя",
+        "password": "Пароль",
+        "confirm_password": "Подтверждение пароля",
+        "sign_up_button": "Зарегистрироваться",
+        "have_accout": "Уже есть аккаунт? Авторизуйтесь",
+        "sign_in": "Авторизация",
+        "sign_in_button": "Войти",
+        "havent_account": "Нет аккаунта? Зарегистрируйтесь",
+        "subscribe": "Подписаться",
+        "unsubscribe": "Отписаться",
+        "views": "Просмотров",
+        "subs": "подпищиков",
+        "sign_out": "Выйти",
     }
 }
 

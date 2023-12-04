@@ -1,25 +1,25 @@
 'use client'
 
-import Link from 'next/link'
-import { useParams, notFound } from 'next/navigation';
-
 import React, { useCallback, useEffect, useState } from "react";
 
-import { Box, ThemeProvider, Typography, createTheme } from "@mui/material";
-import FavoriteIcon from '@mui/icons-material/Favorite';
+import { Box, PaletteMode, ThemeProvider, createTheme, TextField, SelectChangeEvent, Typography, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import { amber, grey } from "@mui/material/colors";
+
+import { DataGrid } from '@mui/x-data-grid';
 
 import Header from "../../components/Header";
 import BottomNav from "../../components/BottomNav";
+import { rows, columns } from "../../api/dataGrid";
 import { ColorModeContext, getDesignTokens } from "../../styles/designTokens";
-import { search, searchInLiked } from "../../api/search";
-import { Video, getOne, hasLike } from "../../api/videos";
-import RecommendedList from "../../components/RecommendedList";
+import { getOne } from "../../api/comment";
+import { searchInLiked } from "../../api/search";
 import { getMe } from "../../api/users";
+import { Video } from "../../api/videos";
+import { notFound, useParams } from "next/navigation";
+import translation from "@/app/locales/translation";
 
-import translation from '@/app/locales/translation';
 
-export function Favorites() {
-
+export function UserVideos() {
   const params  = useParams();
   const lang: string = (params.lang).toString()
 
@@ -29,24 +29,23 @@ export function Favorites() {
 
   const [data, setData] = useState<Video[]>([])
 
-
   const [searchText, setSearchText] = useState<string|undefined>(undefined);
   const searchHandler = useCallback((e: React.FormEvent<HTMLInputElement>) => {
     setSearchText(e.currentTarget.value);
   }, [])
-    
+
   useEffect(() => {
     if (searchText === undefined || searchText === '') {
         
-      getMe().then((user) => 
-        user.likes.map((videoId) =>
-          getOne(videoId)
-            .then((video) => {
-              setData((prev)=>[...prev, video])
-            }
-          )
-        )
-      )
+      // getMe().then((user) => 
+      //   user.map((videoId) =>
+      //     getOne(videoId)
+      //       .then((video) => {
+      //         setData((prev)=>[...prev, video])
+      //       }
+      //     )
+      //   )
+      // )
   
     } else {
       searchInLiked(searchText).then((videoArray) => {
@@ -55,7 +54,6 @@ export function Favorites() {
     }
   
   }, [searchText])
-
 
   return(
     <Box
@@ -71,37 +69,27 @@ export function Favorites() {
         text={{searchText: searchText, setSearchText: setSearchText}}
         language={{langDictionary: langDictionary, lang: lang}}
       />
-            
-      <Box 
-        component="main"
-        sx={{ 
-          bgcolor: 'background.default',
-          color: 'text.primary',
-          flexGrow: 1, p: 3,
-        }}
-        className='overflow-scroll scrollbar-thin scrollbar-thumb-gray-800'  
+      
+
+      <Box
+        sx={{ height: '90vh', width: '100%', marginTop: 5 }}
       >
-
-            <Box className="flex items-center">
-                <Typography className='text-[18px] font-bold my-2 px-2'>
-                  {langDictionary['favorites']}
-                </Typography>
-                <FavoriteIcon />
-            </Box>
-
-            {data.length !== 0
-              ? data.map((video) => (
-                <Link 
-                  key={video.id}
-                  href={`/${lang}/video/${video.id}`}
-                >
-                  <RecommendedList video={video} langDictionary={langDictionary} />
-                </Link>
-              ))
-              : <Typography className="my-2 px-2">{langDictionary['favorites_list']}</Typography>
-            }
-        </Box>
-
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: {
+                pageSize: 5,
+              },
+            },
+          }}
+          pageSizeOptions={[5]}
+          checkboxSelection
+          disableRowSelectionOnClick
+        />
+      </Box>
+      
       <BottomNav language={{langDictionary: langDictionary, lang: lang}} />
 
     </Box>
@@ -130,8 +118,8 @@ export default function ToggleColorMode() {
     return (
       <ColorModeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
-        <Favorites />
+        <UserVideos />
       </ThemeProvider>
     </ColorModeContext.Provider>
     );
-}
+  }

@@ -102,7 +102,7 @@ function Video() {
             
             {/* Video Container */}
             <Box className='sm:col-span-6 md:col-span-2 rounded-lg overflow-hidden items-center justify-center flex'>
-              <VideoContainer video={video} />
+              <VideoContainer video={video} langDictionary={langDictionary} />
             </Box>
 
             {/* Recommended list */} 
@@ -123,12 +123,12 @@ function Video() {
               {recommendation.map((video) => (
                 <Link 
                   key={video.id}
-                  href={`/video/${video.id}`}
+                  href={`/${lang}/video/${video.id}`}
                   onClick={() => {
                     setVideo(video)
                   }}
                 >
-                  <RecommendedList video={video} />
+                  <RecommendedList video={video} langDictionary={langDictionary} />
                 </Link>
               ))}
 

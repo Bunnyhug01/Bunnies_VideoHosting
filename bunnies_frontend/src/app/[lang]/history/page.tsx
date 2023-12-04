@@ -89,9 +89,9 @@ export function History() {
             {data.length !== 0
               ? data.map((video) => (
                 <Link
-                  href={`/video/${video.id}`}
+                  href={`/${lang}/video/${video.id}`}
                 >
-                  <RecommendedList video={video} />
+                  <RecommendedList video={video} langDictionary={langDictionary} />
                 </Link>
               ))
               : <Typography className="my-2 px-2">{langDictionary['history_list']}</Typography>

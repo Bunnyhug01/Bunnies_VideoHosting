@@ -11,10 +11,11 @@ import { useEffect, useState } from "react";
 
 interface Props {
   video : Video
+  langDictionary: any
 }
 
 
-export default function VideoInformation({ video } : Props) {
+export default function VideoInformation({ video, langDictionary } : Props) {
 
   const [likeView, setViewLike] = useState(video?.likes)
   const [dislikeView, setViewDislike] = useState(video?.dislikes)
@@ -41,12 +42,6 @@ export default function VideoInformation({ video } : Props) {
   }
 
   async function handleDislike() {
-
-    await hasLike(video.id!).then((result) => {
-      console.log('Res', result)
-    }).catch((error) => {
-      console.log('Error', error)
-    })
 
     if (await hasLike(video.id!))
     {
@@ -96,7 +91,7 @@ export default function VideoInformation({ video } : Props) {
 
         <Box>
           <Box className="inline-block">
-            <UserIcon userId={video.owner} />
+            <UserIcon userId={video.owner} langDictionary={langDictionary} />
           </Box>
           
           <Box className="inline-block">
@@ -109,8 +104,8 @@ export default function VideoInformation({ video } : Props) {
             >
               {
                 subscribeView
-                ? 'Unsubscribe'
-                : 'Subscribe'
+                ? langDictionary['unsubscribe']
+                : langDictionary['subscribe']
               }
             </Button>
 
@@ -135,7 +130,7 @@ export default function VideoInformation({ video } : Props) {
       
       <Box className='md:w-[100%] sm:w-[100%] lg:w-[100%]'>
         <VideoDescription video={video} />
-        <MobileVideoDescription video={video} />
+        <MobileVideoDescription video={video} langDictionary={langDictionary} />
       </Box>
 
     </Box>

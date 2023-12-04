@@ -1,6 +1,9 @@
 'use client'
 
+import { notFound, useParams, redirect } from 'next/navigation';
+
 import * as React from 'react';
+
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -14,6 +17,11 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+import { signin } from '@/app/api/main';
+
+import translation from '@/app/locales/translation';
+
 
 function Copyright(props: any) {
   return (
@@ -32,14 +40,39 @@ function Copyright(props: any) {
 const defaultTheme = createTheme();
 
 export default function SignIn() {
+
+  const params  = useParams();
+  const lang: string = (params.lang).toString()
+
+  const langDictionary = translation[lang]
+  if (langDictionary === undefined)
+    notFound()
+
+  const [ifRedirect, setIfRedirect] = React.useState(false)
+  const [error, setError] = React.useState(false)
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      username: data.get('username'),
-      password: data.get('password'),
-    });
+
+    signin({
+      username: (data.get('username'))!.toString(),
+      password: (data.get('password'))!.toString(),
+    })
+    .then((response) => {
+      setIfRedirect(true)
+    })
+    .catch((response) => {
+      console.log(response)
+      setError(true)
+    })
+
   };
+
+  React.useEffect(() => {
+    if (ifRedirect)
+      redirect(`/${lang}`)
+  }, [ifRedirect])
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -57,32 +90,30 @@ export default function SignIn() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            {langDictionary['sign_in']}
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
+              error={error}
               margin="normal"
               required
               fullWidth
               id="username"
-              label="Username"
+              label={langDictionary['user_name']}
               name="username"
               autoFocus
             />
             <TextField
+              error={error}
               margin="normal"
               required
               fullWidth
               name="password"
-              label="Password"
+              label={langDictionary['password']}
               type="password"
               id="password"
               autoComplete="current-password"
             />
-            {/* <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            /> */}
             <Button
               className='bg-buttonSubmit'
               type="submit"
@@ -90,17 +121,12 @@ export default function SignIn() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              {langDictionary['sign_in_button']}
             </Button>
             <Grid container>
-              {/* <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid> */}
               <Grid item>
                 <Link href="/sign-up" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                  {langDictionary['havent_account']}
                 </Link>
               </Grid>
             </Grid>

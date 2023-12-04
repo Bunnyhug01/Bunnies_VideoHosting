@@ -9,10 +9,11 @@ import { VideoInfo, VideoLength, VideoLogo, VideoLogoPlayer, VideoTitle, VideoVi
 
 interface Props {
     video:Video
+    langDictionary: any
 }
 
 
-export default function RecommendedList({ video } : Props) {
+export default function RecommendedList({ video, langDictionary } : Props) {
     return (
         <VideoInfo video={video}>
             <Box 
@@ -38,7 +39,7 @@ export default function RecommendedList({ video } : Props) {
                     </Box>
                     <Box sx={{color: 'text.secondary', fontSize: 14}} className='flex items-center mt-2'>
                         <Typography variant='inherit' className='font-bold'><VideoLength/></Typography>
-                        <Typography variant='inherit' className='font-bold ml-6'><VideoViews/> views</Typography>
+                        <Typography variant='inherit' className='font-bold ml-6'><VideoViews/> {langDictionary['views']}</Typography>
                     </Box>
                 </Box>
             </Box>

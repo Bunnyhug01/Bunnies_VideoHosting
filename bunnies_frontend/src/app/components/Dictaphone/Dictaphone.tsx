@@ -31,7 +31,9 @@ export default function Dictaphone({ setDictaphoneInput, lang }: Props) {
 
   useEffect(() => {
     if (transcript !== "" && setDictaphoneInput !== undefined) {
-      setDictaphoneInput(transcript)
+
+      const text = transcript.replace('.', '')
+      setDictaphoneInput(text)
     }
     
   }, [transcript]);
