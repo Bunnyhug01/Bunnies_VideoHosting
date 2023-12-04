@@ -1,5 +1,6 @@
 package com.example.video.controller;
 
+import com.example.video.controller.annotations.NotReturnIfPrivateById;
 import com.example.video.entity.User;
 import com.example.video.entity.Video;
 import com.example.video.service.ViewService;
@@ -16,6 +17,7 @@ public class ViewController {
 
     private ViewService service;
 
+    @NotReturnIfPrivateById
     @GetMapping("/line")
     public Collection<Video> getLine(Authentication authentication) {
         var user = (User) authentication.getPrincipal();
@@ -33,6 +35,7 @@ public class ViewController {
         service.addAnonymousView(id);
     }
 
+    @NotReturnIfPrivateById
     @GetMapping("/line/{id}")
     public Collection<Video> getLine(@PathVariable Long id, Authentication authentication) {
         var user = (User) authentication.getPrincipal();

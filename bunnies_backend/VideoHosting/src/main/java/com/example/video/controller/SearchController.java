@@ -1,5 +1,6 @@
 package com.example.video.controller;
 
+import com.example.video.controller.annotations.NotReturnIfPrivateById;
 import com.example.video.entity.User;
 import com.example.video.entity.Video;
 import com.example.video.service.SearchService;
@@ -19,17 +20,20 @@ public class SearchController {
 
     private final SearchService service;
 
+    @NotReturnIfPrivateById
     @GetMapping("/videos/search/name/{name}")
     public List<Video> searchVideoByName(@PathVariable String name) {
         return service.searchVideoByName(name);
     }
 
+    @NotReturnIfPrivateById
     @GetMapping("/videos/search/like/{name}")
     public List<Video> searchLikedVideoByName(@PathVariable String name, Authentication authentication) {
         var user = (User) authentication.getPrincipal();
         return service.searchLikedVideoByName(name, user);
     }
 
+    @NotReturnIfPrivateById
     @GetMapping("/videos/search/history/{name}")
     public List<Video> searchVideoByNameInHistory(@PathVariable String name, Authentication authentication) {
         var user = (User) authentication.getPrincipal();
