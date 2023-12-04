@@ -43,26 +43,37 @@ async function updateJWT() {
 interface UserSingUpRequest extends UsernamePasswordDTO {
 }
 
+interface JWTResponse {
+    type: string,
+    access: string
+}
+
 export async function signup(request: UserSingUpRequest) {
     return fetch(`${API_URL}/auth/base/signup`, {
         method: "POST",
-        body: JSON.stringify(request)
+        body: JSON.stringify(request),
+        headers: {
+            "Content-Type": "application/json",
+        }
     }).then(response => {
         if(response.ok)
             return response.json()
         return Promise.reject(response)
-    }).then(json => json["access"]).then(token => localStorage.setItem("jwt", token))
+    }).then(json => json.access).then(token => localStorage.setItem("jwt", token))
 }
 
 export async function signin(request: UserSingUpRequest) {
     return fetch(`${API_URL}/auth/base/signin`, {
         method: "POST",
-        body: JSON.stringify(request)
+        body: JSON.stringify(request),
+        headers: {
+            "Content-Type": "application/json",
+        }
     }).then(response => {
         if(response.ok)
             return response.json()
         return Promise.reject(response)
-    }).then(json => json["access"]).then(token => localStorage.setItem("jwt", token))
+    }).then(json => json.access).then(token => localStorage.setItem("jwt", token))
 }
 
 export async function signout() {
