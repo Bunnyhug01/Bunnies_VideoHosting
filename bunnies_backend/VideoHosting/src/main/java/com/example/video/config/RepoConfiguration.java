@@ -73,6 +73,7 @@ public class RepoConfiguration {
             v.setLogoUrl("https://firebasestorage.googleapis.com/v0/b/bunnies-aad60.appspot.com/o/images%2FTrevor%20Something.png?alt=media&token=058454ef-f542-4293-bd4d-87263c25e17e");
             v.setUploadDate(new Date());
             v.setOwner(maksim);
+            v.setIsPrivate(false);
             userRepository.save(maksim);
             v = videoRepository.save(v);
             return v;
@@ -85,11 +86,11 @@ public class RepoConfiguration {
             v.setLogoUrl("https://firebasestorage.googleapis.com/v0/b/bunnies-aad60.appspot.com/o/images%2FTrevor%20Something.png?alt=media&token=058454ef-f542-4293-bd4d-87263c25e17e");
             v.setUploadDate(new Date());
             v.setOwner(arseny);
+            v.setIsPrivate(false);
             userRepository.save(arseny);
             v = videoRepository.save(v);
             return v;
         });
-        commentRepository.deleteAll();
         var c1 = commentRepository.findCommentByAuthorAndVideo(maksim, v1).orElseGet(() -> {
             var comment = new Comment();
             comment.setAuthor(maksim);
