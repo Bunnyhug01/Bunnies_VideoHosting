@@ -31,11 +31,11 @@ async function updateJWT() {
     return fetch(`${API_URL}/auth/refreshtoken`, {
         method: "POST",
         credentials: 'include'
-    }).then(async resp => {
+    }).then(resp => {
+        
         if(resp.status == 401) {
-            window.location.replace("/sign-in"); 
+            window.location.replace("/sign-in");
         }
-              
         return resp.json()
     }).then(json => json["access"]).then(token => localStorage.setItem("jwt", token))
 }
