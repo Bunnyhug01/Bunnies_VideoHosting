@@ -92,11 +92,10 @@ export async function removeDisLike(video: number): Promise<Response> {
 }
 
 export async function hasLike(video: number): Promise<boolean> {
-    return sfetch(`/likes/${video}`).then(resp => resp.json()).then(json => json["status"]  === 'true')
+    return sfetch(`/likes/${video}`).then(resp => resp.json()).then(json => json["status"])
 }
 
-
 export async function hasDisLike(video: number): Promise<boolean> {
-    return sfetch(`/dislikes/${video}`).then(resp => resp.json()).then(json => json["status"]  === 'true')
+    return sfetch(`/dislikes/${video}`).then(resp => resp.json()).then(json => json["status"])
 }
 
