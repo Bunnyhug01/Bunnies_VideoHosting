@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@PostFilter("hasRole('ROLE_ADMIN') or !filterObject .isPrivate or filterObject .owner.id == authentication.principal.id")
+@PostFilter("hasRole('ROLE_ADMIN') or !filterObject.isPrivate or filterObject.owner.id == authentication.principal.id")
 public @interface NotReturnIfPrivateById {
 
 }
