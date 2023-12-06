@@ -10,7 +10,7 @@ export interface User {
     history: History[],
     likes: number[],
     dislikes: number[],
-    videos: number[]
+    videos: number[],
 }
 
 export interface UserReplaseReuest {
