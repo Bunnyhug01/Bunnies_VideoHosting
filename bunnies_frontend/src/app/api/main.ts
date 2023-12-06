@@ -77,6 +77,7 @@ export async function signin(request: UserSingUpRequest) {
 
 export async function logout() {
     return fetch(`${API_URL}/auth/logout`, {
-        method: "POST"
+        method: "POST",
+        credentials: 'include'
     })
 }
