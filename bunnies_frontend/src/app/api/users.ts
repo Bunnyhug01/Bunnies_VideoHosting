@@ -9,7 +9,8 @@ export interface User {
     subscriptions: number[],
     history: History[],
     likes: number[],
-    dislikes: number[]
+    dislikes: number[],
+    videos: number[]
 }
 
 export interface UserReplaseReuest {
