@@ -108,24 +108,24 @@ jobs:
         # against the sigstore community Fulcio instance.
         run: echo "${TAGS}" | xargs -I {} cosign sign --yes {}@${DIGEST}
 
-  deploy-to-mains:
-    needs: build_docker_image
-    strategy:
-      matrix:
-        os: [ara-main-runner]
-        experimental: [true]
-    continue-on-error: ${{ matrix.experimental }}
-    runs-on: ${{ matrix.os }}
-    steps:
-      - name: checkout repo
-        uses: actions/checkout@v3
+  # deploy-to-mains:
+  #   needs: build_docker_image
+  #   strategy:
+  #     matrix:
+  #       os: [ara-main-runner]
+  #       experimental: [true]
+  #   continue-on-error: ${{ matrix.experimental }}
+  #   runs-on: ${{ matrix.os }}
+  #   steps:
+  #     - name: checkout repo
+  #       uses: actions/checkout@v3
 
-      - name: Stop and remove containers, networks
-        run: cd ./bunnies_backend; docker-compose down
+  #     - name: Stop and remove containers, networks
+  #       run: cd ./bunnies_backend; docker-compose down
       
-      - name: Remove unused data
-        run: cd ./bunnies_backend; docker system prune -a -f
+  #     - name: Remove unused data
+  #       run: cd ./bunnies_backend; docker system prune -a -f
 
-      - name: docker-compose
-        run: cd ./bunnies_backend; docker-compose up -d
+  #     - name: docker-compose
+  #       run: cd ./bunnies_backend; docker-compose up -d
 
