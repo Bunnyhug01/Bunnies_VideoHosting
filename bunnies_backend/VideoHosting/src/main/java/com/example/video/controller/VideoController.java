@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 @CrossOrigin("${cross.origin.url}")
@@ -24,7 +25,7 @@ public class VideoController {
     @NotReturnIfPrivateById
     @GetMapping("/videos")
     public Collection<Video> getAll() {
-        return service.getAllVideos();
+        return new ArrayList<>(service.getAllVideos());
     }
 
     @VideoOwnerIfPrivateByResult

@@ -13,3 +13,7 @@ export async function searchInLiked(title: string): Promise<Video[]>  {
 export async function searchInHistory(title: string): Promise<Video[]>  {
     return sfetch(`/videos/search/history/${title}`).then(resp => resp.json())
 }
+
+export async function searchInOwner(title: string): Promise<Video[]>  {
+    return sfetch(`/videos/search/owner/${title}`).then(resp => resp.json())
+}

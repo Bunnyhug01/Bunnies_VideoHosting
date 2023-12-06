@@ -38,7 +38,7 @@ public class User implements BaseEntity, UserDetails {
     private String password;
 
     @JsonSerialize(using = EntityAsIdOnlySerializer.class)
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER)
     private Set<Video> videos;
 
     @JsonSerialize(using = EntityAsIdOnlySerializer.class)
@@ -46,7 +46,7 @@ public class User implements BaseEntity, UserDetails {
     private Set<Video> likes;
 
     @JsonSerialize(using = EntityAsIdOnlySerializer.class)
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Set<Video> dislikes;
 
     @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)

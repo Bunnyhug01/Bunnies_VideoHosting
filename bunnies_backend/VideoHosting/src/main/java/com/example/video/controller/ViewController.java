@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 @CrossOrigin("${cross.origin.url}")
@@ -21,7 +22,7 @@ public class ViewController {
     @GetMapping("/line")
     public Collection<Video> getLine(Authentication authentication) {
         var user = (User) authentication.getPrincipal();
-        return service.getLine(user.getId());
+        return new ArrayList<>(service.getLine(user.getId()));
     }
 
     @PostMapping("/view/{id}")
@@ -39,7 +40,7 @@ public class ViewController {
     @GetMapping("/line/{id}")
     public Collection<Video> getLine(@PathVariable Long id, Authentication authentication) {
         var user = (User) authentication.getPrincipal();
-        return service.getLine(user.getId(), id);
+        return new ArrayList<>(service.getLine(user.getId(), id));
     }
 
 }

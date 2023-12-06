@@ -10,6 +10,9 @@ public interface SearchService {
     List<Video> searchVideoByName(String name);
 
     List<Video> searchLikedVideoByName(String name, User user);
+
     List<Video> searchVideoByNameInHistory(String name, User user);
+
+    List<Video> searchVideoByOwner(String name, User user);
 
 }

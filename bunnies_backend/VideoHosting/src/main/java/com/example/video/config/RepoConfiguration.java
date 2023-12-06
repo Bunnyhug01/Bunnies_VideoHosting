@@ -1,6 +1,5 @@
 package com.example.video.config;
 
-import com.example.video.entity.Comment;
 import com.example.video.entity.Role;
 import com.example.video.entity.User;
 import com.example.video.entity.Video;
@@ -91,34 +90,34 @@ public class RepoConfiguration {
             v = videoRepository.save(v);
             return v;
         });
-        var c1 = commentRepository.findCommentByAuthorAndVideo(maksim, v1).orElseGet(() -> {
-            var comment = new Comment();
-            comment.setAuthor(maksim);
-            comment.setVideo(v1);
-            comment.setText("Комментарий 1");
-            return commentRepository.save(comment);
-        });
-        var c2 = commentRepository.findCommentByAuthorAndVideo(maksim, v2).orElseGet(() -> {
-            var comment = new Comment();
-            comment.setAuthor(maksim);
-            comment.setVideo(v2);
-            comment.setText("Комментарий 2");
-            return commentRepository.save(comment);
-        });
-        var c3 = commentRepository.findCommentByAuthorAndVideo(arseny, v1).orElseGet(() -> {
-            var comment = new Comment();
-            comment.setAuthor(arseny);
-            comment.setVideo(v1);
-            comment.setText("Комментарий 3");
-            return commentRepository.save(comment);
-        });
-        var c4 = commentRepository.findCommentByAuthorAndVideo(arseny, v2).orElseGet(() -> {
-            var comment = new Comment();
-            comment.setAuthor(arseny);
-            comment.setVideo(v2);
-            comment.setText("Комментарий 4");
-            return commentRepository.save(comment);
-        });
+//        var c1 = commentRepository.findCommentByAuthorAndVideo(maksim, v1).orElseGet(() -> {
+//            var comment = new Comment();
+//            comment.setAuthor(maksim);
+//            comment.setVideo(v1);
+//            comment.setText("Комментарий 1");
+//            return commentRepository.save(comment);
+//        });
+//        var c2 = commentRepository.findCommentByAuthorAndVideo(maksim, v2).orElseGet(() -> {
+//            var comment = new Comment();
+//            comment.setAuthor(maksim);
+//            comment.setVideo(v2);
+//            comment.setText("Комментарий 2");
+//            return commentRepository.save(comment);
+//        });
+//        var c3 = commentRepository.findCommentByAuthorAndVideo(arseny, v1).orElseGet(() -> {
+//            var comment = new Comment();
+//            comment.setAuthor(arseny);
+//            comment.setVideo(v1);
+//            comment.setText("Комментарий 3");
+//            return commentRepository.save(comment);
+//        });
+//        var c4 = commentRepository.findCommentByAuthorAndVideo(arseny, v2).orElseGet(() -> {
+//            var comment = new Comment();
+//            comment.setAuthor(arseny);
+//            comment.setVideo(v2);
+//            comment.setText("Комментарий 4");
+//            return commentRepository.save(comment);
+//        });
     }
 
 }

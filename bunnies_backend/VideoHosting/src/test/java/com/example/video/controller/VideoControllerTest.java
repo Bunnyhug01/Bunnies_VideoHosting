@@ -1,6 +1,5 @@
 package com.example.video.controller;
 
-import com.example.video.config.ConsoleService;
 import com.example.video.config.MethodSecurityConfig;
 import com.example.video.config.SecurityConfig;
 import com.example.video.entity.Role;
@@ -33,7 +32,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         SecurityConfig.class,
         MethodSecurityConfig.class,
         AuthServiceImpl.class,
-        ConsoleService.class,
 })
 public class VideoControllerTest {
 

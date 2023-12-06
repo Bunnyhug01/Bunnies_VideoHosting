@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin("${cross.origin.url}")
@@ -23,21 +24,28 @@ public class SearchController {
     @NotReturnIfPrivateById
     @GetMapping("/videos/search/name/{name}")
     public List<Video> searchVideoByName(@PathVariable String name) {
-        return service.searchVideoByName(name);
+        return new ArrayList<>(service.searchVideoByName(name));
     }
 
     @NotReturnIfPrivateById
     @GetMapping("/videos/search/like/{name}")
     public List<Video> searchLikedVideoByName(@PathVariable String name, Authentication authentication) {
         var user = (User) authentication.getPrincipal();
-        return service.searchLikedVideoByName(name, user);
+        return new ArrayList<>(service.searchLikedVideoByName(name, user));
     }
 
     @NotReturnIfPrivateById
     @GetMapping("/videos/search/history/{name}")
     public List<Video> searchVideoByNameInHistory(@PathVariable String name, Authentication authentication) {
         var user = (User) authentication.getPrincipal();
-        return service.searchVideoByNameInHistory(name, user);
+        return new ArrayList<>(service.searchVideoByNameInHistory(name, user));
+    }
+
+    @NotReturnIfPrivateById
+    @GetMapping("/videos/search/owner/{name}")
+    public List<Video> searchVideoByOwner(@PathVariable String name, Authentication authentication) {
+        var user = (User) authentication.getPrincipal();
+        return new ArrayList<>(service.searchVideoByOwner(name, user));
     }
 
 }

@@ -50,11 +50,11 @@ public class Video implements BaseEntity {
     private int views;
 
     @JsonSerialize(using = EntityAsIdOnlySerializer.class)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private User owner;
 
     @JsonSerialize(using = EntityAsIdOnlySerializer.class)
-    @OneToMany(mappedBy = "video")
+    @OneToMany(mappedBy = "video", fetch = FetchType.EAGER)
     private Set<Comment> comments;
 
     @Override
