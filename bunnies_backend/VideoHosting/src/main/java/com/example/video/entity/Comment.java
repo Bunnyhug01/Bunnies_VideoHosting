@@ -20,12 +20,12 @@ public class Comment implements BaseEntity {
     private String text;
 
     @JsonSerialize(using = EntityAsIdOnlySerializer.class)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(nullable = false)
     private Video video;
 
     @JsonSerialize(using = EntityAsIdOnlySerializer.class)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(nullable = false)
     private User author;
 

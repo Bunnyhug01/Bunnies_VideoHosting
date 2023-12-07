@@ -29,7 +29,7 @@ public class AuthenticationController {
 
     @PostMapping("/auth/refreshtoken")
     public JwtResponse refreshToken(HttpServletRequest request) {
-        LOG.debug("refreshToken");
+        LOG.info("refreshToken");
         var cookies = request.getCookies();
         if (cookies == null)
             throw new NotHaveRefreshTokenException();
@@ -41,7 +41,7 @@ public class AuthenticationController {
 
     @PostMapping("/auth/base/signin")
     public JwtResponse signin(@RequestBody SignInUserRequest request, HttpServletResponse response) {
-        LOG.debug("signin");
+        LOG.info("signin " + request);
         var tokens = service.signin(request);
         return getJwtResponse(response, tokens);
     }
@@ -59,7 +59,7 @@ public class AuthenticationController {
 
     @PostMapping("/auth/logout")
     public void logout(HttpServletResponse response) {
-        LOG.debug("logout");
+        LOG.info("logout");
         var cookie = new Cookie(REFRESH_TOKEN, "");
         cookie.setMaxAge(0);
         cookie.setSecure(true);

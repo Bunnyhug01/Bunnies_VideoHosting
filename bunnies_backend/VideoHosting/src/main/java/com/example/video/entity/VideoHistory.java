@@ -27,6 +27,7 @@ public class VideoHistory {
 
     @JsonSerialize(using = EntityAsIdOnlySerializer.class)
     @ManyToOne
+    @JoinColumn(nullable = false)
     private Video video;
 
     @Column(nullable = false)

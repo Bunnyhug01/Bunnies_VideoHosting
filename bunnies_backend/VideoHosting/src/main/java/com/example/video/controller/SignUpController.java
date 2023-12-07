@@ -17,14 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class SignUpController {
 
-    private static final String REFRESH_TOKEN = "refresh_token";
     private final Logger LOG = LoggerFactory.getLogger(SignUpController.class);
 
     private final SignUpAuthService signUpAuthService;
 
     @PostMapping("/auth/base/signup")
     public JwtResponse signup(@RequestBody SignInUserRequest request, HttpServletResponse response) {
-        LOG.debug("signup " + request);
+        LOG.info("signup " + request);
         var tokens = signUpAuthService.signup(request);
         return AuthenticationController.getJwtResponse(response, tokens);
     }

@@ -47,7 +47,6 @@ public class RepoConfiguration {
         final var maksim = userRepository.findByUsername("Maksim").orElseGet(() -> {
             var m = new User();
             m.setUsername("Maksim");
-            m.setLogoUrl("https://lh3.googleusercontent.com/ogw/AKPQZvzOqoDpVzFgDdOWDskd8giBGX2hbQrp85akDisc=s32-c-mo");
             m.setPassword(passwordEncoder.encode("1234"));
             var roles = new HashSet<Role>();
             roles.add(roleRepository.findByName("USER"));
@@ -68,8 +67,8 @@ public class RepoConfiguration {
             var v = new Video();
             v.setTitle("Название 1");
             v.setDetail("Описание");
-            v.setVideoUrl("https://firebasestorage.googleapis.com/v0/b/bunnies-aad60.appspot.com/o/videos%2FTrevor_Something.mp4?alt=media&token=8af7ad29-4187-4601-ad8f-a65a35c18d20");
-            v.setLogoUrl("https://firebasestorage.googleapis.com/v0/b/bunnies-aad60.appspot.com/o/images%2FTrevor%20Something.png?alt=media&token=058454ef-f542-4293-bd4d-87263c25e17e");
+            v.setVideoUrl("https://firebasestorage.googleapis.com/v0/b/bunnies-aad60.appspot.com/o/videos%2FTrevor%20Something%20-%20Trevor%20Something%20Does%20Not%20Exist%20%5BFull%20Album%5D%20(Explicit).mp4?alt=media&token=5b54d1f3-fc16-400e-a830-164a5830c5a1");
+            v.setLogoUrl("https://firebasestorage.googleapis.com/v0/b/bunnies-aad60.appspot.com/o/images%2FTrevor_Something.png?alt=media&token=9cc7925b-65c3-4aa6-8ce0-c0715cd5f09b");
             v.setUploadDate(new Date());
             v.setOwner(maksim);
             v.setIsPrivate(false);
@@ -77,19 +76,19 @@ public class RepoConfiguration {
             v = videoRepository.save(v);
             return v;
         });
-        var v2 = videoRepository.findByTitle("Название 2").orElseGet(() -> {
-            var v = new Video();
-            v.setTitle("Название 2");
-            v.setDetail("Описание");
-            v.setVideoUrl("https://firebasestorage.googleapis.com/v0/b/bunnies-aad60.appspot.com/o/videos%2FTrevor_Something.mp4?alt=media&token=8af7ad29-4187-4601-ad8f-a65a35c18d20");
-            v.setLogoUrl("https://firebasestorage.googleapis.com/v0/b/bunnies-aad60.appspot.com/o/images%2FTrevor%20Something.png?alt=media&token=058454ef-f542-4293-bd4d-87263c25e17e");
-            v.setUploadDate(new Date());
-            v.setOwner(arseny);
-            v.setIsPrivate(false);
-            userRepository.save(arseny);
-            v = videoRepository.save(v);
-            return v;
-        });
+//        var v2 = videoRepository.findByTitle("Название 2").orElseGet(() -> {
+//            var v = new Video();
+//            v.setTitle("Название 2");
+//            v.setDetail("Описание");
+//            v.setVideoUrl("https://firebasestorage.googleapis.com/v0/b/bunnies-aad60.appspot.com/o/videos%2FTrevor_Something.mp4?alt=media&token=8af7ad29-4187-4601-ad8f-a65a35c18d20");
+//            v.setLogoUrl("https://firebasestorage.googleapis.com/v0/b/bunnies-aad60.appspot.com/o/images%2FTrevor%20Something.png?alt=media&token=058454ef-f542-4293-bd4d-87263c25e17e");
+//            v.setUploadDate(new Date());
+//            v.setOwner(arseny);
+//            v.setIsPrivate(false);
+//            userRepository.save(arseny);
+//            v = videoRepository.save(v);
+//            return v;
+//        });
 //        var c1 = commentRepository.findCommentByAuthorAndVideo(maksim, v1).orElseGet(() -> {
 //            var comment = new Comment();
 //            comment.setAuthor(maksim);

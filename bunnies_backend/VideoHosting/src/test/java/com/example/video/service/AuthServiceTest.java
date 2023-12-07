@@ -32,8 +32,6 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 public class AuthServiceTest {
 
     @Autowired
-    private MockMvc mvc;
-    @Autowired
     private AuthService service;
     @Autowired
     private JwtProvider provider;

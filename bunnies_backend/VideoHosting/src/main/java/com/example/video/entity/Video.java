@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
@@ -50,16 +51,19 @@ public class Video implements BaseEntity {
     private int views;
 
     @JsonSerialize(using = EntityAsIdOnlySerializer.class)
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     private User owner;
 
     @JsonSerialize(using = EntityAsIdOnlySerializer.class)
-    @OneToMany(mappedBy = "video", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "video", orphanRemoval = true, cascade = CascadeType.ALL)
     private Set<Comment> comments;
+
+    @OneToMany(mappedBy = "video", orphanRemoval = true, cascade = CascadeType.ALL)
+    private Collection<VideoHistory> videoHistory;
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(getId());
     }
 
     @Override
@@ -67,14 +71,22 @@ public class Video implements BaseEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Video video = (Video) o;
-        return Objects.equals(id, video.id);
+        return Objects.equals(getId(), video.getId());
     }
 
     @Override
     public String toString() {
-        String sb = "Video{" + "id=" + id +
+        String sb = "Video{" + "id=" + getId() +
                 '}';
         return sb;
+    }
+
+    public Collection<VideoHistory> getVideoHistory() {
+        return videoHistory;
+    }
+
+    public void setVideoHistory(Collection<VideoHistory> videoHistory) {
+        this.videoHistory = videoHistory;
     }
 
 }
