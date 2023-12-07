@@ -143,7 +143,7 @@ export default function SignUp() {
               </Button>
               <Grid container justifyContent="flex-end">
                 <Grid item>
-                  <Link href="/sign-in" variant="body2">
+                  <Link href={`/${lang}/sign-in`} variant="body2">
                     {langDictionary['have_accout']}
                   </Link>
                 </Grid>

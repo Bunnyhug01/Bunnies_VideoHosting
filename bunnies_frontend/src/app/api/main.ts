@@ -1,3 +1,4 @@
+import getUsersLanguage from "../locales/getUsersLanguage"
 
 
 const API_URL = "http://localhost:3030"
@@ -33,7 +34,8 @@ async function updateJWT() {
         credentials: 'include'
     }).then(resp => {
         if(resp.status == 401) {
-            window.location.replace("/en/sign-in");
+            const lang = getUsersLanguage()
+            window.location.replace(`/${lang}/sign-in`);
         }
         return resp.json()
     }).then(json => json["access"]).then(token => localStorage.setItem("jwt", token))

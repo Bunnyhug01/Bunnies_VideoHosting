@@ -27,7 +27,7 @@ function Copyright(props: any) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit" href="/">
+      <Link color="inherit" href="/en">
         Bunnies
       </Link>{' '}
       {new Date().getFullYear()}
@@ -63,7 +63,6 @@ export default function SignIn() {
       setIfRedirect(true)
     })
     .catch((response) => {
-      console.log(response)
       setError(true)
     })
 
@@ -125,7 +124,7 @@ export default function SignIn() {
             </Button>
             <Grid container>
               <Grid item>
-                <Link href="/sign-up" variant="body2">
+                <Link href={`/${lang}/sign-up`} variant="body2">
                   {langDictionary['havent_account']}
                 </Link>
               </Grid>

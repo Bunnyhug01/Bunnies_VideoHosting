@@ -113,6 +113,19 @@ export function VideoLogo({}) {
     )
 }
 
+export function UserVideoLogo({}) {
+    const video = useContext(VideoContext)!!
+    return (
+        <Image
+            src={video.logoUrl}
+            width={300}
+            height={167}
+            alt=""
+            className="rounded-lg object-cover"
+        />
+    )
+}
+
 export function VideoLogoPlayer({}) {
     const handleOnMouseOver = (e: React.MouseEvent<HTMLVideoElement>) => {
         const isPlaying = e.currentTarget.currentTime > 0 && !e.currentTarget.paused && !e.currentTarget.ended 
@@ -137,7 +150,7 @@ export function VideoLogoPlayer({}) {
             disablePictureInPicture
             onMouseOver={handleOnMouseOver}
             onMouseOut={handleOnMouseOut}
-            className="w-full h-full rounded-lg object-cover"
+            className="w-full h-full rounded-lg object-cover lg:max-h-[32vh] sm:max-h-[9vh] md:max-h-[12vh]"
         />
     )
 }

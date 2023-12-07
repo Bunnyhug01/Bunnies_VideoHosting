@@ -8,3 +8,7 @@
 main {
   @apply h-screen overflow-hidden flex flex-col;
 }
+
+nextjs-portal {
+  display: none;
+}

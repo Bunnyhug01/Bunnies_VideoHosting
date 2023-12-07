@@ -3,12 +3,13 @@ import React from "react";
 import Link from 'next/link';
 
 import { Box, Divider, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, SwipeableDrawer, Toolbar, useTheme } from "@mui/material";
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+
 import MenuIcon from '@mui/icons-material/Menu';
 import HomeIcon from '@mui/icons-material/Home';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import HistoryIcon from '@mui/icons-material/History';
+import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
+
 import Logo from "./Logo";
 
 
@@ -93,7 +94,19 @@ export default function SwipeableTemporaryDrawer({ language }: Props) {
           </ListItem>
         </Link>
 
+        <Link href={`/${language.lang}/userVideos`}>
+          <ListItem key={'User videos'} disablePadding>
+            <ListItemButton>
+              <ListItemIcon>
+                <VideoLibraryIcon />
+              </ListItemIcon>
+              <ListItemText primary={language.langDictionary['user_videos']} />
+            </ListItemButton>
+          </ListItem>
+        </Link>
+
       </List>
+
       <Divider />
 
     </Box>
