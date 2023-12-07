@@ -42,6 +42,11 @@ const translation:any = {
         "views": "Views",
         "subs": "subs",
         "sign_out": "Sign Out",
+        "user_videos": "Your Videos",
+        "user_videos_list": "You don't have any videos",
+        "delete": "Delete",
+        "delete_message": "You deleted the video",
+        "replace_message": "You changed information about the video",
     },
 
     "ru": {
@@ -86,6 +91,11 @@ const translation:any = {
         "views": "Просмотров",
         "subs": "подпищиков",
         "sign_out": "Выйти",
+        "user_videos": "Ваши видео",
+        "user_videos_list": "У вас нет видео",
+        "delete": "Удалить",
+        "delete_message": "Вы удалили видео",
+        "replace_message": "Вы изменили информацию о видео",
     }
 }
 

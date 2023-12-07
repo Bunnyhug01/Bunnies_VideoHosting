@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { notFound, useParams } from 'next/navigation';
+import { notFound, useParams, useRouter } from 'next/navigation';
 
 import React, { useCallback, useEffect, useState } from "react";
 
@@ -16,6 +16,7 @@ import { Video } from '../api/videos';
 import VideoList from '../components/VideoList';
 
 import translation from '../locales/translation';
+import getUsersLanguage from '../locales/getUsersLanguage';
 
 export function Home() {
   const params  = useParams();
@@ -46,6 +47,18 @@ export function Home() {
   }, [searchText])
 
 
+  const router = useRouter();
+
+  useEffect(() => {
+    const isRedirected = localStorage.getItem('redirected');
+    
+    if (!isRedirected) {
+      const usersLang = getUsersLanguage()
+      router.push(`/${usersLang}`);
+      localStorage.setItem('redirected', 'true');
+    }
+  }, []);
+
   return(
     <Box
       sx={{
@@ -72,7 +85,7 @@ export function Home() {
               key={video.id}
               href={`${lang}/video/${video.id}`}
             >
-              <VideoList video={video} />
+              <VideoList video={video} langDictionary={langDictionary} />
             </Link>
           ))}
         </Box>
