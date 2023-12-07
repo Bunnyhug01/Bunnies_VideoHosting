@@ -1,5 +1,5 @@
 
-import { User, getOne } from "@/app/api/users";
+import { User, getMe, getOne } from "@/app/api/users";
 import Avatar from "@mui/material/Avatar";
 import { deepPurple } from "@mui/material/colors";
 import React, { useContext, useEffect, useState } from "react";
@@ -21,6 +21,28 @@ export function UserIdInfo({ id, children }: { id: number, children: React.React
             setUser(user)
         })
     }, [id])
+
+    return (
+        <>
+        {
+            user !== null && user !== undefined ?
+            <UserInfo user={user}>
+                {children}
+            </UserInfo>
+            : null
+        }
+        </>
+    )
+}
+
+export function UserMeInfo({ children }: { children: React.ReactNode }) {
+    const [user, setUser] = useState<User>()
+
+    useEffect(() => {
+        getMe().then((user) => {
+            setUser(user)
+        })
+    }, [])
 
     return (
         <>

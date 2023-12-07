@@ -23,7 +23,7 @@ import Dictaphone from './Dictaphone/Dictaphone';
 import LanguageMenu from './LanguageMenu';
 
 import { getMe } from '../api/users';
-import { MyLogo, UserIdInfo } from './user/user';
+import { MyLogo, UserIdInfo, UserMeInfo } from './user/user';
 import { logout } from '../api/main';
 
 
@@ -44,8 +44,6 @@ interface Props {
 
 
 export default function Header({searchHandler, ColorModeContext, text, language} : Props) {
-
-    const [userId, setUserId] = React.useState<number>(0)
 
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
@@ -77,12 +75,6 @@ export default function Header({searchHandler, ColorModeContext, text, language}
     const handleSignOut = () => {
         logout()
     }
-
-    React.useEffect(() => {
-        getMe().then((user) => 
-            setUserId(user.id)
-        )
-    }, [])
 
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
@@ -158,9 +150,9 @@ export default function Header({searchHandler, ColorModeContext, text, language}
                     color="inherit"
                     style={{ backgroundColor: 'transparent' }}
                 >
-                    <UserIdInfo id={userId}>
+                    <UserMeInfo>
                         <MyLogo />
-                    </UserIdInfo>
+                    </UserMeInfo>
                 </IconButton>
                 <Typography>{language.langDictionary['profile']}</Typography>
             </MenuItem>
