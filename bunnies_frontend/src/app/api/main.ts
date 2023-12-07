@@ -81,5 +81,7 @@ export async function logout() {
     return fetch(`${API_URL}/auth/logout`, {
         method: "POST",
         credentials: 'include'
+    }).then((response) => {
+        localStorage.removeItem('jwt')
     })
 }
