@@ -45,8 +45,12 @@ public class VideoServiceImpl implements VideoService {
         return repository.findAll();
     }
 
+    @Transactional
     @Override
     public void deleteVideo(long id) {
+        var video = getOneVideo(id);
+        video.getOwner().getVideos().remove(video);
+        userRepository.save(video.getOwner());
         repository.deleteById(id);
     }
 

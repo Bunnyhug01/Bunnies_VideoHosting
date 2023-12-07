@@ -51,14 +51,14 @@ public class Video implements BaseEntity {
     private int views;
 
     @JsonSerialize(using = EntityAsIdOnlySerializer.class)
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private User owner;
 
     @JsonSerialize(using = EntityAsIdOnlySerializer.class)
-    @OneToMany(mappedBy = "video", orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "video", cascade = CascadeType.ALL)
     private Set<Comment> comments;
 
-    @OneToMany(mappedBy = "video", orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "video", cascade = CascadeType.ALL)
     private Collection<VideoHistory> videoHistory;
 
     @Override
