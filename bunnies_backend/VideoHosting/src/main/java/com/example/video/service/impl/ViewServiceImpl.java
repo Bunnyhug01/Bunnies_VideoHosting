@@ -68,6 +68,7 @@ public class ViewServiceImpl implements ViewService {
         var user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId));
         var history = VideoHistory.builder().video(video).date(new Date()).build();
+        user.getHistory().removeIf(h -> h.getVideo().equals(video));
         user.getHistory().add(history);
         video.setViews(video.getViews() + 1);
         videoRepository.save(video);

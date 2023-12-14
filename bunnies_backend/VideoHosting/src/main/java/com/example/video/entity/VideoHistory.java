@@ -26,11 +26,8 @@ public class VideoHistory {
     private Date date;
 
     @JsonSerialize(using = EntityAsIdOnlySerializer.class)
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(nullable = false)
     private Video video;
-
-    @Column(nullable = false)
-    private float viewed = 0;
 
 }

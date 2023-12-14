@@ -54,11 +54,7 @@ public class Video implements BaseEntity {
     @ManyToOne(cascade = CascadeType.PERSIST)
     private User owner;
 
-    @JsonSerialize(using = EntityAsIdOnlySerializer.class)
-    @OneToMany(mappedBy = "video", cascade = CascadeType.ALL)
-    private Set<Comment> comments;
-
-    @OneToMany(mappedBy = "video", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "video", orphanRemoval = true, cascade = CascadeType.ALL)
     private Collection<VideoHistory> videoHistory;
 
     @Override
@@ -79,14 +75,6 @@ public class Video implements BaseEntity {
         String sb = "Video{" + "id=" + getId() +
                 '}';
         return sb;
-    }
-
-    public Collection<VideoHistory> getVideoHistory() {
-        return videoHistory;
-    }
-
-    public void setVideoHistory(Collection<VideoHistory> videoHistory) {
-        this.videoHistory = videoHistory;
     }
 
 }
