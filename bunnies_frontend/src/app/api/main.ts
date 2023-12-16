@@ -33,7 +33,7 @@ async function updateJWT() {
         method: "POST",
         credentials: 'include'
     }).then(resp => {
-        if(resp.status == 401) {
+        if(resp.status == 401 || resp.status == 403) {
             const lang = getUsersLanguage()
             window.location.replace(`/${lang}/sign-in`);
         }

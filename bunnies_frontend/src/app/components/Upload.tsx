@@ -109,7 +109,7 @@ export default function Upload({ type, langDictionary } : Props) {
         description: {value: string},
     }
 
-    const isPrivate = privacy === 'private' ? false : true
+    const isPrivate = privacy === 'private'
     const video: VideoCreateRequest = {
         logoUrl: imageRef,
         title: formElements.title.value,

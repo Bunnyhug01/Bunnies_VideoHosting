@@ -195,9 +195,9 @@ export default function Header({searchHandler, ColorModeContext, text, language}
                             onClick={handleProfileMenuOpen}
                             color="inherit"
                         >
-                            <UserIdInfo id={userId}>
+                            <UserMeInfo>
                                 <MyLogo />
-                            </UserIdInfo>
+                            </UserMeInfo>
                         </IconButton>
                     </Box>
                     <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
