@@ -37,3 +37,8 @@ jobs:
 
       - name: Maven verify
         run: mvn -B clean verify -f ./bunnies_backend/VideoHosting
+
+      - name: Test Coverage
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
